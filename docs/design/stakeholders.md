@@ -6,7 +6,7 @@ This page lists who the workshop serves and who to involve before a delivery. Ro
 
 | Role | Interest |
 | --- | --- |
-| Facilitator | Designs and delivers both afternoons, and keeps the room in step |
+| Facilitator | Designs and delivers both workshops, and keeps the room in step |
 | Advanced engineers | Hands-on attendees who want an end-to-end view of the AI SDLC |
 | Wider technical audience (developers, tech leads, architects, product managers) | Attendees who follow the core path or a role track |
 

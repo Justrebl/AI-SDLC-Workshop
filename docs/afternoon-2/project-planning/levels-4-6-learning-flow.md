@@ -8,7 +8,7 @@ The next focused increment and post-merge recovery sequence are in
 the established scope; the resume plan does not mark that follow-up complete.
 
 This document records the agreed redesign of the
-[Afternoon 2 workshop](../afternoon-2/workshop.md) and the implementation
+[the SDLC Workshop](../workshop.md) and the implementation
 clarifications below. Local guide, solution, and tester changes do not publish
 workflows, configure repository settings, or execute GitHub operations.
 
@@ -223,7 +223,7 @@ moving a card is not acceptance evidence. Issue comments alone do not change
 Project fields. Agent-driven ProjectOps remains an optional organizational extension.
 
 The updated
-[`daily-backlog.md`](../../solutions/afternoon-2/.github/workflows/daily-backlog.md)
+[`daily-backlog.md`](../../../solutions/afternoon-2/.github/workflows/daily-backlog.md)
 adds bounded comments and verified closure for explicitly `backlog-managed`
 issues, reads committed planning and revision-bound PR/check evidence, and
 retains human assignment. It does not rewrite issue requirements or write
@@ -299,4 +299,4 @@ delivery rather than declaring every merged change complete.
 The guide and solution workflow now implement this direction. No live GitHub
 issues, Projects, repository settings, or workflow runs are modified by these
 local changes. Marketplace/accessibility demo steps and all timing live in
-[the tutor guide](../tutor.md), not as participant setup exercises.
+[the tutor guide](../../tutor.md), not as participant setup exercises.

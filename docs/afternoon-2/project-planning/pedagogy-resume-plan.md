@@ -189,7 +189,7 @@ review or status colour substitutes for the human decision.
 
 - [ ] Reconcile `README.md`, the attendee guide/frontmatter, `docs/tutor.md`,
   screenshots/references, and the actual exercise order.
-- [ ] Keep timing only in the tutor guide and maintain the existing two-afternoon
+- [ ] Keep timing only in the tutor guide and maintain the existing two-workshop
   application scope.
 - [ ] Update coupled workshop checks and replay when steps or prompts change;
   preserve command-plus-task blocks and curated example ordering.
@@ -222,9 +222,9 @@ Recommended subsequent order, not a current capacity commitment:
 | DT and RPI foundations | [#62](https://github.com/Justrebl/AI-SDLC-Workshop/issues/62), then [#63](https://github.com/Justrebl/AI-SDLC-Workshop/issues/63) | Settle the DT contribution before changing the RPI handoff/context exercise |
 | Level 1 and setup | [#68](https://github.com/Justrebl/AI-SDLC-Workshop/issues/68), [#69](https://github.com/Justrebl/AI-SDLC-Workshop/issues/69) | Can fill remaining #61 coverage; setup is a quick-win option |
 | Role judgement and consistency | [#66](https://github.com/Justrebl/AI-SDLC-Workshop/issues/66), [#71](https://github.com/Justrebl/AI-SDLC-Workshop/issues/71), [#70](https://github.com/Justrebl/AI-SDLC-Workshop/issues/70) | Preserve native agent procedures and real learner choices |
-| Afternoon 1 | [#72](https://github.com/Justrebl/AI-SDLC-Workshop/issues/72), [#73](https://github.com/Justrebl/AI-SDLC-Workshop/issues/73), [#74](https://github.com/Justrebl/AI-SDLC-Workshop/issues/74) | Separate guide lane; coordinate shared README/tutor changes |
+| GitHub Copilot Zero to Hero | [#72](https://github.com/Justrebl/AI-SDLC-Workshop/issues/72), [#73](https://github.com/Justrebl/AI-SDLC-Workshop/issues/73), [#74](https://github.com/Justrebl/AI-SDLC-Workshop/issues/74) | Separate guide lane; coordinate shared README/tutor changes |
 
-Use one integration owner for the Afternoon 2 guide. The child issues are separately
+Use one integration owner for the SDLC Workshop guide. The child issues are separately
 assignable, but simultaneous edits to the same guide are not independent work.
 
 ## Resume in a fresh session

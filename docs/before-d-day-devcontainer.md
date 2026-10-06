@@ -1,9 +1,9 @@
 # Before D-Day — Local dev container setup (🥈 Option 2)
 
-Use this checklist if your organization chose a **local dev container** (Docker or Podman) for both afternoons:
+Use this checklist if your organization chose a **local dev container** (Docker or Podman) for both workshops:
 
-- **Afternoon 1 — GitHub Copilot Zero to Hero**
-- **Afternoon 2 — AI SDLC with GitHub and GitHub Copilot**
+- **GitHub Copilot Zero to Hero**
+- **The SDLC Workshop**
 
 The tools run in a container on each attendee's machine, so everyone gets the same environment as in Codespaces without needing Codespaces. The risks are the **container engine** (licence, virtualization, disk space) and **downloads through the corporate network**, so start at **D-7**.
 
@@ -13,10 +13,10 @@ Other setups: [GitHub Codespaces](before-d-day-codespace.md) · [local tools](be
 
 ## What you get in the container
 
-| Afternoon | Repository | Preinstalled |
+| Workshop | Repository | Preinstalled |
 | --- | --- | --- |
-| Afternoon 1 | Your **fork** of [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo), cloned locally | The fork's dev container: .NET, Node.js and the Copilot extensions. Copilot CLI is installed during setup with `npm install -g @github/copilot`. |
-| Afternoon 2 | Your **private repository created from the [Justrebl/AI-SDLC-Workshop](https://github.com/Justrebl/AI-SDLC-Workshop) template**, cloned locally | The prebuilt image `ghcr.io/justrebl/ai-sdlc-workshop/devcontainer:latest`: Git, Node.js 22, .NET 10, GitHub CLI, Copilot CLI and APM CLI. `postCreateCommand` adds `gh-aw` and restores the dependencies. |
+| GitHub Copilot Zero to Hero | Your **fork** of [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo), cloned locally | The fork's dev container: .NET, Node.js and the Copilot extensions. Copilot CLI is installed during setup with `npm install -g @github/copilot`. |
+| The SDLC Workshop | Your **private repository created from the [Justrebl/AI-SDLC-Workshop](https://github.com/Justrebl/AI-SDLC-Workshop) template**, cloned locally | The prebuilt image `ghcr.io/justrebl/ai-sdlc-workshop/devcontainer:latest`: Git, Node.js 22, .NET 10, GitHub CLI, Copilot CLI and APM CLI. `postCreateCommand` adds `gh-aw` and restores the dependencies. |
 
 ## D-7 — Organization or enterprise owner
 
@@ -27,9 +27,9 @@ Enterprise policies take precedence over organization policies. Details: [prereq
 - [ ] A **Copilot Business or Enterprise** seat is assigned to every attendee.
 - [ ] **Copilot in the CLI** is enabled.
 - [ ] The **Copilot cloud agent** is enabled and allowed on the attendees' repositories.
-- [ ] **Copilot code review** is enabled in the Copilot policies (Afternoon 2, Level 6).
-- [ ] Optional: **GitHub Secret Protection** can be enabled on the attendees' private repositories for the push protection exercise (Afternoon 2, Level 6). Otherwise the facilitator demos it.
-- [ ] Optional, extended role tracks (Afternoon 2): the MCP servers policy allows the GitHub MCP server for the Product Manager track. The PAT policy allows a fine-grained PAT for the facilitator's security delegation demo. See [prerequisites, section 7](prerequisites.md#7-organization-and-enterprise-settings-admin).
+- [ ] **Copilot code review** is enabled in the Copilot policies (the SDLC Workshop, Level 6).
+- [ ] Optional: **GitHub Secret Protection** can be enabled on the attendees' private repositories for the push protection exercise (the SDLC Workshop, Level 6). Otherwise the facilitator demos it.
+- [ ] Optional, extended role tracks (the SDLC Workshop): the MCP servers policy allows the GitHub MCP server for the Product Manager track. The PAT policy allows a fine-grained PAT for the facilitator's security delegation demo. See [prerequisites, section 7](prerequisites.md#7-organization-and-enterprise-settings-admin).
 - [ ] The **models** you plan to demonstrate are enabled. Auto model selection only picks from allowed models.
 - [ ] **MCP servers** are allowed in Copilot.
 - [ ] **Plugins and marketplaces** allow `microsoft/hve-core` and a repository marketplace.
@@ -42,7 +42,7 @@ Enterprise policies take precedence over organization policies. Details: [prereq
 
 **Repositories, Actions and packages**
 
-- [ ] Members can **fork public repositories** (Afternoon 1) and **create private repositories from a template** (Afternoon 2).
+- [ ] Members can **fork public repositories** (GitHub Copilot Zero to Hero) and **create private repositories from a template** (the SDLC Workshop).
 - [ ] **GitHub Actions** is enabled on attendee repositories, and the allowed actions include `actions/*` and `github/gh-aw-actions/*`.
 - [ ] Workflows can create issues and comments (gh-aw safe outputs).
 - [ ] Members can pull public images from `ghcr.io`.
@@ -58,7 +58,7 @@ Everything is downloaded from the **attendee workstation**, including from insid
 | Traffic | What to allow |
 | --- | --- |
 | GitHub and Copilot | `github.com`, plus `gh api meta --jq '.domains.website, .domains.copilot'` and the extra endpoints in the [Copilot allowlist reference](https://docs.github.com/en/copilot/reference/copilot-allowlist-reference) |
-| Container images | `ghcr.io`, `*.ghcr.io`, `pkg-containers.githubusercontent.com` (`gh api meta --jq '.domains.packages'`). Add `mcr.microsoft.com` and `*.data.mcr.microsoft.com` for the Afternoon 1 dev container and for rebuilding the Afternoon 2 image. |
+| Container images | `ghcr.io`, `*.ghcr.io`, `pkg-containers.githubusercontent.com` (`gh api meta --jq '.domains.packages'`). Add `mcr.microsoft.com` and `*.data.mcr.microsoft.com` for the GitHub Copilot Zero to Hero dev container and for rebuilding the SDLC Workshop image. |
 | Package registries (inside the container) | `registry.npmjs.org`, `api.nuget.org`, `*.nuget.org` |
 | VS Code and its extensions (also installed inside the container) | `update.code.visualstudio.com`, `marketplace.visualstudio.com`, `*.gallery.vsassets.io`, `*.gallerycdn.vsassets.io`, `vscode.download.prss.microsoft.com` ([Network connections in VS Code](https://code.visualstudio.com/docs/setup/network)) |
 | Container engine installers | `docker.com` and `desktop.docker.com`, or `podman.io` and its GitHub releases |
@@ -106,13 +106,13 @@ Codespaces endpoints are **not** needed for this setup. The complete endpoint ta
    curl -sI https://api.nuget.org/v3/index.json | head -n 1
    ```
 
-   Pulling the Afternoon 2 image now saves several minutes on the day.
+   Pulling the SDLC Workshop image now saves several minutes on the day.
 6. **Dry run.** Clone any repository that has a dev container, run **Dev Containers: Reopen in Container**, and wait for the build to finish.
 
 ## D-1 — Every attendee
 
-- [ ] **Afternoon 1:** fork [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo), clone the fork, open it in VS Code, and run **Dev Containers: Reopen in Container**. This container builds from a base image with no prebuilt layer, so the first build is the slow one: do it now, not on the day.
-- [ ] **Afternoon 1:** run the sample app once, as the upstream lab requires at least the front end:
+- [ ] **GitHub Copilot Zero to Hero:** fork [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo), clone the fork, open it in VS Code, and run **Dev Containers: Reopen in Container**. This container builds from a base image with no prebuilt layer, so the first build is the slow one: do it now, not on the day.
+- [ ] **GitHub Copilot Zero to Hero:** run the sample app once, as the upstream lab requires at least the front end:
 
   ```bash
   cd albums-api && dotnet run          # API on port 3000, Swagger at /swagger
@@ -120,21 +120,21 @@ Codespaces endpoints are **not** needed for this setup. The complete endpoint ta
   ```
 
   Open `http://localhost:3001` and check that albums are listed. If `copilot` is missing in this container, run `npm install -g @github/copilot`.
-- [ ] **Afternoon 1:** in the fork, **Settings → Copilot → Cloud agent** is available (used in Level 6). If it is not, ask the organization owner (see D-7).
-- [ ] **Afternoon 2:** **Use this template → Create a new repository** (private) from [Justrebl/AI-SDLC-Workshop](https://github.com/Justrebl/AI-SDLC-Workshop), clone it, and **Reopen in Container**.
+- [ ] **GitHub Copilot Zero to Hero:** in the fork, **Settings → Copilot → Cloud agent** is available (used in Level 6). If it is not, ask the organization owner (see D-7).
+- [ ] **The SDLC Workshop:** **Use this template → Create a new repository** (private) from [Justrebl/AI-SDLC-Workshop](https://github.com/Justrebl/AI-SDLC-Workshop), clone it, and **Reopen in Container**.
 - [ ] In each container terminal, sign in and check the tools:
 
   ```bash
   gh auth login                       # GitHub.com, HTTPS, browser
-  gh auth refresh --scopes workflow   # Afternoon 2: needed to push workflow files
+  gh auth refresh --scopes workflow   # the SDLC Workshop: needed to push workflow files
   gh auth setup-git
   copilot                             # then /login, complete the device flow, and /exit
   copilot --version
-  apm --version                       # Afternoon 2
-  gh aw version                       # Afternoon 2
+  apm --version                       # the SDLC Workshop
+  gh aw version                       # the SDLC Workshop
   ```
 
-- [ ] **Afternoon 2:** `dotnet test`, then `cd src/front && npm ci && npm test` pass.
+- [ ] **The SDLC Workshop:** `dotnet test`, then `cd src/front && npm ci && npm test` pass.
 - [ ] Leave the containers built so the first start on the day is fast.
 
 ## If something fails
@@ -146,5 +146,5 @@ Codespaces endpoints are **not** needed for this setup. The complete endpoint ta
 | Image pull fails with a certificate error | TLS inspection | Ask for a `ghcr.io` exclusion, or trust the proxy root certificate in the engine. |
 | `npm ci` or `dotnet restore` fails inside the container | Proxy or certificate missing inside the container | Pass `HTTPS_PROXY`, and add the root certificate in the container (`NODE_EXTRA_CA_CERTS` for Node.js). |
 | Build is very slow or runs out of space | Disk space or VM resources | Free at least 15 GB; give the Docker or Podman VM at least 4 GB of memory. |
-| Afternoon 1 viewer shows no albums | API not running on port 3000 | Start `albums-api` first; check that ports 3000 and 3001 are forwarded. |
+| GitHub Copilot Zero to Hero viewer shows no albums | API not running on port 3000 | Start `albums-api` first; check that ports 3000 and 3001 are forwarded. |
 | Copilot Chat says you have no access | Wrong account, or no seat | Check the **Accounts** menu and [github.com/settings/copilot](https://github.com/settings/copilot). |

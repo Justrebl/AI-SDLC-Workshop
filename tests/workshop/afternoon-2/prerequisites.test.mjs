@@ -139,7 +139,7 @@ test('Level 4 verifies repository agents before disabling the personal plugin', 
 });
 
 test('starter readiness belongs to the introduction, not a separate level', () => {
-  const introduction = workshop.indexOf('# AI SDLC with GitHub and GitHub Copilot');
+  const introduction = workshop.indexOf('# The SDLC Workshop');
   const readiness = workshop.indexOf('## Starter readiness (prerequisite)');
   const firstLevel = workshop.indexOf('# Level 1:');
   assert.ok(introduction >= 0 && readiness > introduction && firstLevel > readiness);
@@ -177,6 +177,20 @@ test('DT prompts allow local tracking notes but preserve the implementation boun
 
 test('DT sampler permits exploration and keeps its shortcuts distinct from implementation', () => {
   const dt = workshop.slice(workshop.indexOf('# Level 2:'), workshop.indexOf('## Extended track: Product Manager'));
+  const sampler = dt.slice(dt.indexOf('### Step 3: Start a learner-led nine-method sampler'),
+    dt.indexOf('## Debrief and hand off to the shared implementation slice'));
+  const boundary = sampler.indexOf('application code, tests, and published documentation stay unchanged');
+  const activities = sampler.indexOf('#### Experiment, challenge, and move between methods');
+  const criteria = sampler.indexOf('Success Criteria:');
+  assert.ok(boundary >= 0 && activities > boundary && criteria > activities);
+  assert.ok(sampler.indexOf('/hve-core:dt-method-next.prompt') < criteria);
+  assert.ok(sampler.indexOf('data-title="Workshop simulation"') < criteria);
+  const nextMethod = sampler.indexOf('/hve-core:dt-method-next.prompt');
+  const recap = sampler.indexOf('#### Close the timebox');
+  assert.ok(nextMethod > activities && recap > nextMethod && criteria > recap);
+  assert.equal(sampler.split('Challenge my assumption').length - 1, 1);
+  assert.match(sampler, /It is fine to stop before visiting all nine/);
+  assert.doesNotMatch(sampler, /### Step 4:|recap in Step 4/);
   for (const method of [
     'Scope Conversations', 'Design Research', 'Input Synthesis', 'Brainstorming', 'User Concepts',
     'Low-Fidelity Prototypes', 'High-Fidelity Prototypes', 'User Testing', 'Iteration at Scale',
@@ -207,10 +221,25 @@ test('Level 2 names native DT handoffs without treating the sampler as completed
   assert.match(handoff, /feature is chosen for the workshop, not a result that your DT session must produce or validate/);
   assert.match(handoff, /requirements are supplied by the facilitator/);
   assert.match(handoff, /A formal DT handoff is not needed for this workshop recap/);
+  const optional = handoff.match(/<details>\n<summary>\[Optional\] Separate exploratory from the implementation handoff<\/summary>([\s\S]*?)<\/details>/);
+  assert.ok(optional, 'formal DT options are collapsed');
+  for (const prompt of [
+    'dt-handoff-problem-space.prompt', 'dt-handoff-solution-space.prompt',
+    'dt-handoff-implementation-space.prompt', 'dt-canonical-deck.prompt', 'dt-figma-export.prompt',
+  ]) assert.ok(optional[1].includes(prompt), prompt);
+  const required = handoff.replace(optional[0], '');
+  assert.match(required, /### Step 1: Prepare the shared implementation handoff/);
+  assert.match(required, /Send the following prompt to DT Coach/);
+  assert.match(required, /Summarize the final decisions from our Music Catalog listening-experience exploration/);
+  const recapPrompt = required.match(/```text\n(Summarize the final decisions[\s\S]*?)\n```/)[1];
+  assert.doesNotMatch(recapPrompt, /Level 5|cloud coding agent/);
+  assert.doesNotMatch(recapPrompt, /separate DT Coach project|exploratory-music-experience-backlog/);
+  assert.match(required, /Leave the duplicate-feedback UX choice open/);
+  assert.match(required, /Success Criteria:/);
   for (const label of [
     'User-visible capability', 'API endpoints', 'Front-end states',
     'Duplicate handling', 'Accessibility', 'Out of scope',
-  ]) assert.ok(handoff.includes(`- **${label}:**`), label);
+  ]) assert.ok(required.includes(`- **${label}:**`), label);
 });
 
 test('Level 2 inspects coach-generated notes without prescribing a save prompt', () => {
@@ -262,7 +291,7 @@ test('tester extracts the exploration and implementation handoff separately', ()
     const dtExample = readFileSync(join(output, 'dt-example-01.txt'), 'utf8');
     const brdExample = readFileSync(join(output, 'brd-example-06.txt'), 'utf8');
     assert.match(dtExample, /tech-savvy hi-fi enthusiasts/);
-    assert.match(brdExample, /Every participant ships the slice with passing tests/);
+    assert.match(brdExample, /A listener can browse tracks and add them to one playlist/);
     assert.match(readFileSync(join(output, 'dt-example-09.txt'), 'utf8'), /what was only planned/);
     assert.match(readFileSync(join(output, 'curated-solutions.txt'), 'utf8'), /Toggle example: a step-by-step BRD conversation/);
     assert.match(readFileSync(join(output, 'replay-policy.txt'), 'utf8'), /Do not invent learner answers/);
@@ -277,7 +306,7 @@ test('HVE capabilities are exposed without supplying the agents document outline
   assert.match(workshop, /Do not supply a document outline, grading rubric, or coding recipe/);
   const dt = workshop.slice(workshop.indexOf('# Level 2:'), workshop.indexOf('## Extended track: Product Manager'));
   assert.match(dt, /```text\n\/hve-core:dt-method-next\.prompt\n\nAssess project/);
-  assert.match(dt, /missing exit evidence is not permission to mark a method complete/);
+  assert.match(dt, /If the evidence needed to advance is missing, ask for a preview of what comes next rather than marking the method complete/);
   assert.match(dt, /Let DT Coach choose its questions and activities/);
   assert.match(workshop, /Let BRD Builder guide its own Discover, Define, and Govern process/);
   assert.match(workshop, /Let PRD Builder run its own discovery, authoring, traceability, and quality checks/);
@@ -511,20 +540,32 @@ test('interactive agent changes provide direct CLI commands alongside VS Code se
     'backlog-manager', 'rpi-agent', 'adr-creation', 'code-review',
   ]) assert.ok(workshop.includes(`/agent ${name}`), name);
   assert.match(workshop, /direct name is not recognized/);
-  assert.match(workshop, /use the agent picker instead/);
+  assert.match(workshop, /select \*\*Meeting Analyst\*\* in the VS Code agent picker/);
   assert.doesNotMatch(workshop, /^Select \*\*(BRD Builder|DT Coach|Code Review|ADR Creator|Backlog Manager|Functional Planner)\*\*\./m);
 });
 
-test('BRD starter and example preserve the supplied workshop facts and review boundaries', () => {
+test('BRD prompts frame product value and stakeholder decisions without lab-centered requirements', () => {
   const brd = workshop.slice(workshop.indexOf('### Step 3: Write the BRD'),
     workshop.indexOf('### Step 4: Turn the BRD into a PRD'));
   assert.match(brd, /Create a business requirements document for the Music Catalog playlist slice/);
   assert.match(brd, /Use only these facts/);
   assert.match(brd, /Ask at most three clarifying questions, then write the BRD/);
-  assert.match(brd, /Sponsor: the workshop facilitator/);
-  assert.match(brd, /every participant ships the slice with passing tests/);
+  assert.match(brd, /Proposed user problem: a listener choosing music/);
+  assert.match(brd, /another person will review the need and scope/);
+  assert.match(brd, /Wait for me to report the actual feedback/);
+  assert.match(brd, /If no reviewer is available, leave peer review pending/);
+  assert.match(brd, /does not validate market demand, usability, or delivered behavior/);
+  const starterBrd = brd.match(/```text\n(Create a business requirements document[\s\S]*?)\n```/)[1];
+  assert.doesNotMatch(starterBrd, /every participant ships|Sponsor: the workshop facilitator/i);
+  assert.match(starterBrd, /Expected value: keep the listener's selected tracks together/);
+  assert.match(starterBrd, /Distinguish the intended user outcome from functional acceptance and technical checks/);
+  assert.match(starterBrd, /leave unagreed measures, targets, and ownership as open questions/);
+  for (const [, prompt] of brd.matchAll(/```text\n([\s\S]*?)\n```/g)) {
+    assert.doesNotMatch(prompt, /workshop|facilitator|sampler|participant|learning exercise|\bPOC\b/i);
+  }
   assert.match(brd, /These are acceptance targets, not observed results/);
-  assert.match(brd, /Source: the locked Design Thinking decisions for this slice, captured in docs\/project-planning\/playlist-design-decisions\.md/);
+  assert.match(brd, /Source: the reviewed delivery brief at docs\/project-planning\/playlist-design-decisions\.md/);
+  assert.match(brd, /This approves the requirements handoff, not a release or acceptance of implemented behavior/);
   assert.match(brd, /<summary>Toggle example: a step-by-step BRD conversation<\/summary>/);
   assert.match(brd, /Send each message separately/);
   assert.match(brd, /docs\/project-planning\/music-catalog-playlist-slice-brd\.md/);
@@ -545,8 +586,28 @@ test('BRD starter and example preserve the supplied workshop facts and review bo
   assert.match(prd, /ask for my final approval before recording sign-off/);
   const starter = prd.match(/```text\n(Move from the BRD work[\s\S]*?)\n```/)[1];
   assert.match(starter, /docs\/project-planning\/playlist-design-decisions\.md/);
+  assert.match(starter, /save the PRD at docs\/project-planning\/music-catalog-playlist-slice\.md/);
   assert.doesNotMatch(starter, /Product requirements:|Non-functional requirements:|POST \/api|Write each requirement/);
   assert.match(prd, /native handoff path BRD Builder returned/);
+});
+
+test('draft BRD and PRD sign-off recovery investigates evidence rather than forcing metadata', () => {
+  const prd = workshop.slice(workshop.indexOf('### Step 4: Turn the BRD into a PRD'),
+    workshop.indexOf('### Step 5: Plan the GitHub issue hierarchy'));
+  const help = prd.match(/<details>\n<summary>🪛 setup\/troubleshoot: BRD and PRD remain draft before sign-off<\/summary>([\s\S]*?)<\/details>/);
+  assert.ok(help);
+  const visible = prd.replace(/<details>[\s\S]*?<\/details>/g, '');
+  assert.match(visible, /Check both saved files before continuing/);
+  assert.match(visible, /If both still show \*\*Draft\*\* and a version other than \*\*1\.0\.0\*\*/);
+  assert.match(visible, /Do not proceed to backlog planning while either document has unresolved sign-off gates/);
+  const prompt = help[1].match(/```text\n([\s\S]*?)\n```/)[1];
+  for (const file of ['music-catalog-playlist-slice-brd.md', 'music-catalog-playlist-slice.md']) {
+    assert.ok(prompt.includes(`docs/project-planning/${file}`), file);
+  }
+  assert.match(prompt, /Distinguish actual blockers from normal work in progress or stale metadata/);
+  assert.match(prompt, /upstream BRD gate needs BRD Builder/);
+  assert.match(prompt, /Do not force Approved status or version 1\.0\.0/);
+  assert.match(prompt, /ask for my explicit approval before recording sign-off/);
 });
 
 test('PM backlog checks use the reviewed plan rather than a prescribed reference hierarchy', () => {
@@ -555,6 +616,19 @@ test('PM backlog checks use the reviewed plan rather than a prescribed reference
   assert.match(backlog, /There is no prescribed issue count or reference hierarchy/);
   assert.match(backlog, /requirement coverage, acceptance criteria, dependencies/);
   assert.match(backlog, /explicitly switch to Backlog Manager/);
+  const checklist = backlog.indexOf('Review the handoff and tick only the Human Review box');
+  const execute = backlog.indexOf('Execute the plan in the reviewed PRD handoff');
+  assert.ok(checklist >= 0 && execute > checklist);
+  assert.ok(backlog.includes('.copilot-tracking/github-issues/prds/music-catalog-playlist-slice/handoff.md'));
+  assert.ok(backlog.includes('change only the bottom **Reviewed and validated by a qualified human reviewer** checkbox from `[ ]` to `[x]`'));
+  assert.ok(backlog.includes('Leave all other checkboxes unticked (`[ ]`) before execution'));
+  assert.match(backlog, /leave the Human Review box unchecked and resolve the blockers before authorizing execution/);
+  const screenshot = backlog.indexOf('assets/l2-backlog-handoff-review.png');
+  assert.ok(screenshot > execute && screenshot < backlog.indexOf('Success Criteria:', execute));
+  const image = readFileSync(new URL('../../../docs/afternoon-2/assets/l2-backlog-handoff-review.png', import.meta.url));
+  assert.deepEqual([...image.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+  assert.match(backlog, /resolve such findings before authorizing your own execution/);
+  assert.match(backlog, /Executor dispatch is not proof that issues were successfully created/);
   assert.match(backlog, /\/agent hve-core:backlog-manager/);
   assert.match(backlog, /Execute the plan in the reviewed PRD handoff at <reviewed-handoff-path> and create the corresponding issues in GitHub repository <owner>\/<repo>\./);
   assert.doesNotMatch(backlog, /List the operations first|Follow the reviewed plan's operation order/);
@@ -587,12 +661,24 @@ test('dev container provisions remote GitHub MCP while the lab retains authoriza
   });
   const setup = workshop.slice(workshop.indexOf('### Step 1: Prepare your Copilot surface'),
     workshop.indexOf('### Step 2 (facilitator demo, optional): Meeting Analyst'));
-  assert.match(setup, /GitHub HTTP MCP server/);
-  assert.match(setup, /Do not add another server/);
-  assert.match(setup, /Local VS Code setup without a dev container is deferred/);
-  assert.match(setup, /Configure Tools/);
-  assert.match(setup, /complete GitHub sign-in/);
-  assert.match(setup, /without changing anything/);
-  assert.match(setup, /Organization policies still apply/);
+  assert.match(setup, /```text\n\/mcp list\n```/);
+  assert.match(setup, /```text\n\/clear\n```/);
+  assert.ok(setup.indexOf('/clear') < setup.indexOf('/mcp list'));
+  assert.match(setup, /Clearing the conversation does not delete repository files/);
+  assert.match(setup, /BRD Builder will use those files as context/);
+  assert.match(setup, /`github-mcp-server` appears connected/);
+  assert.match(setup, /return to the starter setup or ask the facilitator before continuing/);
+  assert.match(setup, /Success Criteria:/);
+  assert.doesNotMatch(setup, /Configure Tools|Start Server|GitHub sign-in|<details>/);
   assert.doesNotMatch(setup, /MCP: Add Server|COPILOT_GITHUB_TOKEN|GITHUB_TOKEN|PAT configuration|--enable-all-github-mcp-tools/);
+});
+
+test('stalled BRD guidance offers quality analysis and returns to the builder without bypassing approval', () => {
+  const help = workshop.match(/<details>\n<summary>🪛 setup\/troubleshoot: resume a stalled guided BRD process<\/summary>([\s\S]*?)<\/details>/);
+  assert.ok(help);
+  assert.ok(help[1].includes('/hve-core:brd-quality-reviewer'));
+  assert.match(help[1], /Review docs\/project-planning\/music-catalog-playlist-slice-brd\.md/);
+  assert.match(help[1], /Then return to \*\*BRD Builder\*\*/);
+  assert.match(help[1], /Resume the guided BRD process using the quality review findings/);
+  assert.match(help[1], /Ask for my input rather than assuming approval/);
 });

@@ -1,7 +1,7 @@
 # Backlog handoff: Music Catalog playlist slice
 
 > [!NOTE]
-> Reference output for the Afternoon 2 Product Manager track. It shows the shape of a Functional Planner GitHub handoff and a Backlog Manager `/backlog-plan` result. Written by hand. In a real run, Functional Planner writes `handoff.md` to a local tracking folder and nothing is created on GitHub until you confirm.
+> Reference output for the SDLC Workshop Product Manager track. It shows the shape of a Functional Planner GitHub handoff and a Backlog Manager `/backlog-plan` result. Written by hand. In a real run, Functional Planner writes `handoff.md` to a local tracking folder and nothing is created on GitHub until you confirm.
 
 * **Project**: Music Catalog playlist slice
 * **Source**: [PRD-001](music-catalog-playlist-slice.md)

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Replays the AI SDLC with GitHub and GitHub Copilot prerequisites and Levels 1-6 (docs/afternoon-2/workshop.md) inside a Codespace
+# Replays the SDLC Workshop prerequisites and Levels 1-6 (docs/afternoon-2/workshop.md) inside a Codespace
 # opened on a throwaway sandbox repository. Every step is recorded in $RESULTS_DIR/results.jsonl.
 #
 # Required environment:

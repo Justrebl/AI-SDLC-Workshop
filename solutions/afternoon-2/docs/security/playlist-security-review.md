@@ -9,7 +9,7 @@
 > This report is AI-assisted and for assistance only. It does not replace a professional security assessment. Validate every finding with a qualified reviewer before you act on it.
 
 > [!NOTE]
-> Reference output for the Afternoon 2 Security Architect track. Written by hand to show the expected shape. The findings are illustrative. Findings marked **Verified** apply to the starter code in this repository. Findings marked **Unverified** describe issues that are common in a participant's playlist implementation; check them against your own code.
+> Reference output for the SDLC Workshop Security Architect track. Written by hand to show the expected shape. The findings are illustrative. Findings marked **Verified** apply to the starter code in this repository. Findings marked **Unverified** describe issues that are common in a participant's playlist implementation; check them against your own code.
 
 ## Executive Summary
 

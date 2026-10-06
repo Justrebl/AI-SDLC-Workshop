@@ -30,7 +30,7 @@ license: "CC-BY 4.0 (Microsoft HVE-Core)"
 > **PRD-001** | Status: draft | Version: 0.1.0 | Last Updated: 2026-10-01 | Source: [BRD-001](music-catalog-playlist-slice-brd.md)
 
 > [!NOTE]
-> Reference output for the Afternoon 2 Product Manager track. Written by hand to match the fixed workshop scope. A real PRD Builder run produces different wording and structure.
+> Reference output for the SDLC Workshop Product Manager track. Written by hand to match the fixed workshop scope. A real PRD Builder run produces different wording and structure.
 
 ## Executive Summary
 

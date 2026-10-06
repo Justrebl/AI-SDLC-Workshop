@@ -1,5 +1,5 @@
 ---
-description: "Workshop tester: replays the entire Afternoon 2 lab in a throwaway sandbox repository and Codespace, then reports failures as an issue."
+description: "Workshop tester: replays the entire SDLC Workshop in a throwaway sandbox repository and Codespace, then reports failures as an issue."
 
 on:
   push:
@@ -64,7 +64,7 @@ jobs:
           persist-credentials: false
       - name: Create sandbox repository and Codespace
         run: bash tests/workshop/afternoon-2/orchestrate.sh setup
-      - name: Run the Afternoon 2 lab in the Codespace
+      - name: Run the SDLC Workshop in the Codespace
         run: bash tests/workshop/afternoon-2/orchestrate.sh run
       - name: Collect lab results
         # Skipped on cancel: the 5-minute cancellation grace period is reserved for cleanup.

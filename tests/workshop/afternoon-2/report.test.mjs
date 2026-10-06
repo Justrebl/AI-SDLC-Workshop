@@ -49,6 +49,8 @@ const step = (id, level, status, checks = []) => ({
 
 test('reports successful completed runs including documented skips', () => {
   const report = render({ lab: [step('pre-dotnet-test', 'preflight', 'pass'), step('ui', 'Level 1', 'skip')] });
+  assert.match(report, /^## The SDLC Workshop test report$/m);
+  assert.doesNotMatch(report, /Afternoon/i);
   assert.match(report, /\*\*Passed\*\* — 3 recorded steps: 2 passed, 0 failed, 0 warned, 1 skipped/);
   assert.match(report, /\| preflight \| 1 \| 1 \| 0 \| 0 \| 0 \|/);
   assert.match(report, /\[Run and downloadable results\]/);

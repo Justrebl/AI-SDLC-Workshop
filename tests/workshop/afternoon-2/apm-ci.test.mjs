@@ -33,7 +33,7 @@ test('the active default-branch rule requires the exact audit job with no admini
   const required = ruleset.rules.find((rule) => rule.type === 'required_status_checks');
   assert.deepEqual(required.parameters.required_status_checks, [{ context: jobName }]);
   const setupCommit = level5.indexOf('Commit the reviewed Copilot setup at .github/workflows/copilot-setup-steps.yml');
-  const auditRule = level5.indexOf('rulesets\\main-apm-audit-required.json');
+  const auditRule = level5.indexOf('rulesets/main-apm-audit-required.json');
   const stage5b = level5.indexOf('## Stage 5b: Backlog and delegation');
   const branch = level5.indexOf('Create and switch to feature/level-5b-backlog');
   const setupPr = level5.indexOf('Create a PR titled "Add the Stage 5b backlog setup"');

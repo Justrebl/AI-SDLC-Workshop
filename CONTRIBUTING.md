@@ -9,8 +9,8 @@ The attendee guides (`docs/afternoon-*/workshop.md`) only contain what attendees
 | Path | Content |
 | --- | --- |
 | `docs/afternoon-1/workshop.md` | GitHub Copilot Zero to Hero (wraps the upstream GHCopilotHoL lab, adds Levels 7 to 9) |
-| `docs/afternoon-2/workshop.md` | AI SDLC with GitHub and GitHub Copilot |
-| `docs/prerequisites.md` | Shared prerequisites, network allowlist, organization settings and pre-D-Day checklists for both afternoons |
+| `docs/afternoon-2/workshop.md` | The SDLC Workshop |
+| `docs/prerequisites.md` | Shared prerequisites, network allowlist, organization settings and pre-D-Day checklists for both workshops |
 | `docs/before-d-day-*.md` | Self-contained pre-D-Day checklists for each delivery option (Codespaces, dev container, local tools). Keep them consistent with `docs/prerequisites.md` |
 | `docs/kick-off-call-checklist.md` | Step-by-step organization checklist for the kick-off call; keep consistent with `docs/prerequisites.md` section 7 |
 | `docs/tutor.md` | Timing, pre-flight, risks and messaging guardrails for tutors |
@@ -49,7 +49,7 @@ GitHub Copilot Zero to Hero was last checked against:
 | [Philess/GHCopilotHoL](https://github.com/Philess/GHCopilotHoL) | `c7f7f94` |
 | [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo) | `f935d88` |
 
-AI SDLC with GitHub and GitHub Copilot pins HVE-Core by commit SHA in `solutions/afternoon-2/apm.yml` (`1dbd6a7`, the v3.2.2 release commit). Release tags are not resolvable as APM refs.
+The SDLC Workshop pins HVE-Core by commit SHA in `solutions/afternoon-2/apm.yml` (`1dbd6a7`, the v3.2.2 release commit). Release tags are not resolvable as APM refs.
 
 To re-verify:
 

@@ -74,6 +74,26 @@ test('disclosure markup is balanced and contains no page or level boundary', () 
   assert.equal(fence, undefined);
 });
 
+test('conditional setup help is collapsed while primary commands and safety gates remain visible', () => {
+  const blocks = [...workshop.matchAll(/<details>\n<summary>🪛 setup\/troubleshoot: ([^<]+)<\/summary>([\s\S]*?)<\/details>/g)];
+  assert.ok(blocks.length >= 10);
+  const help = blocks.map(match => match[2]).join('\n');
+  for (const text of [
+    'If your instructions refer to `/agents`', 'If DT Coach is missing',
+    '**VS Code Chat:**', 'If GitHub write tools are missing',
+    'With a classic OAuth credential', 'If a command is missing',
+  ]) assert.ok(help.includes(text), text);
+  const visible = withoutDetails(workshop);
+  for (const text of [
+    '/agent dt-coach', 'copilot model --global auto intelligence',
+    'Confirm that DT Coach is the active agent',
+    'Never paste credentials into chat or repository files',
+    'If required GitHub write tools are unavailable, stop',
+    'Success Criteria:',
+  ]) assert.ok(visible.includes(text), text);
+  assert.doesNotMatch(visible, /If your instructions refer to `\/agents`/);
+});
+
 test('required exercise commands and approval gates remain visible and facilitator demo keeps safety warnings', () => {
   const visible = withoutDetails(workshop);
   for (const text of [

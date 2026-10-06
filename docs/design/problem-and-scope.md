@@ -14,7 +14,7 @@ They need a hands-on, end-to-end experience of the AI SDLC on one shared, delibe
 
 ## Attendee capability
 
-By the end of the two afternoons, attendees can:
+By the end of the two workshops, attendees can:
 
 - explain Copilot primitives (agents, custom instructions, prompts, skills) and how they change agent mode;
 - compare Copilot Chat with the Copilot CLI harness, and place each surface on the autonomy ladder;
@@ -27,7 +27,7 @@ By the end of the two afternoons, attendees can:
 
 ## In scope
 
-- Copilot primitives, agent mode and the Copilot CLI harness (Afternoon 1 and its extra levels).
+- Copilot primitives, agent mode and the Copilot CLI harness (GitHub Copilot Zero to Hero and its extra levels).
 - HVE-Core Design Thinking and RPI, with RPI as the main hands-on topic.
 - APM packaging, policy and lockfile, and plugin marketplace publication and consumption.
 - Agentic workflows for daily backlog management, accessibility review and security-review delegation.
@@ -45,7 +45,7 @@ By the end of the two afternoons, attendees can:
 
 | Choice | Handbook decision |
 | --- | --- |
-| Two 4-hour afternoons, the first on primitives and the second on the SDLC | D1, D2, D3 |
+| Two 4-hour workshop sessions, the first on primitives and the second on the SDLC | D1, D2, D3 |
 | Hands-on first, with demos as the fallback | D4 |
 | Setup before the day | D5 |
 | One Music Catalog application from a hello-world starter | D6, D7 |
