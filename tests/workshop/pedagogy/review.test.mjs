@@ -100,6 +100,12 @@ test('automation isolates source data and captures only a validated stdout repor
 test('completion trigger is restricted to the opted-in same-repository main tester', () => {
   const tester = readFileSync(new URL('../../../.github/workflows/workshop-tester.lock.yml', import.meta.url), 'utf8');
   const name = tester.match(/^name: "(.+)"$/m)[1];
+  assert.equal(name, 'Workshop tester: Afternoon 2 validation report');
+  const canonical = readFileSync(new URL('../../../.github/workflows/workshop-tester.md', import.meta.url), 'utf8');
+  assert.ok(canonical.includes(`# ${name}`));
+  assert.match(canonical, /replays the entire SDLC Workshop/);
+  assert.match(tester, /replays the entire SDLC Workshop/);
+  assert.match(tester, /name: Run the SDLC Workshop in the Codespace/);
   assert.ok(workflow.includes(`workflows: ["${name}"]`));
   for (const guard of [
     "vars.WORKSHOP_TESTER_ENABLED == 'true'", "github.ref == 'refs/heads/main'",

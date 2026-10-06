@@ -48,7 +48,7 @@ Level 3 creates `feature/playlist-slice` before implementation, then publishes t
 
 Level 3 captures `HEAD` before implementation and compares the approved source/test paths afterward, including untracked files. Implementation commits count as edits even when the working tree is clean. The checkpoint commits only a nonempty index; staging or commit errors still fail the step. Run the local regression fixtures with `bash tests/workshop/afternoon-2/git-checkpoint.test.sh`.
 
-All Afternoon 2 learner commits use `/hve-core:git-commit.prompt`. The extractor
+All SDLC Workshop learner commits use `/hve-core:git-commit.prompt`. The extractor
 retains ten scoped commit requests, but the headless runner does not send them
 with fabricated whole-path or staged-set approvals. Native commit gates are
 recorded as skipped; deterministic commits in the disposable sandbox are explicitly

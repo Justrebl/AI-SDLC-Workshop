@@ -27,7 +27,7 @@ disable-model-invocation: true
 
 ## Goal
 
-Help maintainers make the two-afternoon workshop easier to understand and follow. Critique the learning experience, not the implementation. Return a detailed, actionable conclusion; do not fix the workshop.
+Help maintainers make both workshops easier to understand and follow. Critique the learning experience, not the implementation. Return a detailed, actionable conclusion; do not fix the workshop.
 
 Success means:
 
@@ -59,9 +59,9 @@ The automated caller selects `--model auto --auto-tier intelligence`. Auto choos
 3. For every core level, check the opening concept primer before hands-on steps. A snackable primer should explain the concept in plain language, why it matters now, what the learner will do or produce, and a key boundary or common misconception. Expand acronyms on first use. Prefer a short example and layered optional detail over a wall of terminology; do not impose a universal word count.
 4. Check content and form together: heading hierarchy, chunking, numbered actions, copy-paste boundaries, success criteria, readable tables, meaningful image descriptions, and clearly marked optional tracks. Each command needs a purpose-led introduction, and success criteria must name observable evidence rather than assert learner understanding. Identify abrupt context switches, unexplained jargon, duplicated setup, missing handoffs, or complexity that obscures the learning goal.
 5. Check learner agency and cognitive load. Distinguish fixed workshop decisions from genuine choices, demos from hands-on tasks, and required steps from extensions. Assess whether the PM, developer, tech-lead, and architect perspectives support rather than interrupt the core story.
-6. Check conceptual consistency without re-verifying product claims. Flag unexplained differences between CLI, VS Code, cloud agent, plugins, extensions, and workflows; distinguish methodology, configuration, previews, and simulations. Do not infer upstream Afternoon 1 content that is only linked, or treat its absence from this snapshot as a proven defect.
+6. Check conceptual consistency without re-verifying product claims. Flag unexplained differences between CLI, VS Code, cloud agent, plugins, extensions, and workflows; distinguish methodology, configuration, previews, and simulations. Do not infer upstream GitHub Copilot Zero to Hero content that is only linked, or treat its absence from this snapshot as a proven defect.
 7. Read the repository's open pedagogy reports and relevant existing documentation issues, then hydrate matching issue bodies/comments and linked PRs. Record the issue URLs, observed states, and evidence that overlaps each finding. Distinguish already tracked, partially addressed, new, and uncertain findings; do not conclude completion from a similar title, an unchecked checklist, or an open PR. If GitHub tools or authorization are unavailable, name that evidence gap and do not claim backlog coverage.
-8. Synthesize the highest-impact improvements across levels. Keep recommendations within the existing workshop scope and two-afternoon format. Do not manufacture findings, rewrite the workshop, or turn the report into a new feature backlog. The report may recommend how to refine tracked work; only the separate publisher maintains its generated report issue.
+8. Synthesize the highest-impact improvements across levels. Keep recommendations within the existing scope and two-workshop format. Do not manufacture findings, rewrite the workshop, or turn the report into a new feature backlog. The report may recommend how to refine tracked work; only the separate publisher maintains its generated report issue.
 
 ## Report contract
 
@@ -77,7 +77,7 @@ State `Ready`, `Needs refinement`, or `Incomplete evidence` as an editorial asse
 
 ## Level-by-level coverage
 
-Use a table with coverage ID as the first column, afternoon, level and title, opening-primer assessment, transition/handoff assessment, and evidence location. Use the supplied IDs (such as `A1-L1` and `A2-L1`) from `review-input.json` when available. Include every core level found in the local guides; explicitly identify linked upstream content and optional tracks that were not inspected.
+Use a table with coverage ID as the first column, workshop, level and title, opening-primer assessment, transition/handoff assessment, and evidence location. Use the supplied IDs (such as `A1-L1` and `A2-L1`) from `review-input.json` when available. Include every core level found in the local guides; explicitly identify linked upstream content and optional tracks that were not inspected.
 
 ## Prioritized findings
 

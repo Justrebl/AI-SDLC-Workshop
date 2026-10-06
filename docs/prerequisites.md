@@ -1,13 +1,13 @@
 # Prerequisites and pre-D-Day checks
 
-This guide applies to both afternoons:
+This guide applies to both workshops:
 
-- **Afternoon 1 — GitHub Copilot Zero to Hero**
-- **Afternoon 2 — AI SDLC with GitHub and GitHub Copilot**
+- **GitHub Copilot Zero to Hero**
+- **The SDLC Workshop**
 
 For a shorter checklist that covers only the delivery option you chose, use [before-d-day-codespace.md](before-d-day-codespace.md), [before-d-day-devcontainer.md](before-d-day-devcontainer.md) or [before-d-day-local.md](before-d-day-local.md). This page remains the full reference.
 
-Complete it **at least one week before the session (D-7)**. Then repeat the quick checks the day before (D-1). Items marked **Admin** need an organization or enterprise owner. Many features in Afternoon 2 are previews or depend on policy settings. Check each one in the tenant you will use on the day, because a feature that works on a personal account may be disabled in your organization.
+Complete it **at least one week before the session (D-7)**. Then repeat the quick checks the day before (D-1). Items marked **Admin** need an organization or enterprise owner. Many features in the SDLC Workshop are previews or depend on policy settings. Check each one in the tenant you will use on the day, because a feature that works on a personal account may be disabled in your organization.
 
 <div class="important" data-title="Synthetic data only">
 
@@ -30,20 +30,20 @@ Every attendee picks **one** of three options. They all lead to the same lab ste
 
 **Recommendation:** use Option 1 unless your network or organization blocks Codespaces. Option 2 is the fallback for blocked Codespaces, and Option 3 is the fallback when containers are not allowed.
 
-The repository you open depends on the afternoon:
+The repository you open depends on the workshop:
 
-| Afternoon | Repository | Environment it provides |
+| Workshop | Repository | Environment it provides |
 | --- | --- | --- |
-| Afternoon 1 — GitHub Copilot Zero to Hero | Your **fork** of [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo) | The fork's own dev container: .NET, Node.js, the Copilot extensions and the project dependencies. Copilot CLI is installed during setup with `npm install -g @github/copilot`. |
-| Afternoon 2 — AI SDLC with GitHub and GitHub Copilot | Your own **private repository created from the [Justrebl/AI-SDLC-Workshop](https://github.com/Justrebl/AI-SDLC-Workshop) template** | A prebuilt image (`ghcr.io/justrebl/ai-sdlc-workshop/devcontainer:latest`) with Git, Node.js 22, .NET 10, GitHub CLI, Copilot CLI and APM CLI. `postCreateCommand` then installs the `gh-aw` extension and restores the .NET and front-end dependencies. |
+| GitHub Copilot Zero to Hero | Your **fork** of [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo) | The fork's own dev container: .NET, Node.js, the Copilot extensions and the project dependencies. Copilot CLI is installed during setup with `npm install -g @github/copilot`. |
+| The SDLC Workshop | Your own **private repository created from the [Justrebl/AI-SDLC-Workshop](https://github.com/Justrebl/AI-SDLC-Workshop) template** | A prebuilt image (`ghcr.io/justrebl/ai-sdlc-workshop/devcontainer:latest`) with Git, Node.js 22, .NET 10, GitHub CLI, Copilot CLI and APM CLI. `postCreateCommand` then installs the `gh-aw` extension and restores the .NET and front-end dependencies. |
 
 ## 2. Accounts, licence and sign-in (all options)
 
 | # | Check | How to verify | Owner |
 | --- | --- | --- | --- |
 | 2.1 | A GitHub account you can sign in to, with two-factor authentication working | Sign in at [github.com](https://github.com) | Attendee |
-| 2.2 | An active **Copilot Business or Enterprise** seat. Afternoon 1 also works with Copilot Pro or Pro+; Afternoon 2 needs organization policies, so it assumes Business or Enterprise. | [github.com/settings/copilot](https://github.com/settings/copilot) shows your plan and the organization that grants it | Admin assigns, attendee checks |
-| 2.3 | You can create repositories under the account you will use (fork for Afternoon 1, template copy for Afternoon 2) | **New repository** is available on your account or in the target organization | Attendee or Admin |
+| 2.2 | An active **Copilot Business or Enterprise** seat. GitHub Copilot Zero to Hero also works with Copilot Pro or Pro+; the SDLC Workshop needs organization policies, so it assumes Business or Enterprise. | [github.com/settings/copilot](https://github.com/settings/copilot) shows your plan and the organization that grants it | Admin assigns, attendee checks |
+| 2.3 | You can create repositories under the account you will use (fork for GitHub Copilot Zero to Hero, template copy for the SDLC Workshop) | **New repository** is available on your account or in the target organization | Attendee or Admin |
 | 2.4 | If your enterprise uses **Enterprise Managed Users (EMU)**, you know which account to use and whether it can fork public repositories | Ask your enterprise owner | Admin |
 | 2.5 | VS Code is signed in to the **same** GitHub account that holds the Copilot seat | VS Code **Accounts** menu (bottom-left) | Attendee |
 
@@ -77,7 +77,7 @@ See [Set up GitHub Copilot in VS Code](https://code.visualstudio.com/docs/copilo
 
 <div class="info" data-title="Codespaces usage">
 
-> Codespaces usage is billed by compute and storage, separately from Copilot. Depending on organization policy, it is billed to the organization or to your personal account. See [About billing for GitHub Codespaces](https://docs.github.com/en/billing/managing-billing-for-your-products/about-billing-for-github-codespaces). Stop or delete your Codespaces after each afternoon. By default, a Codespace stops after 30 minutes of inactivity.
+> Codespaces usage is billed by compute and storage, separately from Copilot. Depending on organization policy, it is billed to the organization or to your personal account. See [About billing for GitHub Codespaces](https://docs.github.com/en/billing/managing-billing-for-your-products/about-billing-for-github-codespaces). Stop or delete your Codespaces after each workshop. By default, a Codespace stops after 30 minutes of inactivity.
 
 </div>
 
@@ -126,7 +126,7 @@ See [Set up GitHub Copilot in VS Code](https://code.visualstudio.com/docs/copilo
    docker pull ghcr.io/justrebl/ai-sdlc-workshop/devcontainer:latest
    ```
 
-   The last command downloads the Afternoon 2 image ahead of time, which saves several minutes on the day.
+   The last command downloads the SDLC Workshop image ahead of time, which saves several minutes on the day.
 
 6. **Dry run:** clone any repository that has a dev container, run **Dev Containers: Reopen in Container**, and wait until the build finishes.
 
@@ -134,14 +134,14 @@ Alternative engines are not officially supported by the Dev Containers extension
 
 ### Option 3: Local tools
 
-Install the tools yourself. Afternoon 2 needs every row. Afternoon 1 needs only the rows marked **A1**.
+Install the tools yourself. The SDLC Workshop needs every row. GitHub Copilot Zero to Hero needs only the rows marked **A1**.
 
-| Tool | Version | Afternoon | Install | Check |
+| Tool | Version | Workshop | Install | Check |
 | --- | --- | --- | --- | --- |
 | Git | 2.40 or later | A1, A2 | [git-scm.com](https://git-scm.com/downloads) | `git --version` |
 | VS Code + Copilot Chat | Latest stable | A1, A2 | [Section 3](#3-visual-studio-code-all-options) | Chat replies |
 | Node.js | 22 LTS | A1, A2 | [nodejs.org](https://nodejs.org/) | `node --version` |
-| .NET SDK | 8.x for Afternoon 1 (`albums-api`) and 10.x for Afternoon 2; both can be installed side by side | A1, A2 | [dotnet.microsoft.com](https://dotnet.microsoft.com/download) | `dotnet --version` |
+| .NET SDK | 8.x for GitHub Copilot Zero to Hero (`albums-api`) and 10.x for the SDLC Workshop; both can be installed side by side | A1, A2 | [dotnet.microsoft.com](https://dotnet.microsoft.com/download) | `dotnet --version` |
 | GitHub CLI | Latest | A1, A2 | [cli.github.com](https://cli.github.com/) | `gh --version` |
 | GitHub Copilot CLI | Latest | A1, A2 | `npm install -g @github/copilot` ([docs](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli)) | `copilot --version` |
 | APM CLI | Latest | A2 | [APM installation](https://microsoft.github.io/apm/getting-started/installation/) | `apm --version` |
@@ -160,8 +160,8 @@ node --version
 dotnet --version
 gh --version
 copilot --version
-apm --version           # Afternoon 2 only
-gh aw version           # Afternoon 2 only
+apm --version           # the SDLC Workshop only
+gh aw version           # the SDLC Workshop only
 ```
 
 On first start, Copilot CLI may show **Confirm folder trust**. Check that the displayed path is your workshop repository before continuing; the screenshot below shows an example started from `src/front`, but start your workshop session from the repository root.
@@ -174,7 +174,7 @@ Use the arrow keys to select an option and press **Enter** to confirm. Folder tr
 
 ![Copilot CLI folder-trust prompt with the folder path and options to trust once, remember trust, or decline](assets/copilot-trust-folder.png)
 
-For Afternoon 2, also confirm that your GitHub CLI credential can push workflow files. Afternoon 2 Level 5 pushes files under `.github/workflows`, which needs the `workflow` scope:
+For the SDLC Workshop, also confirm that your GitHub CLI credential can push workflow files. The SDLC Workshop Level 5 pushes files under `.github/workflows`, which needs the `workflow` scope:
 
 ```bash
 gh auth refresh --scopes workflow
@@ -183,7 +183,7 @@ gh auth setup-git
 
 In a Codespace, the injected `GITHUB_TOKEN` takes precedence over your own login. Run `unset GITHUB_TOKEN` (bash) or `Remove-Item Env:GITHUB_TOKEN` (PowerShell) before these two commands.
 
-Finally, for Afternoon 2, check that the starter application builds and its tests pass:
+Finally, for the SDLC Workshop, check that the starter application builds and its tests pass:
 
 ```bash
 dotnet test
@@ -263,14 +263,14 @@ On Windows PowerShell, use `curl.exe` instead of `curl`, and drop the `| head -n
 
 Enterprise policies take precedence: if an enterprise owner has set a policy, the organization cannot override it. See [GitHub Copilot policies for enterprises and organizations](https://docs.github.com/en/copilot/concepts/policies) and [Managing policies and features for Copilot in your organization](https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-for-organization/manage-policies).
 
-| Area | Setting | Afternoon | Why |
+| Area | Setting | Workshop | Why |
 | --- | --- | --- | --- |
 | Copilot | Seats assigned to every attendee | A1, A2 | Required for all Copilot features |
-| Copilot | Copilot in the CLI enabled | A1 (Levels 8–9), A2 | Copilot CLI is used in both afternoons |
+| Copilot | Copilot in the CLI enabled | A1 (Levels 8–9), A2 | Copilot CLI is used in both workshops |
 | Copilot | **Copilot cloud agent** (formerly coding agent) enabled, and allowed on the attendees' repositories | A1 (Level 6), A2 (Levels 5 and 6) | Delegating an issue to Copilot |
 | Copilot | **Copilot code review** enabled in the Copilot policies | A2 (Level 6) | Reviewing the Copilot cloud agent pull request |
 | Copilot | Models policy reviewed: the models you plan to demonstrate are enabled | A1, A2 | Auto model selection only picks from models your policies allow |
-| Copilot | Preview features allowed, if you plan to demonstrate preview features | A2 | Some Afternoon 2 features are previews |
+| Copilot | Preview features allowed, if you plan to demonstrate preview features | A2 | Some SDLC Workshop features are previews |
 | Copilot | MCP servers policy allows MCP in Copilot | A1, A2 | MCP tools in VS Code, Copilot CLI and the cloud agent |
 | Copilot | Plugin and marketplace settings allow installing plugins from `microsoft/hve-core` and from a repository marketplace | A1 (Level 9), A2 (Levels 1 and 4) | HVE-Core and marketplace exercises |
 | Codespaces | Codespaces enabled for the attendees on private repositories | A2 (and A1 if forks are private) | Option 1 |
@@ -279,7 +279,7 @@ Enterprise policies take precedence: if an enterprise owner has set a policy, th
 | Actions | GitHub Actions enabled on attendee repositories | A2 | gh-aw workflows, the CI workflow and the cloud agent setup steps |
 | Actions | Allowed actions include `actions/*` and `github/gh-aw-actions/*` (or all actions) | A2 | Used by the compiled `.lock.yml` workflows and by `copilot-setup-steps.yml` |
 | Actions | Workflow permissions allow the workflows to create issues and comments, or the workflow files declare them | A2 | gh-aw safe outputs |
-| Repositories | Members can create private repositories and can use template repositories; forking of public repositories allowed (A1) | A1, A2 | Fork for Afternoon 1, template copy for Afternoon 2 |
+| Repositories | Members can create private repositories and can use template repositories; forking of public repositories allowed (A1) | A1, A2 | Fork for GitHub Copilot Zero to Hero, template copy for the SDLC Workshop |
 | Repositories | Repository rulesets available on the attendees' private repositories, and attendees keep the admin role on their own copy | A2 (Level 5) | The branch ruleset that requires the `test` check before delegation; without it, the facilitator demos it |
 | Packages | Members can pull public images from `ghcr.io` | A2 | The prebuilt dev container image |
 | Code security | Optional: **GitHub Secret Protection** available for the attendees' private repositories, and repository administrators allowed to enable it and add custom patterns | A2 (Level 6) | Push protection demo; without it, the facilitator demos it |
@@ -288,7 +288,7 @@ Enterprise policies take precedence: if an enterprise owner has set a policy, th
 | Extended tracks | Optional: the organization's personal access token policy allows a **fine-grained PAT** for the facilitator's sandbox repository (metadata read; actions, contents, issues and pull requests read and write) | A2 (Level 5 security delegation demo) | gh-aw `assign-to-agent` needs the `GH_AW_AGENT_TOKEN` secret; `GITHUB_TOKEN` and GitHub App tokens are rejected |
 | Billing | Budgets reviewed for Copilot usage, Actions minutes and Codespaces | A1, A2 | A session with ~20 attendees for 4 hours must fit within your budgets |
 
-**Copilot authentication in agentic workflows.** The Afternoon 2 workflows declare `permissions: copilot-requests: write`, so Copilot requests are authorized through the workflow's GitHub Actions token and billed to the organization. No personal access token is needed. If that path is not available in your tenant, gh-aw also supports a `COPILOT_GITHUB_TOKEN` repository secret holding a fine-grained personal access token whose resource owner is your **user account**, with the **Copilot Requests** account permission. See the [gh-aw authentication reference](https://github.github.com/gh-aw/reference/auth/).
+**Copilot authentication in agentic workflows.** The SDLC Workshop workflows declare `permissions: copilot-requests: write`, so Copilot requests are authorized through the workflow's GitHub Actions token and billed to the organization. No personal access token is needed. If that path is not available in your tenant, gh-aw also supports a `COPILOT_GITHUB_TOKEN` repository secret holding a fine-grained personal access token whose resource owner is your **user account**, with the **Copilot Requests** account permission. See the [gh-aw authentication reference](https://github.github.com/gh-aw/reference/auth/).
 
 ## 8. Usage and billing readiness
 
@@ -312,7 +312,7 @@ Attendee:
 - [ ] I chose a delivery option (1, 2 or 3) and installed what it needs.
 - [ ] Copilot Chat in VS Code answers a prompt.
 - [ ] Option 1: I created and deleted a test Codespace, and the tunnel test in section 6.2 passes.
-- [ ] Option 2: `docker run --rm hello-world` (or Podman) works, and I pulled the Afternoon 2 image.
+- [ ] Option 2: `docker run --rm hello-world` (or Podman) works, and I pulled the SDLC Workshop image.
 - [ ] Option 3: every command in section 5 prints a version.
 - [ ] The connectivity tests in section 6.2 pass on the network I will use on the day.
 
@@ -326,8 +326,8 @@ Admin or facilitator:
 
 ### D-1 (the day before)
 
-- [ ] Afternoon 1: fork [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo) and open it with your chosen option.
-- [ ] Afternoon 2: create your private repository from the [Justrebl/AI-SDLC-Workshop](https://github.com/Justrebl/AI-SDLC-Workshop) template and open it with your chosen option.
-- [ ] Afternoon 2: complete [Starter readiness (prerequisite)](afternoon-2/workshop.md#starter-readiness-prerequisite) once before the workshop: both test suites pass and the working tree is clean.
+- [ ] GitHub Copilot Zero to Hero: fork [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo) and open it with your chosen option.
+- [ ] The SDLC Workshop: create your private repository from the [Justrebl/AI-SDLC-Workshop](https://github.com/Justrebl/AI-SDLC-Workshop) template and open it with your chosen option.
+- [ ] The SDLC Workshop: complete [Starter readiness (prerequisite)](afternoon-2/workshop.md#starter-readiness-prerequisite) once before the workshop: both test suites pass and the working tree is clean.
 - [ ] Run section 5 in that environment, including `copilot` → `/login`.
 - [ ] Delete or stop any test Codespaces you no longer need.

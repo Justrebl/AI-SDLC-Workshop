@@ -1,4 +1,4 @@
-# Hosts the Afternoon 2 lab may reach from the tester Codespace, in addition to the
+# Hosts the SDLC Workshop may reach from the tester Codespace, in addition to the
 # GitHub /meta domains (website, copilot, codespaces) that egress.sh adds at start-up.
 # One host per line. "example.com" also allows its subdomains; "*.example.com" is accepted.
 

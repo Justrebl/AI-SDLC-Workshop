@@ -1,9 +1,9 @@
 # Before D-Day — GitHub Codespaces setup (🥇 Option 1)
 
-Use this checklist if your organization chose **GitHub Codespaces** for both afternoons:
+Use this checklist if your organization chose **GitHub Codespaces** for both workshops:
 
-- **Afternoon 1 — GitHub Copilot Zero to Hero**
-- **Afternoon 2 — AI SDLC with GitHub and GitHub Copilot**
+- **GitHub Copilot Zero to Hero**
+- **The SDLC Workshop**
 
 Nothing has to be installed on attendee machines: the tools run in a cloud VM that you open from the browser or from VS Code desktop. The risks are on the **network** and **organization settings** side, so start at **D-7**.
 
@@ -13,10 +13,10 @@ Other setups: [local dev container](before-d-day-devcontainer.md) · [local tool
 
 ## What you get in the Codespace
 
-| Afternoon | Repository | Preinstalled |
+| Workshop | Repository | Preinstalled |
 | --- | --- | --- |
-| Afternoon 1 | Your **fork** of [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo) | The fork's dev container: .NET, Node.js and the Copilot extensions. Copilot CLI is installed during setup with `npm install -g @github/copilot`. |
-| Afternoon 2 | Your **private repository created from the [Justrebl/AI-SDLC-Workshop](https://github.com/Justrebl/AI-SDLC-Workshop) template** | The prebuilt image `ghcr.io/justrebl/ai-sdlc-workshop/devcontainer:latest`: Git, Node.js 22, .NET 10, GitHub CLI, Copilot CLI and APM CLI. `postCreateCommand` adds `gh-aw` and restores the dependencies. |
+| GitHub Copilot Zero to Hero | Your **fork** of [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo) | The fork's dev container: .NET, Node.js and the Copilot extensions. Copilot CLI is installed during setup with `npm install -g @github/copilot`. |
+| The SDLC Workshop | Your **private repository created from the [Justrebl/AI-SDLC-Workshop](https://github.com/Justrebl/AI-SDLC-Workshop) template** | The prebuilt image `ghcr.io/justrebl/ai-sdlc-workshop/devcontainer:latest`: Git, Node.js 22, .NET 10, GitHub CLI, Copilot CLI and APM CLI. `postCreateCommand` adds `gh-aw` and restores the dependencies. |
 
 ## D-7 — Organization or enterprise owner
 
@@ -27,9 +27,9 @@ Enterprise policies take precedence over organization policies. Details: [prereq
 - [ ] A **Copilot Business or Enterprise** seat is assigned to every attendee.
 - [ ] **Copilot in the CLI** is enabled.
 - [ ] The **Copilot cloud agent** is enabled and allowed on the attendees' repositories.
-- [ ] **Copilot code review** is enabled in the Copilot policies (Afternoon 2, Level 6).
-- [ ] Optional: **GitHub Secret Protection** can be enabled on the attendees' private repositories for the push protection exercise (Afternoon 2, Level 6). Otherwise the facilitator demos it.
-- [ ] Optional, extended role tracks (Afternoon 2): the MCP servers policy allows the GitHub MCP server for the Product Manager track. The PAT policy allows a fine-grained PAT for the facilitator's security delegation demo. See [prerequisites, section 7](prerequisites.md#7-organization-and-enterprise-settings-admin).
+- [ ] **Copilot code review** is enabled in the Copilot policies (the SDLC Workshop, Level 6).
+- [ ] Optional: **GitHub Secret Protection** can be enabled on the attendees' private repositories for the push protection exercise (the SDLC Workshop, Level 6). Otherwise the facilitator demos it.
+- [ ] Optional, extended role tracks (the SDLC Workshop): the MCP servers policy allows the GitHub MCP server for the Product Manager track. The PAT policy allows a fine-grained PAT for the facilitator's security delegation demo. See [prerequisites, section 7](prerequisites.md#7-organization-and-enterprise-settings-admin).
 - [ ] The **models** you plan to demonstrate are enabled. Auto model selection only picks from allowed models.
 - [ ] **MCP servers** are allowed in Copilot.
 - [ ] **Plugins and marketplaces** allow `microsoft/hve-core` and a repository marketplace.
@@ -44,7 +44,7 @@ Enterprise policies take precedence over organization policies. Details: [prereq
 
 **Repositories, Actions and packages**
 
-- [ ] Members can **fork public repositories** (Afternoon 1) and **create private repositories from a template** (Afternoon 2).
+- [ ] Members can **fork public repositories** (GitHub Copilot Zero to Hero) and **create private repositories from a template** (the SDLC Workshop).
 - [ ] **GitHub Actions** is enabled on attendee repositories, and the allowed actions include `actions/*` and `github/gh-aw-actions/*`.
 - [ ] Workflows can create issues and comments (gh-aw safe outputs).
 - [ ] Members can pull public images from `ghcr.io`.
@@ -92,8 +92,8 @@ The complete endpoint table is in [prerequisites, section 6](prerequisites.md#6-
 
 ## D-1 — Every attendee
 
-- [ ] **Afternoon 1:** fork [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo), then **Code → Codespaces → Create codespace on main**. Wait until the `postCreateCommand` terminal reports that setup is complete.
-- [ ] **Afternoon 1:** run the sample app once, as the upstream lab requires at least the front end:
+- [ ] **GitHub Copilot Zero to Hero:** fork [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo), then **Code → Codespaces → Create codespace on main**. Wait until the `postCreateCommand` terminal reports that setup is complete.
+- [ ] **GitHub Copilot Zero to Hero:** run the sample app once, as the upstream lab requires at least the front end:
 
   ```bash
   cd albums-api && dotnet run          # API on port 3000, Swagger at /swagger
@@ -101,22 +101,22 @@ The complete endpoint table is in [prerequisites, section 6](prerequisites.md#6-
   ```
 
   Open the forwarded port 3001 from the **Ports** view and check that albums are listed. If `copilot` is missing in this codespace, run `npm install -g @github/copilot`.
-- [ ] **Afternoon 1:** in the fork, **Settings → Copilot → Cloud agent** is available (used in Level 6). If it is not, ask the organization owner (see D-7).
-- [ ] **Afternoon 2:** **Use this template → Create a new repository** (private) from [Justrebl/AI-SDLC-Workshop](https://github.com/Justrebl/AI-SDLC-Workshop), then create a codespace on it. The first start pulls the prebuilt image.
+- [ ] **GitHub Copilot Zero to Hero:** in the fork, **Settings → Copilot → Cloud agent** is available (used in Level 6). If it is not, ask the organization owner (see D-7).
+- [ ] **The SDLC Workshop:** **Use this template → Create a new repository** (private) from [Justrebl/AI-SDLC-Workshop](https://github.com/Justrebl/AI-SDLC-Workshop), then create a codespace on it. The first start pulls the prebuilt image.
 - [ ] In each codespace terminal, sign in and check the tools:
 
   ```bash
   unset GITHUB_TOKEN               # the injected token would otherwise take precedence
   gh auth login                    # GitHub.com, HTTPS, browser
-  gh auth refresh --scopes workflow   # Afternoon 2: needed to push workflow files
+  gh auth refresh --scopes workflow   # the SDLC Workshop: needed to push workflow files
   gh auth setup-git
   copilot                          # then /login, complete the device flow, and /exit
   copilot --version
-  apm --version                    # Afternoon 2
-  gh aw version                    # Afternoon 2
+  apm --version                    # the SDLC Workshop
+  gh aw version                    # the SDLC Workshop
   ```
 
-- [ ] **Afternoon 2:** `dotnet test`, then `cd src/front && npm ci && npm test` pass.
+- [ ] **The SDLC Workshop:** `dotnet test`, then `cd src/front && npm ci && npm test` pass.
 - [ ] **Stop** both codespaces rather than deleting them, so they start quickly on the day. A codespace stops after 30 minutes of inactivity by default.
 
 ## If something fails
@@ -127,5 +127,5 @@ The complete endpoint table is in [prerequisites, section 6](prerequisites.md#6-
 | The codespace starts but VS Code never connects | Tunnel or WebSockets blocked, or TLS inspection | Run the tunnel test; open the codespace in the browser; see the [connection troubleshooting guide](https://docs.github.com/en/codespaces/troubleshooting/troubleshooting-your-connection-to-github-codespaces). |
 | Copilot Chat says you have no access | Wrong account, or no seat | Check the **Accounts** menu and [github.com/settings/copilot](https://github.com/settings/copilot). |
 | `git push` of `.github/workflows/*` is rejected | The codespace token lacks the `workflow` scope | `unset GITHUB_TOKEN`, then `gh auth refresh --scopes workflow` and `gh auth setup-git`. |
-| Afternoon 1 viewer shows no albums | API not running on port 3000 | Start `albums-api` first, and check both ports in the **Ports** view. |
+| GitHub Copilot Zero to Hero viewer shows no albums | API not running on port 3000 | Start `albums-api` first, and check both ports in the **Ports** view. |
 | Spending limit reached | Codespaces budget is 0 or exhausted | Ask the billing owner to raise the Codespaces budget. |

@@ -7,17 +7,17 @@ For writing rules, upstream pins and validation commands, see [CONTRIBUTING.md](
 ## When to use this handbook
 
 - You are taking over maintenance or preparing a new delivery.
-- You want to change the scope, order or tooling of an afternoon and need to know which decisions it would reopen.
+- You want to change the scope, order or tooling of a workshop and need to know which decisions it would reopen.
 - You are about to re-verify the workshop against new releases of Copilot, Copilot CLI, APM, HVE-Core or GitHub agentic workflows.
 
 ## Workshop intent
 
-The workshop runs over two 4-hour afternoons for a technical audience. Each afternoon builds on the previous one, so the progression is the main design constraint.
+The workshop runs over two 4-hour workshop sessions for a technical audience. Each workshop builds on the previous one, so the progression is the main design constraint.
 
-| Afternoon | Focus | Source |
+| Workshop | Focus | Source |
 | --- | --- | --- |
 | 1. GitHub Copilot Zero to Hero | Copilot primitives: completions, chat, instructions, prompts, agents, skills, MCP, hooks | Wraps [Philess/GHCopilotHoL](https://github.com/Philess/GHCopilotHoL) and adds Levels 7 to 9 plus an advanced Deeper primitives page |
-| 2. AI SDLC with GitHub and GitHub Copilot | HVE principles, Design Thinking, RPI, APM and plugin marketplace, agentic workflows, Copilot cloud agent delegation | Original content in this repository |
+| 2. The SDLC Workshop | HVE principles, Design Thinking, RPI, APM and plugin marketplace, agentic workflows, Copilot cloud agent delegation | Original content in this repository |
 
 The [README crescendo](../README.md#the-crescendo) explains the order to attendees. Read it before you reorder modules.
 
@@ -27,12 +27,12 @@ These decisions shape the content. Changing one usually affects several modules,
 
 | # | Decision | Why |
 | --- | --- | --- |
-| D1 | Two 4-hour afternoons | Fits a customer's half-day slots and separates individual use (Afternoon 1) from team and SDLC use (Afternoon 2). |
-| D2 | Afternoon 1 follows GHCopilotHoL | Reuses a maintained lab instead of forking it. Upstream commits are pinned in [CONTRIBUTING.md](../CONTRIBUTING.md#upstream-pins). |
-| D3 | Afternoon 2 runs in three acts: build the feature (HVE principles → Design Thinking → RPI), scale the method (APM, policy and plugin marketplace → agentic workflows), then close the loop (delegation to Copilot cloud agent and review) | Each step reuses the output of the previous one. The README crescendo and the "Why this level" lines say what each level adds and why the previous one was not enough. |
+| D1 | Two 4-hour workshop sessions | Fits a customer's half-day slots and separates individual use (GitHub Copilot Zero to Hero) from team and SDLC use (the SDLC Workshop). |
+| D2 | GitHub Copilot Zero to Hero follows GHCopilotHoL | Reuses a maintained lab instead of forking it. Upstream commits are pinned in [CONTRIBUTING.md](../CONTRIBUTING.md#upstream-pins). |
+| D3 | The SDLC Workshop runs in three acts: build the feature (HVE principles → Design Thinking → RPI), scale the method (APM, policy and plugin marketplace → agentic workflows), then close the loop (delegation to Copilot cloud agent and review) | Each step reuses the output of the previous one. The README crescendo and the "Why this level" lines say what each level adds and why the previous one was not enough. |
 | D4 | Hands-on first, demos as fallback | Attendees keep working assets. The tutor guide lists the demo fallbacks. |
 | D5 | Environment setup happens before the day | Setup failures should not consume workshop time. See [prerequisites.md](prerequisites.md) and the `before-d-day-*.md` checklists. |
-| D6 | One application for all of Afternoon 2: the Music Catalog (`src/front` React 19 + TypeScript + Vite, `src/api` .NET 10 minimal API) | One shared context keeps prompts, reviews and workflows comparable across the room. |
+| D6 | One application for all of the SDLC Workshop: the Music Catalog (`src/front` React 19 + TypeScript + Vite, `src/api` .NET 10 minimal API) | One shared context keeps prompts, reviews and workflows comparable across the room. |
 | D7 | Attendees start from a hello-world starter | Keeps the slice small enough to finish. |
 | D8 | One feature: browse tracks and add a track to a playlist | Small enough for a learning loop, rich enough to exercise evidence, a design decision, and acceptance review. |
 | D9 | Exactly one in-memory playlist: no persistence, no users, no playlist creation or reordering | Avoids databases and authentication, which add setup without teaching the method. |
@@ -43,8 +43,8 @@ These decisions shape the content. Changing one usually affects several modules,
 | D14–D15 | Agentic workflows: daily backlog management, accessibility review, and security-review delegation | Shows recurring automation that feeds issues back to people and agents. |
 | D16 | Level 5 reconciles opted-in issues with committed planning and linked delivery evidence, then delegates a bounded RPI issue to Copilot cloud agent. Level 6 explicitly requests Copilot review and verifies issue/Project progress | See the [Level 4-6 learning-flow decisions](project-planning/levels-4-6-learning-flow.md). No invented findings, automatic assignment, or closure from merge alone. |
 | D18 | Verification as contract: required `test` and `apm-audit` checks are added before delegation, and `copilot-setup-steps.yml` is extended with a build step | Level 4 copies the audit-only `apm-audit.yml`; Level 5 enables its no-bypass ruleset after setup pushes. The agent's pull request is judged by the same checks as a human's. Solutions: `solutions/afternoon-2/.github/workflows/{ci,apm-audit}.yml` and `solutions/afternoon-2/rulesets/{main-tests-required,main-apm-audit-required}.json`. |
-| D19 | Afternoon 1 fast track for advanced audiences: upstream Levels 1 to 4 become pre-work or a demo, and the time goes to the Deeper primitives page (instruction layering, a guardrail hook, MCP governance) | Advanced developers and architects need layering and limits, not another pass on completions. Timing is in [tutor.md](tutor.md). |
-| D20 | Afternoon 2 ends with an architect capstone: org rollout, measuring impact, brownfield adoption, choosing a method, and a model decision guide | Architects leave with the decisions they must take to scale the method. Model and usage guidance lives here, without prices. |
+| D19 | GitHub Copilot Zero to Hero fast track for advanced audiences: upstream Levels 1 to 4 become pre-work or a demo, and the time goes to the Deeper primitives page (instruction layering, a guardrail hook, MCP governance) | Advanced developers and architects need layering and limits, not another pass on completions. Timing is in [tutor.md](tutor.md). |
+| D20 | The SDLC Workshop ends with an architect capstone: org rollout, measuring impact, brownfield adoption, choosing a method, and a model decision guide | Architects leave with the decisions they must take to scale the method. Model and usage guidance lives here, without prices. |
 | D21 | Progressive disclosure: short level introductions, optional deeper explanations, and a visible hands-on path | The [Workshop Authoring skill](../.github/skills/workshop-authoring/SKILL.md) owns the rule and Workshop Creator loads it before content work. Required prompts, prerequisites, warnings, success criteria, and human gates are not hidden. |
 | D17 | Reference for agentic workflow layout: [CoffeesoftDotDev/accessibility-copilot](https://github.com/CoffeesoftDotDev/accessibility-copilot) | A working `.md` plus compiled `.lock.yml` example. It also showed that workflows can open repeated failure issues, so the solutions limit and deduplicate their outputs. |
 
@@ -165,7 +165,7 @@ gh api -X PUT repos/Justrebl/AI-SDLC-Workshop/pulls/<top-pr>/merge-async -f merg
 
 ## Expected outcome
 
-The change is on `main`, the attendee guides stay free of maintainer-only content, and the [workshop tester](../tests/workshop/afternoon-2/README.md) replays Afternoon 2 without opening a failure issue.
+The change is on `main`, the attendee guides stay free of maintainer-only content, and the [workshop tester](../tests/workshop/afternoon-2/README.md) replays the SDLC Workshop without opening a failure issue.
 
 ## Troubleshooting
 

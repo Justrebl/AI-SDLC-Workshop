@@ -17,7 +17,7 @@ This page tracks what the workshop design assumes. Entries that also appear in t
 
 ## Workshop tester
 
-The workshop tester replays the Afternoon 2 lab in a Codespace on a throwaway sandbox repository.
+The workshop tester replays the SDLC Workshop lab in a Codespace on a throwaway sandbox repository.
 
 | Assumption | Status | How to check |
 | --- | --- | --- |

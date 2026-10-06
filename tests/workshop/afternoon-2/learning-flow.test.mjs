@@ -18,6 +18,34 @@ const powerShell = ['pwsh', 'powershell'].find((shell) => (
     { stdio: 'ignore' }).status === 0
 ));
 
+test('SDLC display metadata agrees while the fundamentals lab retains its own identity', () => {
+  assert.match(guide, /^title: 'The SDLC Workshop'$/m);
+  assert.match(guide, /^short_title: The SDLC Workshop$/m);
+  assert.match(guide, /^sections_title:\n  - 'The SDLC Workshop'$/m);
+  assert.match(guide, /^# The SDLC Workshop$/m);
+  const readme = read('../../../README.md');
+  assert.match(readme, /^## GitHub Copilot Zero to Hero$/m);
+  assert.match(readme, /^## The SDLC Workshop$/m);
+  assert.match(readme, /\.NET 8 \(GitHub Copilot Zero to Hero\) and \.NET 10 \(the SDLC Workshop\)/);
+  for (const text of [guide, readme, tutor]) {
+    assert.doesNotMatch(text, /\bafternoons?\b(?!-[12])/i);
+  }
+});
+
+test('renamed workshop entry links still resolve at their stable paths', () => {
+  for (const path of [
+    '../../../README.md', '../../../docs/prerequisites.md',
+    '../../../docs/tutor.md',
+  ]) {
+    const text = read(path);
+    const links = [...text.matchAll(/\]\(([^)]*afternoon-[12]\/workshop\.md)(?:#[^)]+)?\)/g)];
+    assert.ok(links.length > 0, path);
+    for (const [, destination] of links) {
+      assert.ok(existsSync(new URL(destination, new URL(path, import.meta.url))), destination);
+    }
+  }
+});
+
 test('both workshop guides use observable checkpoints instead of learner-understanding claims', () => {
   for (const path of ['../../../docs/afternoon-1/workshop.md', '../../../docs/afternoon-2/workshop.md']) {
     const text = read(path);
@@ -45,6 +73,16 @@ test('visible commands have purpose-led introductions across both workshop guide
   }
 });
 
+test('Level 2 persists the CLI default without claiming repository-local scope', () => {
+  const setup = level(2).split('### Step 1: Set Auto')[1].split('### Step 2:')[0];
+  assert.match(setup, /copilot model --global auto intelligence\ncopilot/);
+  assert.doesNotMatch(setup, /copilot --model auto --auto-tier intelligence/);
+  assert.match(setup, /user-wide CLI default/);
+  assert.match(setup, /not a repository-local/);
+  assert.match(setup, /fallback does not establish a persisted default/);
+  assert.match(setup, /does not configure\nVS Code Chat or separate cloud-agent and workflow runs/);
+});
+
 test('Level 3 planning waits for an actual learner choice before critique and approval', () => {
   const planning = level(3).split('## Plan phase')[1].split('## Implement phase')[0];
   const decision = planning.split('### Step 2: Review the plan and decide')[1];
@@ -58,6 +96,38 @@ test('Level 3 planning waits for an actual learner choice before critique and ap
   assert.doesNotMatch(decision, /<chosen approach>|<reason>/);
   assert.ok(decision.indexOf('Reply in the same conversation') <
     decision.indexOf('Then review the completed plan'));
+});
+
+test('Level 5 uses Linux commands and valid Bash examples throughout', () => {
+  const l5 = level(5);
+  assert.doesNotMatch(l5, /```powershell|Copy-Item|New-Item|ConvertTo-Json|PowerShell session|\\(?:workflows|rulesets|agents|security)/);
+  assert.match(l5, /mkdir -p \.github\/workflows/);
+  assert.match(l5, /cp solutions\/afternoon-2\/\.github\/workflows\/ci\.yml/);
+  assert.match(l5, /cp solutions\/afternoon-2\/\.github\/workflows\/daily-backlog\.md/);
+  const bash = process.platform === 'win32' ? 'C:\\Program Files\\Git\\bin\\bash.exe' : 'bash';
+  for (const [, script] of l5.matchAll(/```bash\n([\s\S]*?)\n```/g)) {
+    const result = spawnSync(bash, ['-n'], { input: script, encoding: 'utf8' });
+    assert.equal(result.status, 0, result.error?.message || result.stderr);
+  }
+});
+
+test('Level 5 security assignment serializes the repository and actual default branch', () => {
+  const l5 = level(5);
+  assert.match(l5, /url=\$\(gh issue create[\s\S]*?--body-file - <<'EOF'[\s\S]*?issue=\$\{url##\*\/\}/);
+  assert.match(l5, /set -o pipefail/);
+  assert.match(l5, /base=\$\(gh repo view --json defaultBranchRef/);
+  assert.match(l5, /"\$\{issue:\?Create the security review issue first/);
+  const script = l5.match(/node -e '([\s\S]*?)' "\$repo" "\$base"/)?.[1];
+  assert.ok(script);
+  const result = spawnSync(process.execPath, ['-e', script, 'learner/catalog', 'trunk'],
+    { encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stderr);
+  const payload = JSON.parse(result.stdout);
+  assert.deepEqual(payload.assignees, ['copilot-swe-agent[bot]']);
+  assert.equal(payload.agent_assignment.target_repo, 'learner/catalog');
+  assert.equal(payload.agent_assignment.base_branch, 'trunk');
+  assert.equal(payload.agent_assignment.custom_agent, 'security-reviewer');
+  assert.match(payload.agent_assignment.custom_instructions, /do not change application code/);
 });
 
 test('APM executable governance is explained before the command and checked through files and output', () => {
@@ -80,7 +150,12 @@ test('Levels 4-6 explain commands without subjective success claims or timing', 
     assert.doesNotMatch(text, /(?:students?|participants?|you) (?:should|will|can) understand|you understand/i);
     assert.doesNotMatch(text, /takes about \d+ minutes|approximately \d+ minutes|^\| \d+-\d+ minutes/m);
     const blocks = [...visible(text).matchAll(/```(?:powershell|bash)\n([\s\S]*?)\n```/g)];
-    assert.ok(blocks.length > 0);
+    if (number === 6) {
+      assert.match(visible(text), /Under \*\*Reviewers\*\*, request \*\*Copilot\*\*/);
+      assert.match(text, /setup\/troubleshoot: request Copilot review from the CLI/);
+    } else {
+      assert.ok(blocks.length > 0);
+    }
     for (const block of blocks) {
       const preceding = visible(text).slice(0, block.index).trim().split('\n\n').at(-1);
       assert.ok(preceding.length > 25, `Level ${number}: purpose before ${block[1].split('\n')[0]}`);
@@ -106,7 +181,7 @@ test('Level 5a establishes verification before the reviewed 5b delegation handof
     'strict `apm-audit` gate before Stage 5b']) assert.ok(topic.includes(phrase), phrase);
 
   const positions = [
-    stage5a.indexOf('Copy-Item solutions\\afternoon-2\\.github\\workflows\\ci.yml'),
+    stage5a.indexOf('cp solutions/afternoon-2/.github/workflows/ci.yml'),
     stage5a.indexOf('**Decision check:** Which events trigger the `test` job'),
     stage5a.indexOf('Commit the reviewed CI workflow at .github/workflows/ci.yml'),
     stage5a.indexOf('Wait for **CI** on `main` to pass'),
@@ -128,7 +203,7 @@ test('Level 5a establishes verification before the reviewed 5b delegation handof
 
   const stage5bPositions = [
     stage5b.indexOf('Create and switch to feature/level-5b-backlog'),
-    stage5b.indexOf('Copy-Item solutions\\afternoon-2\\.github\\workflows\\daily-backlog.md'),
+    stage5b.indexOf('cp solutions/afternoon-2/.github/workflows/daily-backlog.md'),
     stage5b.indexOf('**Decision check:** Which committed planning paths does the job read'),
     stage5b.indexOf('Open your committed `docs/project-planning/dt-later-slice.md`'),
     stage5b.indexOf('**Decision check:** Does this brief revise the original agreement'),
@@ -178,14 +253,14 @@ test('Level 5a establishes verification before the reviewed 5b delegation handof
   assert.doesNotMatch(runner, /gh pr merge.*--admin|gh pr merge.*--force/);
   assert.match(read('./README.md'), /Stage 5b setup PR and dependent delegation steps/);
 
-  const afternoon2Schedule = tutor.slice(tutor.indexOf('## Afternoon 2'),
+  const afternoon2Schedule = tutor.slice(tutor.indexOf('## The SDLC Workshop'),
     tutor.indexOf('### Level 4 proctor flow'));
   assert.match(afternoon2Schedule, /^\| 2:50 \| Level 5a Verification as contract \| 20 \|/m);
   assert.match(afternoon2Schedule, /^\| 3:10 \| Level 5b Backlog and delegation \| 30 \|/m);
   assert.match(read('../../../README.md'),
-    /\*\*Verification as contract\*\*.*Afternoon 2, Levels 5a and 6/);
+    /\*\*Verification as contract\*\*.*the SDLC Workshop, Levels 5a and 6/);
   assert.match(read('../../../README.md'),
-    /\*\*Agentic threat model\*\*.*Afternoon 2, Levels 5b and 6/);
+    /\*\*Agentic threat model\*\*.*the SDLC Workshop, Levels 5b and 6/);
 });
 
 test('the required path works with optional context closed', () => {
@@ -203,7 +278,7 @@ test('the required path works with optional context closed', () => {
     'status-to-issue closure automation off']) {
     assert.ok(l5.includes(text), text);
   }
-  for (const text of ["--add-reviewer '@copilot'", 'posted Copilot review', 'Approve and run workflows',
+  for (const text of ['Under **Reviewers**, request **Copilot**', 'posted Copilot review', 'Approve and run workflows',
     'both', '`test`', '`apm-audit`', 'substantive changes', 'Partial delivery stays open']) {
     assert.ok(l6.includes(text), text);
   }
