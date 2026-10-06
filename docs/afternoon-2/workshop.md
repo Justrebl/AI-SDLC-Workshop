@@ -319,16 +319,9 @@ The application lives in `src\api` and `src\front`, with API tests in `tests\api
 
 </div>
 
-![The SDLC Workshop route map](assets/a2-route-map.png)
-
-All stages are gray because you have not started yet. At each level, blue marks
-the current focus, not completed work; gray marks the other stages.
-
 ---
 
 # Level 1: HVE orientation and HVE-Core CLI plugin
-
-![Workshop route map: Level 1 HVE orientation highlighted; all other stages gray](assets/a2-route-map-level-1.png)
 
 ## Topic
 
@@ -534,8 +527,6 @@ The PM's role therefore shifts from repeatedly formatting documents and tickets 
 The [extended Product Manager track](#extended-track-product-manager-with-hve-core) demonstrates this handoff with BRD Builder, PRD Builder, Functional Planner, and Backlog Manager. It is optional: the core workshop proceeds with a reviewed implementation handoff after the open exploration.
 
 </details>
-
-![Workshop route map: Level 2 Design Thinking highlighted; all other stages gray](assets/a2-route-map-level-2.png)
 
 ## Start a DT project
 
@@ -1338,8 +1329,6 @@ HVE-Core references:
 
 # Level 3: RPI implementation loop
 
-![Workshop route map: Level 3 RPI highlighted; all other stages gray](assets/a2-route-map-level-3.png)
-
 RPI means **Research, Plan, Implement, Review**. HVE-Core also documents a follow-up stage in the RPI Agent description, but this workshop walks the four core phases.
 
 ## Topic
@@ -1777,8 +1766,6 @@ Success Criteria:
 
 # Level 4: APM-governed repository agents
 
-![Workshop route map: Level 4 repository governance highlighted; all other stages gray](assets/a2-route-map-level-4.png)
-
 ## Topic
 
 Your company catalog lists remote plugins; install HVE-Core through it, then APM moves HVE-Core from your personal install into this repository.
@@ -2138,8 +2125,6 @@ needed. Catalog discovery and APM source trust remain separate.
 ---
 
 # Level 5: Agentic workflows and delegation
-
-![Workshop route map: Level 5 workflows and delegation highlighted; all other stages gray](assets/a2-route-map-level-5.png)
 
 ## Stage 5a: Verification as contract
 
@@ -2783,8 +2768,6 @@ Success Criteria:
 ---
 
 # Level 6: Review the delegated work
-
-![Workshop route map: Level 6 review highlighted; all other stages gray](assets/a2-route-map-level-6.png)
 
 ## Topic
 
