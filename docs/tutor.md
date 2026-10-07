@@ -1,12 +1,12 @@
-# Tutor guide — Agentic SDLC with GitHub Copilot
+# Tutor guide — AI SDLC with Github Copilot and HVE Core
 
-This guide is for tutors and facilitators. It holds **all timing** for both workshops (240 minutes for GitHub Copilot Zero to Hero; an estimated 255 for the SDLC Workshop), the pre-flight checklist, known risks and messaging guardrails. The attendee guides contain no time codes, so keep timing changes in this file and their duration metadata synchronized.
+This guide is for tutors and facilitators. It holds **all timing** for both workshops (240 minutes for GitHub Copilot Zero to Hero; an estimated 255 for the AI SDLC workshop), the pre-flight checklist, known risks and messaging guardrails. The attendee guides contain no time codes, so keep timing changes in this file and their duration metadata synchronized.
 
-- Attendee content: [GitHub Copilot Zero to Hero](afternoon-1/workshop.md) and [The SDLC Workshop](afternoon-2/workshop.md)
+- Attendee content: [GitHub Copilot Zero to Hero](afternoon-1/workshop.md) and [AI SDLC with Github Copilot and HVE Core](afternoon-2/workshop.md)
 - Attendee checklist: [prerequisites and pre-D-Day checks](prerequisites.md), or the per-option checklists for [Codespaces](before-d-day-codespace.md), [local dev container](before-d-day-devcontainer.md) and [local tools](before-d-day-local.md)
 - Maintaining the content: [CONTRIBUTING.md](../CONTRIBUTING.md)
 
-GitHub Copilot Zero to Hero runs the official [GHCopilotHoL](https://moaw.dev/workshop/gh:Philess/GHCopilotHoL/main/docs/) lab on attendee forks of [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo), then adds Levels 7 to 9 and an advanced **Deeper primitives** page from this repository. The SDLC Workshop switches to the Music Catalog template in this repository.
+GitHub Copilot Zero to Hero runs the official [GHCopilotHoL](https://moaw.dev/workshop/gh:Philess/GHCopilotHoL/main/docs/) lab on attendee forks of [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo), then adds Levels 7 to 9 and an advanced **Deeper primitives** page from this repository. AI SDLC with Github Copilot and HVE Core switches to the Music Catalog template in this repository.
 
 ## GitHub Copilot Zero to Hero (240 min)
 
@@ -50,7 +50,7 @@ Use this variant when most attendees already use agent mode daily. Send upstream
 
 In the recap, walk the autonomy ladder explicitly and point out that the upstream lab reaches Copilot cloud agent (Level 6) before Copilot CLI (Level 8). Ask the room which controls from the Deeper primitives page they would need before letting the cloud agent work on their own repositories.
 
-## The SDLC Workshop (255 min, estimated)
+## AI SDLC with Github Copilot and HVE Core (255 min, estimated)
 
 | Start | Block | Minutes | Checkpoint | If late |
 | --- | --- | --- | --- | --- |

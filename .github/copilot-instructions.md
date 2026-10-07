@@ -1,6 +1,6 @@
 # Music Catalog — repository instructions for GitHub Copilot
 
-This repository is a small mono-repo used in the *Agentic SDLC with GitHub Copilot* workshop.
+This repository is a small mono-repo used in the *AI SDLC with Github Copilot and HVE Core* workshop.
 
 ## Layout
 

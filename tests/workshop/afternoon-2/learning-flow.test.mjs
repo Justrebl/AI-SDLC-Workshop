@@ -19,14 +19,14 @@ const powerShell = ['pwsh', 'powershell'].find((shell) => (
 ));
 
 test('SDLC display metadata agrees while the fundamentals lab retains its own identity', () => {
-  assert.match(guide, /^title: 'The SDLC Workshop'$/m);
-  assert.match(guide, /^short_title: The SDLC Workshop$/m);
-  assert.match(guide, /^sections_title:\n  - 'The SDLC Workshop'$/m);
-  assert.match(guide, /^# The SDLC Workshop$/m);
+  assert.match(guide, /^title: 'AI SDLC with Github Copilot and HVE Core'$/m);
+  assert.match(guide, /^short_title: AI SDLC with Github Copilot and HVE Core$/m);
+  assert.match(guide, /^sections_title:\n  - 'AI SDLC with Github Copilot and HVE Core'$/m);
+  assert.match(guide, /^# AI SDLC with Github Copilot and HVE Core$/m);
   const readme = read('../../../README.md');
   assert.match(readme, /^## GitHub Copilot Zero to Hero$/m);
-  assert.match(readme, /^## The SDLC Workshop$/m);
-  assert.match(readme, /\.NET 8 \(GitHub Copilot Zero to Hero\) and \.NET 10 \(the SDLC Workshop\)/);
+  assert.match(readme, /^## AI SDLC with Github Copilot and HVE Core$/m);
+  assert.match(readme, /\.NET 8 \(GitHub Copilot Zero to Hero\) and \.NET 10 \(the AI SDLC workshop\)/);
   for (const text of [guide, readme, tutor]) {
     assert.doesNotMatch(text, /\bafternoons?\b(?!-[12])/i);
   }
@@ -253,14 +253,14 @@ test('Level 5a establishes verification before the reviewed 5b delegation handof
   assert.doesNotMatch(runner, /gh pr merge.*--admin|gh pr merge.*--force/);
   assert.match(read('./README.md'), /Stage 5b setup PR and dependent delegation steps/);
 
-  const afternoon2Schedule = tutor.slice(tutor.indexOf('## The SDLC Workshop'),
+  const afternoon2Schedule = tutor.slice(tutor.indexOf('## AI SDLC with Github Copilot and HVE Core'),
     tutor.indexOf('### Level 4 proctor flow'));
   assert.match(afternoon2Schedule, /^\| 2:50 \| Level 5a Verification as contract \| 20 \|/m);
   assert.match(afternoon2Schedule, /^\| 3:10 \| Level 5b Backlog and delegation \| 30 \|/m);
   assert.match(read('../../../README.md'),
-    /\*\*Verification as contract\*\*.*the SDLC Workshop, Levels 5a and 6/);
+    /\*\*Verification as contract\*\*.*the AI SDLC workshop, Levels 5a and 6/);
   assert.match(read('../../../README.md'),
-    /\*\*Agentic threat model\*\*.*the SDLC Workshop, Levels 5b and 6/);
+    /\*\*Agentic threat model\*\*.*the AI SDLC workshop, Levels 5b and 6/);
 });
 
 test('the required path works with optional context closed', () => {

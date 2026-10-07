@@ -114,14 +114,14 @@ These can run from the volunteer's machine, or be handed to the network team.
 
 - [ ] Is there TLS inspection or a proxy? If yes, note it as a gap.
 
-## 11. Code security (optional, the SDLC Workshop Level 6)
+## 11. Code security (optional, the AI SDLC workshop Level 6)
 
 Organization → **Settings → Advanced Security**
 
 - [ ] **GitHub Secret Protection** can be enabled on the attendees' private repositories. If not, the facilitator demos push protection instead. Note the decision.
 - [ ] Repository administrators can enable Secret Protection, push protection and custom patterns. Enterprise or organization settings may lock them.
 
-## 12. Extended role tracks (optional, the SDLC Workshop)
+## 12. Extended role tracks (optional, the AI SDLC workshop)
 
 Decide which extended tracks run hands-on, run as a demo, or are skipped. See the [tutor guide](tutor.md#extended-tracks-outside-the-240-minutes).
 

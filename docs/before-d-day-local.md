@@ -3,7 +3,7 @@
 Use this checklist if your organization chose to **install the tools directly** on attendee machines, without Codespaces or containers:
 
 - **GitHub Copilot Zero to Hero**
-- **The SDLC Workshop**
+- **AI SDLC with Github Copilot and HVE Core**
 
 This is the fallback when neither Codespaces nor containers are allowed. Every attendee must install and verify the same tool versions, so start at **D-7** and allow time for software requests to your IT team.
 
@@ -20,9 +20,9 @@ Enterprise policies take precedence over organization policies. Details: [prereq
 - [ ] A **Copilot Business or Enterprise** seat is assigned to every attendee.
 - [ ] **Copilot in the CLI** is enabled.
 - [ ] The **Copilot cloud agent** is enabled and allowed on the attendees' repositories.
-- [ ] **Copilot code review** is enabled in the Copilot policies (the SDLC Workshop, Level 6).
-- [ ] Optional: **GitHub Secret Protection** can be enabled on the attendees' private repositories for the push protection exercise (the SDLC Workshop, Level 6). Otherwise the facilitator demos it.
-- [ ] Optional, extended role tracks (the SDLC Workshop): the MCP servers policy allows the GitHub MCP server for the Product Manager track. The PAT policy allows a fine-grained PAT for the facilitator's security delegation demo. See [prerequisites, section 7](prerequisites.md#7-organization-and-enterprise-settings-admin).
+- [ ] **Copilot code review** is enabled in the Copilot policies (the AI SDLC workshop, Level 6).
+- [ ] Optional: **GitHub Secret Protection** can be enabled on the attendees' private repositories for the push protection exercise (the AI SDLC workshop, Level 6). Otherwise the facilitator demos it.
+- [ ] Optional, extended role tracks (the AI SDLC workshop): the MCP servers policy allows the GitHub MCP server for the Product Manager track. The PAT policy allows a fine-grained PAT for the facilitator's security delegation demo. See [prerequisites, section 7](prerequisites.md#7-organization-and-enterprise-settings-admin).
 - [ ] The **models** you plan to demonstrate are enabled. Auto model selection only picks from allowed models.
 - [ ] **MCP servers** are allowed in Copilot.
 - [ ] **Plugins and marketplaces** allow `microsoft/hve-core` and a repository marketplace.
@@ -34,7 +34,7 @@ Enterprise policies take precedence over organization policies. Details: [prereq
 
 **Repositories and Actions**
 
-- [ ] Members can **fork public repositories** (GitHub Copilot Zero to Hero) and **create private repositories from a template** (the SDLC Workshop).
+- [ ] Members can **fork public repositories** (GitHub Copilot Zero to Hero) and **create private repositories from a template** (the AI SDLC workshop).
 - [ ] **GitHub Actions** is enabled on attendee repositories, and the allowed actions include `actions/*` and `github/gh-aw-actions/*`.
 - [ ] Workflows can create issues and comments (gh-aw safe outputs).
 
@@ -64,13 +64,13 @@ Codespaces and container registry endpoints are **not** needed for this setup. T
 2. **VS Code.**
    - [ ] Install [VS Code](https://code.visualstudio.com/download), [GitHub Copilot Chat](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat) and [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit).
    - [ ] Sign in with the **same** GitHub account that holds the Copilot seat, then send `Say hello` in the Chat view.
-3. **Tools.** The SDLC Workshop needs every row. GitHub Copilot Zero to Hero needs only the rows marked **A1**.
+3. **Tools.** AI SDLC with Github Copilot and HVE Core needs every row. GitHub Copilot Zero to Hero needs only the rows marked **A1**.
 
    | Tool | Version | Workshop | Install | Check |
    | --- | --- | --- | --- | --- |
    | Git | 2.40 or later | A1, A2 | [git-scm.com](https://git-scm.com/downloads) | `git --version` |
    | Node.js | 22 LTS | A1, A2 | [nodejs.org](https://nodejs.org/) | `node --version` |
-   | .NET SDK | 8.x for GitHub Copilot Zero to Hero (`albums-api`) and 10.x for the SDLC Workshop; both can be installed side by side | A1, A2 | [dotnet.microsoft.com](https://dotnet.microsoft.com/download) | `dotnet --version` |
+   | .NET SDK | 8.x for GitHub Copilot Zero to Hero (`albums-api`) and 10.x for the AI SDLC workshop; both can be installed side by side | A1, A2 | [dotnet.microsoft.com](https://dotnet.microsoft.com/download) | `dotnet --version` |
    | GitHub CLI | Latest | A1, A2 | [cli.github.com](https://cli.github.com/) | `gh --version` |
    | GitHub Copilot CLI | Latest | A1, A2 | `npm install -g @github/copilot` ([docs](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli)) | `copilot --version` |
    | APM CLI | Latest | A2 | [APM installation](https://microsoft.github.io/apm/getting-started/installation/) | `apm --version` |
@@ -80,7 +80,7 @@ Codespaces and container registry endpoints are **not** needed for this setup. T
 
    ```bash
    gh auth login                       # GitHub.com, HTTPS, browser
-   gh auth refresh --scopes workflow   # the SDLC Workshop: needed to push workflow files
+   gh auth refresh --scopes workflow   # the AI SDLC workshop: needed to push workflow files
    gh auth setup-git
    copilot                             # then /login, complete the device flow, and /exit
    ```
@@ -104,7 +104,7 @@ Codespaces and container registry endpoints are **not** needed for this setup. T
 
   Open `http://localhost:3001` and check that albums are listed.
 - [ ] **GitHub Copilot Zero to Hero:** in the fork, **Settings → Copilot → Cloud agent** is available (used in Level 6). If it is not, ask the organization owner (see D-7).
-- [ ] **The SDLC Workshop:** **Use this template → Create a new repository** (private) from [Justrebl/AI-SDLC-Workshop](https://github.com/Justrebl/AI-SDLC-Workshop), clone it, and run:
+- [ ] **AI SDLC with Github Copilot and HVE Core:** **Use this template → Create a new repository** (private) from [Justrebl/AI-SDLC-Workshop](https://github.com/Justrebl/AI-SDLC-Workshop), clone it, and run:
 
   ```bash
   dotnet test
@@ -114,7 +114,7 @@ Codespaces and container registry endpoints are **not** needed for this setup. T
   ```
 
 - [ ] Every command in step 3 of D-7 still prints a version.
-- [ ] `gh auth status` shows the `workflow` scope (the SDLC Workshop).
+- [ ] `gh auth status` shows the `workflow` scope (the AI SDLC workshop).
 
 ## If something fails
 

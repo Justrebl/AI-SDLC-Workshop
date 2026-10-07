@@ -1,4 +1,4 @@
-# The SDLC Workshop reference outputs for the extended tracks
+# AI SDLC with Github Copilot and HVE Core reference outputs for the extended tracks
 
 These files show what good output from the HVE-Core role agents looks like for the Music Catalog playlist slice. Facilitators can use them for demos, as a fallback when an agent run fails, or to compare with attendee output.
 

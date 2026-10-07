@@ -9,7 +9,7 @@ informed: Workshop participants
 # Keep the playlist state in memory
 
 > [!NOTE]
-> Reference output for the SDLC Workshop Tech Lead extension. Written by hand in the MADR format that ADR Creator follows. A real run produces different wording.
+> Reference output for the AI SDLC workshop Tech Lead extension. Written by hand in the MADR format that ADR Creator follows. A real run produces different wording.
 
 ## Context and Problem Statement
 
