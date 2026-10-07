@@ -65,7 +65,7 @@ test('all lab commits use scoped HVE requests while clean-tree and approval chec
     assert.match(body, /tracking/);
   }
   const checkpoint = guide.slice(guide.indexOf('### Step 3: Commit implementation checkpoint'),
-    guide.indexOf('## Review phase'));
+    guide.indexOf('## Tech Lead extension'));
   assert.match(checkpoint, /inventories pending paths before asking you/);
   assert.doesNotMatch(checkpoint, /```text\n(?!\/hve-core:git-commit\.prompt)/);
   assert.match(checkpoint, /already committed[\s\S]*?without creating[\s\S]*?empty commit/);

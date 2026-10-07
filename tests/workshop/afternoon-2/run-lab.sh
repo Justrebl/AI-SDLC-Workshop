@@ -48,6 +48,7 @@ push_fallback() {
 
 cd "$REPO_DIR" || exit 1
 : "${SANDBOX_REPO:?SANDBOX_REPO is required}"
+prepare_results_directory || exit 1
 git config user.name >/dev/null || git config user.name "Workshop Tester"
 git config user.email >/dev/null || git config user.email "workshop-tester@users.noreply.github.com"
 
@@ -82,6 +83,9 @@ step pre-clean-tree preflight "Sandbox translation: readiness inspection" transl
 tree_clean_check
 finish_step
 
+skip_step pre-starter-preview preflight "Optional starter UI observation" \
+  "the new optional browser preview is a human observation, not a source-only pass"
+
 # ---------------------------------------------------------------- Level 1
 step l1-marketplace-add "Level 1" "Register the HVE-Core marketplace" literal 300 \
   'copilot plugin marketplace add microsoft/hve-core'
@@ -98,6 +102,9 @@ log_has 'hve-core' && check "hve-core plugin listed" true || check "hve-core plu
 finish_step
 
 skip_step l1-vscode "Level 1" "VS Code alternative (ise-hve-essentials.hve-core)" "VS Code UI fallback, not executable headless"
+
+skip_step l1-method-contrast "Level 1" "Compare ordinary assistance with the HVE method" \
+  "actual agent selection and learner observations are not simulated; extracted hve-method-contrast prompt remains a human exercise"
 
 step l1-git-status "Level 1" "Sandbox translation: clean-tree inspection" translated 30 'git status'
 tree_clean_check
@@ -218,7 +225,9 @@ finish_step
 [ "$STEP_FAILED" -eq 0 ] || exit 1
 
 implementation_base=$(git rev-parse HEAD) || exit 1
-copilot_prompt l3-implement "Level 3" "RPI implement command and task" rpi-implement 3600 "--continue --agent hve-core:rpi-agent"
+skip_step l3-context-reset "Level 3" "Clear context and reselect RPI Agent" \
+  "interactive /clear and re-selection are translated by a fresh Implement invocation with the bound plan and no continuation flags"
+copilot_prompt l3-implement "Level 3" "RPI implement command and task" rpi-implement 3600 "--agent hve-core:rpi-agent"
 if RPI_CHANGES_PATH=$(resolve_rpi_artifact changes "$RESULTS_DIR/steps/$STEP_ID.log" "$RPI_TASK_SLUG"); then
   export RPI_CHANGES_PATH
   check "changes record belongs to the approved plan" true "$RPI_CHANGES_PATH"
@@ -233,8 +242,11 @@ else
 fi
 grep -rqs 'Your playlist is empty. Add a track to get started.' src/front/src \
   && check "exact empty-state text present in src/front/src" true || check "exact empty-state text present in src/front/src" false
+[ "$(git rev-parse HEAD)" = "$implementation_base" ] \
+  && check "implementation leaves commits for the reviewed checkpoint" true \
+  || check "implementation leaves commits for the reviewed checkpoint" false "unexpected commit; stop without resetting work"
 finish_step
-[ "$STEP_CODE" -eq 0 ] && [ -n "$RPI_CHANGES_PATH" ] || exit 1
+[ "$STEP_FAILED" -eq 0 ] && [ -n "$RPI_CHANGES_PATH" ] || exit 1
 
 step l3-dotnet-test "Level 3" "Validate API tests" literal 900 'dotnet test'
 log_has 'Passed!|passed' && check "dotnet test reports passing tests" true || check "dotnet test reports passing tests" false
@@ -274,27 +286,23 @@ finish_step
 [ "$STEP_FAILED" -eq 0 ] || exit 1
 pkill -f 'dotnet run' 2>/dev/null; pkill -f 'vite' 2>/dev/null
 
-skip_step l3-hve-commit "Level 3" "HVE implementation commit prompt" \
-  "human path selection/staged-set confirmation skipped; deterministic sandbox checkpoint preserves clean-tree and already-committed cases"
-export -f commit_checkpoint
-step l3-implement-commit "Level 3" "Sandbox translation: implementation checkpoint" translated 60 \
-  'commit_checkpoint "Implement playlist slice with RPI"'
-tree_clean_check
-[ -z "$(git ls-files .copilot-tracking)" ] && check "no tracking file committed" true \
-  || check "no tracking file committed" false "$(git ls-files .copilot-tracking | head -n 10)"
-finish_step
-[ "$STEP_FAILED" -eq 0 ] || exit 1
-
 review_base=$(git rev-parse HEAD) || exit 1
+before_review=$(repository_review_snapshot) || exit 1
 copilot_prompt l3-review "Level 3" "RPI review command and task" rpi-review 2400 "--continue --agent hve-core:rpi-agent"
 if review_path=$(resolve_rpi_artifact review "$RESULTS_DIR/steps/$STEP_ID.log" "$RPI_TASK_SLUG"); then
   check "review belongs to the implemented task" true "$review_path"
 else
   check "review belongs to the implemented task" false "missing, ambiguous, or unreadable artifact"
 fi
-log_has 'Conformant|Defects found|Residual work|Not accepted' \
-  && check "review reports an acceptance outcome" true || check "review reports an acceptance outcome" false
-tree_clean_check
+if [ -n "$review_path" ] && review_acceptance "$review_path"; then
+  check "review has completed conformant parent decisions" true
+else
+  check "review has completed conformant parent decisions" false "missing, ambiguous, pending or nonconformant canonical decision; checkpoint/publication blocked"
+fi
+after_review=$(repository_review_snapshot) || exit 1
+[ "$before_review" = "$after_review" ] \
+  && check "review preserves dirty or clean repository content and index" true \
+  || check "review preserves dirty or clean repository content and index" false "source, public docs, untracked content, index or HEAD changed"
 [ "$(git rev-parse HEAD)" = "$review_base" ] \
   && check "review does not create source commits" true || check "review does not create source commits" false
 finish_step
@@ -304,6 +312,17 @@ step l3-review-dotnet "Level 3" "Validate after review: dotnet test" literal 900
 finish_step
 [ "$STEP_FAILED" -eq 0 ] || exit 1
 step l3-review-npm "Level 3" "Validate after review: npm test" translated 600 'cd src/front && npm test'
+finish_step
+[ "$STEP_FAILED" -eq 0 ] || exit 1
+
+skip_step l3-hve-commit "Level 3" "HVE implementation commit prompt" \
+  "human path selection/staged-set confirmation skipped; deterministic checkpoint runs only after conformant read-only Review"
+export -f commit_checkpoint
+step l3-implement-commit "Level 3" "Sandbox translation: reviewed implementation checkpoint" translated 60 \
+  'commit_checkpoint "Implement playlist slice with RPI"'
+tree_clean_check
+[ -z "$(git ls-files .copilot-tracking)" ] && check "no tracking file committed" true \
+  || check "no tracking file committed" false "$(git ls-files .copilot-tracking | head -n 10)"
 finish_step
 [ "$STEP_FAILED" -eq 0 ] || exit 1
 

@@ -16,8 +16,7 @@ workflows, configure repository settings, or execute GitHub operations.
 
 **Decision date:** 2026-10-06.
 
-**Status:** Confirmed by the maintainer; Level 4 examples and Linux access
-prerequisites converted. Conversion of remaining existing lab examples is pending.
+**Status:** Confirmed by the maintainer; A2 command/path conversion and local owning replay checks are complete. Live delivery validation remains separate. A1 conversion and its prerequisite/replay alignment remain pending and outside this increment. Host-specific setup remains separate.
 
 Both participant labs show Linux commands only, using Bash shell syntax and
 Linux-style paths. Do not include PowerShell or Windows Command Prompt variants
@@ -33,6 +32,8 @@ Workshop Creator owns this authoring constraint and passes it to subsequent
 handoffs. The next RPI plan must account for existing command examples,
 prerequisites, and replay checks; recording this decision does not mean those
 surfaces have been converted.
+
+**Continuity (2026-10-07):** the maintainer authorized reconstruction of a missing private Workshop Creator blueprint from current repository evidence. Historical approvals remain unverified. The agent accepts an explicitly supplied trusted private blueprint pointer and carries it through actual Research, Plan, Implement, Review and return handoffs; no personal path or raw blueprint is committed here.
 
 ## Audience, timebox, and teaching approach
 

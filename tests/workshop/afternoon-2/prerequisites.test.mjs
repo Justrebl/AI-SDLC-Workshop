@@ -163,8 +163,9 @@ test('lab runner checks prerequisite readiness without creating a baseline commi
 test('DT prompts allow local tracking notes but preserve the implementation boundary', () => {
   const start = workshop.slice(workshop.indexOf('/hve-core:dt-start-project.prompt\n'),
     workshop.indexOf('## Extended track: Product Manager'));
-  assert.match(start, /sample all nine HVE Design Thinking methods within a 10–15 minute/);
-  assert.match(start, /Now follow the chat for the next 10 minutes/);
+  assert.match(start, /sample the nine HVE Design Thinking methods in a short learning exercise/);
+  assert.match(start, /Now follow the chat/);
+  assert.doesNotMatch(start, /\d+[–-]\d+ minute|next \d+ minutes/);
   assert.match(start, /the conversation is the exercise/);
   assert.match(start, /Keep working notes under \.copilot-tracking\/ only/);
   assert.match(start, /application code, tests, and published documentation stay unchanged/);
@@ -177,12 +178,13 @@ test('DT prompts allow local tracking notes but preserve the implementation boun
 
 test('DT sampler permits exploration and keeps its shortcuts distinct from implementation', () => {
   const dt = workshop.slice(workshop.indexOf('# Level 2:'), workshop.indexOf('## Extended track: Product Manager'));
-  const sampler = dt.slice(dt.indexOf('### Step 3: Start a learner-led nine-method sampler'),
+  const sampler = dt.slice(dt.indexOf('### Step 2: Start a learner-led nine-method sampler'),
     dt.indexOf('## Debrief and hand off to the shared implementation slice'));
   const boundary = sampler.indexOf('application code, tests, and published documentation stay unchanged');
-  const activities = sampler.indexOf('#### Experiment, challenge, and move between methods');
+  const activities = sampler.indexOf('Nine-method sampler reference: small activities and evidence limits');
+  const firstPrompt = sampler.indexOf('/hve-core:dt-start-project.prompt');
   const criteria = sampler.indexOf('Success Criteria:');
-  assert.ok(boundary >= 0 && activities > boundary && criteria > activities);
+  assert.ok(activities >= 0 && firstPrompt > activities && boundary > firstPrompt && criteria > boundary);
   assert.ok(sampler.indexOf('/hve-core:dt-method-next.prompt') < criteria);
   assert.ok(sampler.indexOf('data-title="Workshop simulation"') < criteria);
   const nextMethod = sampler.indexOf('/hve-core:dt-method-next.prompt');
@@ -195,7 +197,7 @@ test('DT sampler permits exploration and keeps its shortcuts distinct from imple
     'Scope Conversations', 'Design Research', 'Input Synthesis', 'Brainstorming', 'User Concepts',
     'Low-Fidelity Prototypes', 'High-Fidelity Prototypes', 'User Testing', 'Iteration at Scale',
   ]) assert.ok(dt.includes(method), method);
-  assert.match(dt, /Start with a user problem, not a prescribed feature/);
+  assert.match(dt, /Explore a listener's situation with DT Coach/);
   assert.match(dt, /These shortcuts do not satisfy the full methods' evidence gates/);
   assert.match(dt, /not a result that your DT session must produce or validate/);
   assert.match(dt, /HTTP 409/);
@@ -279,15 +281,16 @@ test('tester extracts the exploration and implementation handoff separately', ()
     }
     assert.doesNotMatch(runner, /copilot_prompt l3-(research|plan|implement|review)-command|l2-dt-brief/);
     assert.equal(brief.trim().split('\n').length, 3);
-    assert.match(brief, /10–15 minute learning exercise/);
+    assert.match(brief, /short learning exercise/);
     assert.doesNotMatch(start, /POST \/api\/playlist\/tracks/);
     assert.match(summary, /shared playlist delivery contract in docs\/afternoon-2\/workshop\.md/);
     assert.doesNotMatch(summary, /exactly six bullets|POST \/api\/playlist/);
     assert.match(readFileSync(join(output, 'dt-record.txt'), 'utf8'), /Use author mode/);
     const adr = readFileSync(join(output, 'adr-author.txt'), 'utf8').trim();
-    assert.equal(adr.split('\n').length, 1);
-    assert.match(adr, /^\/hve-core:adr-author Create the Music Catalog playlist storage ADR;/);
-    assert.equal(adr, workshop.match(/```text\n(\/hve-core:adr-author[^\n]+)\n```/)?.[1]);
+    assert.match(adr, /^\/hve-core:adr-author\n\nCreate the Music Catalog playlist storage ADR in capture mode/);
+    assert.equal(adr, workshop.match(/```text\n(\/hve-core:adr-author[\s\S]*?)\n```/)?.[1]);
+    assert.doesNotMatch(adr, /decision: Option A|target status: accepted|decision-makers:/);
+    assert.match(readFileSync(join(output, 'hve-method-contrast.txt'), 'utf8'), /Do not start a project, edit files, run commands/);
     const dtExample = readFileSync(join(output, 'dt-example-01.txt'), 'utf8');
     const brdExample = readFileSync(join(output, 'brd-example-06.txt'), 'utf8');
     assert.match(dtExample, /tech-savvy hi-fi enthusiasts/);
@@ -356,7 +359,8 @@ test('RPI prompts consume the reviewed requirements and preceding artifacts inst
   assert.match(research, /Do not change application files/);
   assert.match(plan, /<research-path>/);
   assert.match(plan, /options and their trade-offs so I can decide/);
-  assert.equal(implement, 'Implement the approved plan at <plan-path>.');
+  assert.match(implement, /^Implement the approved plan at <plan-path>\./);
+  assert.match(implement, /Do not commit application changes/);
   assert.match(review, /<plan-path>.*<changes-path>/);
   assert.doesNotMatch(review, /make fixes|deferred finding|dotnet test|npm test/);
   assert.match(level3, /small, well-understood change may need only a direct coding request/i);
@@ -400,6 +404,8 @@ test('playlist POST fixtures preserve the catalog id type and use an unknown num
 });
 
 test('the RPI tester uses returned same-task artifacts and keeps Review read-only', () => {
+  assert.ok(runner.indexOf(': "${SANDBOX_REPO:?') < runner.indexOf('prepare_results_directory || exit 1'),
+    'sandbox context is required before private Git exclusion is prepared');
   const rpi = runner.slice(runner.indexOf('# ---------------------------------------------------------------- Level 3'),
     runner.indexOf('# ---------------------------------------------------------------- Level 4'));
   assert.match(rpi, /resolve_rpi_artifact research/);
@@ -409,6 +415,15 @@ test('the RPI tester uses returned same-task artifacts and keeps Review read-onl
   assert.match(rpi, /grep -qi 'dotnet test' "\$RPI_PLAN_PATH"/);
   assert.doesNotMatch(rpi, /research mentions|review returns a pass\/fail summary|Review playlist slice/);
   assert.match(rpi, /review does not create source commits/);
+  const implementation = rpi.match(/^copilot_prompt l3-implement .+$/m)?.[0];
+  assert.ok(implementation);
+  assert.doesNotMatch(implementation, /--continue|--resume/);
+  assert.match(rpi, /before_review=\$\(repository_review_snapshot\)/);
+  assert.match(rpi, /after_review=\$\(repository_review_snapshot\)/);
+  assert.match(rpi, /review_acceptance "\$review_path"/);
+  assert.ok(rpi.indexOf('copilot_prompt l3-review') < rpi.indexOf('step l3-implement-commit'));
+  assert.ok(level3.indexOf('/clear') < level3.indexOf('### Step 1: Ask RPI to implement'));
+  assert.ok(level3.indexOf('## Review phase') < level3.indexOf('### Step 3: Commit implementation checkpoint'));
   const backlogFinding = workshop.slice(workshop.indexOf('### Step 5: Turn a deferred review finding into an issue'),
     workshop.indexOf('### Step 6: Run daily backlog'));
   assert.match(backlogFinding, /If the review was clean, skip this step/);
@@ -417,13 +432,20 @@ test('the RPI tester uses returned same-task artifacts and keeps Review read-onl
   assert.doesNotMatch(runner, /two synthetic review-finding issues|at least three open issues/);
 });
 
-test('ADR authoring prefills the captured choices in one line without bypassing native gates', () => {
+test('ADR authoring leaves the visible capture decision open and isolates historical choices', () => {
   const adr = level3.slice(level3.indexOf('### Step 1: Record the in-memory decision as an ADR'),
     level3.indexOf('### Step 2: Review the change with the Code Review agent'));
   assert.match(adr, /repository-root Copilot session/);
   assert.match(adr, /type `\/adr-author`.*press \*\*Tab\*\*/);
-  const request = adr.match(/```text\n(\/hve-core:adr-author[^\n]+)\n```/)?.[1];
-  assert.ok(request, 'one-line native ADR request');
+  const request = adr.match(/```text\n(\/hve-core:adr-author[\s\S]*?)\n```/)?.[1];
+  assert.ok(request, 'open native ADR request');
+  assert.match(request, /capture mode.*<plan-path>/);
+  assert.match(request, /Use madr-v4/);
+  assert.doesNotMatch(request, /decision:|decision-makers:|ASR triggers:|target status:|effort:|backlog target:/);
+  assert.match(adr, /choose an option and give your rationale/);
+  assert.match(adr, /Do not select accepted status or authorize persistence until the native gates/);
+  const captured = adr.split('<summary>Captured ADR request: historical choices, not approval</summary>')[1]?.split('</details>')[0];
+  assert.ok(captured);
   for (const choice of [
     'entry mode: from-planner-handoff', 'slug: music-catalog-playlist',
     'output template: madr-v4', 'handoff payload: <plan-path>', 'decision-makers: TPM',
@@ -432,13 +454,11 @@ test('ADR authoring prefills the captured choices in one line without bypassing 
     'decision: Option A (host-owned lock-protected in-memory store)',
     'autonomy tier: partial', 'target status: accepted', 'effort: S',
     'backlog target: GitHub work items',
-  ]) assert.ok(request.includes(choice), choice);
+  ]) assert.ok(captured.includes(choice), choice);
   assert.match(adr, /does not replace the agent selection/);
   assert.doesNotMatch(adr, /\/hve-code:|\/adr-creator/);
   assert.match(adr, /exact reviewed plan path returned in Level 3/);
-  assert.match(adr, /actual visibility.*`private`.*`public`/);
   assert.doesNotMatch(request, /2026-10-05|repo visibility: public/);
-  assert.match(adr, /Confirm or revise them.*reviewed plan/);
   assert.match(adr, /not an approval shortcut/);
   assert.match(adr, /approval before external writes or handoff persistence/);
   assert.match(adr, /https:\/\/microsoft\.github\.io\/hve-core\/docs\/reference\/agents\/project-planning\/adr-creation\//);
@@ -494,7 +514,7 @@ test('extraction rejects a command-only HVE invocation', () => {
     const source = join(output, 'workshop.md');
     const fixtures = [
       workshop.replace(/(```text\n\/hve-core:rpi-plan)\n[\s\S]*?\n```/, '$1\n```'),
-      workshop.replace(/(```text\n\/hve-core:adr-author)[^\n]*\n```/, '$1 \t\n```'),
+      workshop.replace(/(```text\n\/hve-core:adr-author)[\s\S]*?\n```/, '$1 \t\n```'),
     ];
     for (const fixture of fixtures) {
       writeFileSync(source, fixture);
@@ -540,7 +560,9 @@ test('interactive agent changes provide direct CLI commands alongside VS Code se
     'backlog-manager', 'rpi-agent', 'adr-creation', 'code-review',
   ]) assert.ok(workshop.includes(`/agent ${name}`), name);
   assert.match(workshop, /direct name is not recognized/);
-  assert.match(workshop, /select \*\*Meeting Analyst\*\* in the VS Code agent picker/);
+  assert.equal(workshop.split('### Selecting a specialist in CLI or VS Code').length - 1, 1);
+  assert.match(workshop, /Select \*\*Meeting Analyst\*\* using the \[shared selection procedure\]/i);
+  assert.match(workshop, /\*\*VS Code Chat:\*\* choose the named specialist in the agent picker/);
   assert.doesNotMatch(workshop, /^Select \*\*(BRD Builder|DT Coach|Code Review|ADR Creator|Backlog Manager|Functional Planner)\*\*\./m);
 });
 

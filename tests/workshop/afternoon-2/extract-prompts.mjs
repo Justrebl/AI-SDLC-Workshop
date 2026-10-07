@@ -41,6 +41,7 @@ for (const block of blocks.filter((b) => b.body.startsWith('/hve-core:'))) {
 }
 
 const wanted = {
+  'hve-method-contrast': byFirstLine('Before changing Music Catalog, what listener context'),
   'dt-start': byFirstLine('/hve-core:dt-start-project.prompt'),
   'dt-method-next': byFirstLine('/hve-core:dt-method-next.prompt'),
   'dt-summary': byFirstLine('Summarize the final decisions'),

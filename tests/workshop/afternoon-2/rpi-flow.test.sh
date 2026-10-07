@@ -109,3 +109,133 @@ equal "${#args[@]}" 8
 equal "${args[6]}" GET
 equal "${args[7]}" https://example.invalid/api/tracks
 echo "pass: GET behavior is unchanged"
+
+mkdir "$FIXTURE_ROOT/review-workspace"
+cd "$FIXTURE_ROOT/review-workspace"
+git init -q
+git config user.name "Workshop fixture"
+git config user.email "fixture@example.invalid"
+mkdir -p src/api docs .copilot-tracking/reviews
+printf 'baseline\n' > src/api/source.txt
+printf '.copilot-tracking/\n' > .gitignore
+git add src .gitignore
+git commit -qm "Fixture baseline"
+clean_snapshot=$(repository_review_snapshot)
+equal "$(repository_review_snapshot)" "$clean_snapshot"
+printf 'implementation\n' >> src/api/source.txt
+printf 'new test\n' > untracked-test.txt
+dirty_snapshot=$(repository_review_snapshot)
+[ "$dirty_snapshot" != "$clean_snapshot" ]
+equal "$(repository_review_snapshot)" "$dirty_snapshot"
+printf 'private review\n' > .copilot-tracking/reviews/review.md
+equal "$(repository_review_snapshot)" "$dirty_snapshot"
+echo "pass: stable clean/dirty trees include untracked content but permit private review output"
+
+printf 'mutated\n' >> src/api/source.txt
+[ "$(repository_review_snapshot)" != "$dirty_snapshot" ]
+printf 'implementation\n' > src/api/source.txt
+before_untracked=$(repository_review_snapshot)
+printf 'mutated test\n' >> untracked-test.txt
+[ "$(repository_review_snapshot)" != "$before_untracked" ]
+before_docs=$(repository_review_snapshot)
+printf 'unexpected public write\n' > docs/review-result.md
+[ "$(repository_review_snapshot)" != "$before_docs" ]
+echo "pass: Review mutations to tracked source, untracked tests and public docs are detected"
+
+before_index=$(repository_review_snapshot)
+git add src/api/source.txt
+[ "$(repository_review_snapshot)" != "$before_index" ]
+before_head=$(repository_review_snapshot)
+git commit -qm "Unexpected review commit"
+[ "$(repository_review_snapshot)" != "$before_head" ]
+echo "pass: index and HEAD changes cannot hide behind a clean working tree"
+
+external_results=$RESULTS_DIR
+external_snapshot=$(repository_review_snapshot)
+mkdir -p "private results[1]/prompts" "private results[1]/usage" "private results[1]/sessions"
+RESULTS_DIR="$PWD/private results[1]"
+printf 'result\n' > "$RESULTS_DIR/results.jsonl"
+printf 'resolved request\n' > "$RESULTS_DIR/prompts/review.txt"
+printf '{}\n' > "$RESULTS_DIR/usage/review.json"
+printf 'transcript\n' > "$RESULTS_DIR/sessions/review.md"
+equal "$(repository_review_snapshot)" "$external_snapshot"
+prepare_results_directory
+prepare_results_directory
+git check-ignore -- "private results[1]/results.jsonl" >/dev/null
+mkdir "private results1"
+printf 'public sibling\n' > "private results1/source.txt"
+reject git check-ignore -- "private results1/source.txt"
+before_sibling=$(repository_review_snapshot)
+printf 'changed\n' >> "private results1/source.txt"
+[ "$(repository_review_snapshot)" != "$before_sibling" ]
+RESULTS_DIR="./private results[1]"
+equal "$(repository_review_snapshot)" "$(RESULTS_DIR="$PWD/private results[1]" repository_review_snapshot)"
+git add -A
+reject git ls-files --error-unmatch -- ':(literal)private results[1]/results.jsonl'
+git add -f -- ':(literal)private results[1]/results.jsonl'
+reject validated_results_subtree
+git restore --staged -- ':(literal)private results[1]/results.jsonl'
+RESULTS_DIR=$(node -p 'require("node:path").parse(process.cwd()).root')
+reject validated_results_subtree
+RESULTS_DIR="$PWD"
+reject validated_results_subtree
+RESULTS_DIR="$PWD/.git"
+reject validated_results_subtree
+RESULTS_DIR="$PWD/src/api"
+reject validated_results_subtree
+RESULTS_DIR=$external_results
+prepare_results_directory
+echo "pass: private internal/external results stay out of snapshots and staging; unsafe roots reject and public siblings remain visible"
+
+if ln -s missing-one broken-link 2>"$FIXTURE_ROOT/symlink-error.log"; then
+  before_link=$(repository_review_snapshot)
+  rm broken-link
+  ln -s missing-two broken-link
+  [ "$(repository_review_snapshot)" != "$before_link" ]
+  echo "pass: broken symlink targets are compared without reading external content"
+else
+  case "$(uname -s)" in
+    MINGW*|MSYS*) echo "skip: Windows host cannot create the broken-symlink fixture; run it on Linux" ;;
+    *) cat "$FIXTURE_ROOT/symlink-error.log" >&2; exit 1 ;;
+  esac
+fi
+
+cat > canonical-review.md <<'EOF'
+## Executive Summary
+Assessed outcome: Conformant.
+## Parent Decision Record
+### Current Disposition
+* Review execution: Complete
+* Final outcome: Conformant
+### Decision History
+Final decisions are recorded here.
+EOF
+review_acceptance canonical-review.md
+sed 's/Final outcome: Conformant/Final outcome: Conformant with justified divergence/' canonical-review.md > divergent-review.md
+review_acceptance divergent-review.md
+echo "pass: only the canonical parent's completed, conformant decision permits publication"
+
+sed 's/Final outcome: Conformant/Final outcome: pending/' canonical-review.md > pending-review.md
+reject review_acceptance pending-review.md
+sed 's/Final outcome: Conformant/Final outcome: Defects found/' canonical-review.md > defects-review.md
+reject review_acceptance defects-review.md
+sed 's/Review execution: Complete/Review execution: Partial/' canonical-review.md > partial-review.md
+reject review_acceptance partial-review.md
+echo "pass: pending decisions, implementation defects and partial review block the checkpoint"
+
+printf 'Conformant\n' > phrase-only.md
+reject review_acceptance phrase-only.md
+reject review_acceptance missing-review.md
+cat canonical-review.md canonical-review.md > ambiguous-review.md
+reject review_acceptance ambiguous-review.md
+for outcome in pending 'Defects found' Conformant; do
+  cp canonical-review.md duplicate-disposition.md
+  printf '\n### Current Disposition\n* Review execution: Complete\n* Final outcome: %s\n' \
+    "$outcome" >> duplicate-disposition.md
+  reject review_acceptance duplicate-disposition.md
+done
+sed '/Final outcome: Conformant/a * Final outcome: pending' canonical-review.md > duplicate-fields.md
+reject review_acceptance duplicate-fields.md
+sed '/Review execution: Complete/a * Review execution: Partial' canonical-review.md > duplicate-execution.md
+reject review_acceptance duplicate-execution.md
+echo "pass: success phrases, missing files and ambiguous parent records do not substitute for acceptance"

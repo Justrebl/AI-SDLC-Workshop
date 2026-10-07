@@ -1,7 +1,6 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { spawnSync } from 'node:child_process';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
@@ -80,7 +79,7 @@ test('conditional setup help is collapsed while primary commands and safety gate
   const help = blocks.map(match => match[2]).join('\n');
   for (const text of [
     'If your instructions refer to `/agents`', 'If DT Coach is missing',
-    '**VS Code Chat:**', 'If GitHub write tools are missing',
+    'If GitHub write tools are missing',
     'With a classic OAuth credential', 'If a command is missing',
   ]) assert.ok(help.includes(text), text);
   const visible = withoutDetails(workshop);
@@ -124,7 +123,7 @@ test('Level 2 presents the actual starter scenario and source layout before coac
   assert.match(read('src/front/src/App.tsx'), /fetch\('\/api\/hello'\)/);
   assert.match(read('src/front/vite.config.ts'), /proxy/);
   assert.match(visible, /Program\.cs.*API entry point/);
-  assert.match(visible, /src\\App\.tsx.*React screen/);
+  assert.match(visible, /src\/App\.tsx.*React screen/);
 });
 
 test('Workshop Creator loads the canonical local skill without changing its handoffs', () => {
@@ -133,11 +132,21 @@ test('Workshop Creator loads the canonical local skill without changing its hand
   assert.ok(existsSync(resolve(dirname(resolve(root, '.github/agents/workshop-creator.agent.md')), reference[1])));
   assert.match(creator, /activate `workshop-authoring`/);
   assert.match(creator, /If the skill cannot be loaded, stop content authoring/);
-  const baseline = spawnSync('git', ['show', 'HEAD:.github/agents/workshop-creator.agent.md'], {
-    cwd: root, encoding: 'utf8',
-  });
-  assert.equal(baseline.status, 0, baseline.stderr);
-  assert.equal(frontmatter(creator), frontmatter(baseline.stdout.replace(/\r\n/g, '\n')));
+  const metadata = frontmatter(creator);
+  assert.deepEqual([...metadata.matchAll(/^    agent: (.+)$/gm)].map(match => match[1]),
+    ['DT Coach', 'RPI Agent', 'RPI Agent', 'PowerPoint Builder', 'Workshop Creator']);
+  const prompts = [...metadata.matchAll(/^    prompt: "(.+)"$/gm)].map(match => match[1]);
+  assert.equal(prompts.length, 5);
+  assert.equal([...metadata.matchAll(/^    send: false$/gm)].length, 5);
+  for (const prompt of prompts) {
+    assert.match(prompt, /blueprint path supplied in this handoff context/);
+    assert.match(prompt, /Stop if that path is unavailable or ambiguous/);
+    assert.match(prompt, /Linux\/Bash-only lab guardrail and delivery boundaries/);
+  }
+  assert.match(creator, /trusted private blueprint path outside that default/);
+  assert.match(creator, /the caller must supply the concrete path/);
+  assert.match(creator, /historical approvals as unverified/);
+  assert.doesNotMatch(creator, /[A-Z]:\\|\/Users\/|session-state\//);
 });
 
 test('the authoring skill records progressive disclosure without weakening the required path', () => {

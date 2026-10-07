@@ -55,7 +55,7 @@ In the recap, walk the autonomy ladder explicitly and point out that the upstrea
 | Start | Block | Minutes | Checkpoint | If late |
 | --- | --- | --- | --- | --- |
 | 0:00 | Introduction and prerequisite readiness | 10 | Prerequisites already complete; unblock attendees if needed | Skip checks already completed before the workshop |
-| 0:10 | Level 1 HVE-Core plugin | 10 | `copilot plugin list` shows hve-core | Use the VS Code extension |
+| 0:10 | Level 1 HVE-Core plugin | 10 | HVE installed; two read-only responses compared without claiming a guaranteed contrast | Use the VS Code extension; record a missing contrast honestly |
 | 0:20 | Level 2 Design Thinking | 20 | Learner-led sampler, honest nine-method recap, shared implementation handoff | Preview remaining methods without claiming completion; hand out only the implementation contract |
 | 0:40 | Level 2 Curate what you commit | 10 | Reviewed delivery brief saved, curated files committed, `.copilot-tracking` ignored | Inspect the staged file tree; commit only reviewed planning documents |
 | 0:50 | Level 3 RPI, with context engineering and the duplicate-add decision | 65 | Playlist feature merged, tests green, decision debriefed | Share your finished branch; keep the 5-minute decision debrief |
@@ -70,6 +70,8 @@ In the recap, walk the autonomy ladder explicitly and point out that the upstrea
 The added marketplace practice extends Level 4 by fifteen minutes rather than
 cutting APM. These timings are estimates; live client installation and delivery
 timing have not been replayed.
+
+The Level 2 sampler has a facilitator-managed 10-15 minute estimate, not an agent-enforced timer or proof that nine methods are complete. Keep the core guide free of time codes.
 
 Level 3 and the break together form a 75-minute block. Stop the room at the plan gate for the duplicate-feedback decision, then run a 5-minute debrief after Review: ask attendees with contrasting choices to explain the trade-off. Do not prescribe two options before the planner explores them. In Level 5a, publish the initial CI and Copilot setup before enabling the strict APM audit rule. In Level 5b, complete the reviewed workflow/planning setup and select an issue only after its planning evidence is committed. While the cloud task runs, follow issue/Project progress and show the separate accessibility demo. Agent latency is variable; keep a completed PR ready for Level 6. The Extra Credits page is optional.
 
@@ -176,6 +178,14 @@ Hands-on extended tracks require extra time or a separately agreed agenda change
 do not silently remove the required marketplace or APM practice. For a PM-only
 audience, agree a separate track using the introduction, Levels 1-2 and the Product
 Manager extension, then Level 5, with the remaining content demonstrated explicitly.
+
+### Parallel PM and developer option
+
+After the common Level 2 handoff, TPMs may use the optional PM track while developers run Level 3. Use separate repositories or branches in separate checkouts: never let both groups edit the same workspace concurrently. The roughly 40-minute PM and 65-minute RPI estimates are independent, not measured evidence that the tracks finish together.
+
+Developers implement the reviewed shared playlist contract without waiting on an unapproved optional BRD/PRD. TPMs keep the same scope, distinguish drafts from sign-off, and review any proposed issue hierarchy before authorizing writes. Rejoin before Level 4 at the reviewed, merged playlist baseline; resolve any disagreement between optional requirements and that contract before consuming the artifacts downstream. A stalled PM gate stays pending rather than delaying the common path or being declared passed.
+
+For Level 3, save the approved plan path before `/clear`, reselect RPI Agent, and ask it to recover from that artifact. Read-only Review precedes the workshop commit checkpoint. If the room is late, use prepared, reviewed evidence or leave the gate pending; time pressure is not authority to accept a plan as-is.
 
 Rules for the tracks:
 - Meeting Analyst needs a Microsoft 365 Copilot licence and WorkIQ, and cannot read local transcripts. Always demo it yourself, or skip it.

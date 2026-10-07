@@ -13,10 +13,6 @@ const level = (number) => guide.slice(guide.indexOf(`# Level ${number}:`),
 const visible = (text) => text.replace(/<details>[\s\S]*?<\/details>/g, '');
 const header = workflow.split('\n---\n')[0];
 const output = (name) => header.match(new RegExp(`^  ${name}:\\n((?:    .*\\n)+)`, 'm'))?.[1];
-const powerShell = ['pwsh', 'powershell'].find((shell) => (
-  spawnSync(shell, ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command', 'exit 0'],
-    { stdio: 'ignore' }).status === 0
-));
 
 test('SDLC display metadata agrees while the fundamentals lab retains its own identity', () => {
   assert.match(guide, /^title: 'The SDLC Workshop'$/m);
@@ -73,8 +69,11 @@ test('visible commands have purpose-led introductions across both workshop guide
   }
 });
 
-test('Level 2 persists the CLI default without claiming repository-local scope', () => {
-  const setup = level(2).split('### Step 1: Set Auto')[1].split('### Step 2:')[0];
+test('pre-level setup persists the CLI default once without claiming repository-local scope', () => {
+  const setup = guide.slice(guide.indexOf('### Configure Auto for interactive lab work'),
+    guide.indexOf('## Starter readiness'));
+  assert.ok(guide.indexOf('### Configure Auto') < guide.indexOf('# Level 1:'));
+  assert.equal(guide.split('copilot model --global auto intelligence').length - 1, 1);
   assert.match(setup, /copilot model --global auto intelligence\ncopilot/);
   assert.doesNotMatch(setup, /copilot --model auto --auto-tier intelligence/);
   assert.match(setup, /user-wide CLI default/);
@@ -312,21 +311,89 @@ test('Level 6 binds review evidence to the current PR head and keeps acceptance 
   assert.match(runner, /skip_step l6-pr "Level 6" "Copilot cloud agent opens a PR/);
 });
 
-test('PowerShell passes the documented Copilot reviewer as one literal argument', {
-  skip: powerShell ? false : 'PowerShell runtime unavailable',
-}, () => {
+test('Bash passes the documented Copilot reviewer as one literal argument', () => {
   const command = level(6).match(/^gh pr edit PR-NUMBER --add-reviewer '@copilot'$/m)?.[0];
-  assert.ok(command, 'documented PowerShell reviewer command');
+  assert.ok(command, 'documented Bash reviewer command');
+  const bash = process.platform === 'win32' ? 'C:\\Program Files\\Git\\bin\\bash.exe' : 'bash';
   const script = [
-    'function gh { $script:captured = @($args) }',
+    'gh() { printf "%s\\0" "$@"; }',
     command,
-    'ConvertTo-Json -InputObject $script:captured -Compress',
   ].join('\n');
-  const result = spawnSync(powerShell, ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command', script],
+  const result = spawnSync(bash, ['-c', script],
     { encoding: 'utf8' });
   assert.equal(result.status, 0, result.stderr || result.error?.message);
-  assert.deepEqual(JSON.parse(result.stdout.trim()),
+  assert.deepEqual(result.stdout.split('\0').filter(Boolean),
     ['pr', 'edit', 'PR-NUMBER', '--add-reviewer', '@copilot']);
+});
+
+test('visible primers preserve the two Stage 5 handoffs and introduce the three acts', () => {
+  const introduction = visible(guide.slice(0, guide.indexOf('# Level 1:')));
+  for (const act of ['**Build:**', '**Scale:**', '**Close the loop:**']) assert.ok(introduction.includes(act));
+  for (const number of [1, 2, 3, 4, 6]) {
+    const text = level(number);
+    assert.equal(text.match(/^## (.+)$/m)?.[1], 'Topic');
+    const topic = text.slice(text.indexOf('## Topic') + '## Topic'.length, text.indexOf('**Why this level:**'));
+    assert.ok(topic.trim().split('\n').filter(Boolean).length <= 5, `Level ${number} primer`);
+    assert.doesNotMatch(topic, /```/);
+  }
+  assert.match(level(5), /## Stage 5a: Verification as contract\n\n## Topic/);
+  assert.match(level(5), /## Stage 5b: Backlog and delegation\n\n## Topic/);
+});
+
+test('A2 uses copyable Linux shell blocks and an honest optional starter preview', () => {
+  assert.doesNotMatch(guide, /```(?:powershell|cmd)|Copy-Item|New-Item|(?:src|docs|tests|solutions|skills|\.github)\\/);
+  assert.match(guide, /`skills\/<name>\/SKILL\.md`/);
+  const bash = process.platform === 'win32' ? 'C:\\Program Files\\Git\\bin\\bash.exe' : 'bash';
+  for (const [, script] of guide.matchAll(/```bash\n([\s\S]*?)\n```/g)) {
+    assert.doesNotMatch(script, /> `From Copilot`|^\/(?:login|exit)$/m);
+    const result = spawnSync(bash, ['-n'], { input: script, encoding: 'utf8' });
+    assert.equal(result.status, 0, result.error?.message || result.stderr);
+  }
+  const beforeLevels = guide.slice(0, guide.indexOf('# Level 1:'));
+  assert.match(beforeLevels, /Optional starter preview/);
+  assert.match(beforeLevels, /cd src\/api\ndotnet run/);
+  assert.match(beforeLevels, /cd src\/front\nnpm run dev/);
+  assert.match(beforeLevels, /reads `\/api\/hello`; catalog browsing and the playlist are not implemented/);
+  assert.match(beforeLevels, /Stop both servers with \*\*Ctrl\+C\*\*/);
+});
+
+test('all core levels include role reflections and the tutor isolates parallel tracks', () => {
+  for (let number = 1; number <= 6; number++) {
+    assert.equal(visible(level(number)).split('**At organization scale:**').length - 1, 1);
+  }
+  const parallel = tutor.slice(tutor.indexOf('### Parallel PM and developer option'), tutor.indexOf('Rules for the tracks'));
+  for (const phrase of ['separate checkouts', 'never let both groups edit the same workspace',
+    'without waiting on an unapproved optional BRD/PRD', 'Rejoin before Level 4',
+    'not measured evidence', 'time pressure is not authority']) assert.ok(parallel.includes(phrase), phrase);
+});
+
+test('shared selection links target the actual MOAW page and heading', () => {
+  const anchor = 'selecting-a-specialist-in-cli-or-vs-code';
+  const content = guide.replace(/^---\n[\s\S]*?\n---\n/, '');
+  const pages = content.split(/\n---\n/);
+  const target = pages.findIndex(page => page.includes('### Selecting a specialist in CLI or VS Code'));
+  assert.equal(target, 1, 'Level 1 remains MOAW step 1');
+  let count = 0;
+  pages.forEach((page, index) => {
+    for (const [, destination] of page.matchAll(/\]\(([^)]*#selecting-a-specialist-in-cli-or-vs-code)\)/g)) {
+      const url = new URL(destination, `https://moaw.dev/workshop/example/?step=${index}`);
+      assert.equal(Number(url.searchParams.get('step')), target, destination);
+      assert.equal(url.hash, `#${anchor}`);
+      count++;
+    }
+  });
+  assert.ok(count > 0, 'shared procedure is referenced');
+});
+
+test('each solution copy has a decision check in its own step without moving established gates', () => {
+  for (const block of guide.matchAll(/```bash\n([\s\S]*?)\n```/g)) {
+    if (!/^cp solutions\//m.test(block[1])) continue;
+    const end = guide.indexOf('\n### ', block.index + block[0].length);
+    const step = guide.slice(block.index, end < 0 ? guide.length : end);
+    assert.match(step, /\*\*Decision check:\*\*/, block[1]);
+  }
+  assert.ok(level(4).includes('# Level 4: APM-governed repository agents'));
+  assert.ok(guide.slice(guide.indexOf('# Recap:')).includes('### Facilitator demo: Secret scanning'));
 });
 
 test('all task mutations are independently bounded by opt-in filters', () => {
