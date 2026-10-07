@@ -358,8 +358,9 @@ test('A2 uses copyable Linux shell blocks and an honest optional starter preview
   assert.match(beforeLevels, /Stop both servers with \*\*Ctrl\+C\*\*/);
 });
 
-test('all core levels include role reflections and the tutor isolates parallel tracks', () => {
-  for (let number = 1; number <= 6; number++) {
+test('Levels 2-6 retain role reflections and the tutor isolates parallel tracks', () => {
+  assert.doesNotMatch(visible(level(1)), /\*\*At organization scale:\*\*/);
+  for (let number = 2; number <= 6; number++) {
     assert.equal(visible(level(number)).split('**At organization scale:**').length - 1, 1);
   }
   const parallel = tutor.slice(tutor.indexOf('### Parallel PM and developer option'), tutor.indexOf('Rules for the tracks'));
@@ -368,22 +369,34 @@ test('all core levels include role reflections and the tutor isolates parallel t
     'not measured evidence', 'time pressure is not authority']) assert.ok(parallel.includes(phrase), phrase);
 });
 
-test('shared selection links target the actual MOAW page and heading', () => {
-  const anchor = 'selecting-a-specialist-in-cli-or-vs-code';
+test('workshop navigation preserves the MOAW route, page and heading under its deployed base URL', () => {
+  const workshopUrl = 'https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/';
+  // MOAW deploys <base href="/">; links resolve against it, not the current workshop URL.
+  const documentBase = 'https://moaw.dev/';
+  assert.equal(new URL('?step=1#selecting-a-specialist-in-cli-or-vs-code', documentBase).pathname, '/');
   const content = guide.replace(/^---\n[\s\S]*?\n---\n/, '');
   const pages = content.split(/\n---\n/);
-  const target = pages.findIndex(page => page.includes('### Selecting a specialist in CLI or VS Code'));
-  assert.equal(target, 1, 'Level 1 remains MOAW step 1');
-  let count = 0;
-  pages.forEach((page, index) => {
-    for (const [, destination] of page.matchAll(/\]\(([^)]*#selecting-a-specialist-in-cli-or-vs-code)\)/g)) {
-      const url = new URL(destination, `https://moaw.dev/workshop/example/?step=${index}`);
+  const targets = new Map([
+    ['selecting-a-specialist-in-cli-or-vs-code', [1, '### Selecting a specialist in CLI or VS Code']],
+    ['plan-and-create-the-work-items', [2, '## Plan and create the work items']],
+    ['curate-what-you-commit', [2, '## Curate what you commit']],
+    ['debrief-and-hand-off-to-the-shared-implementation-slice', [2, '## Debrief and hand off to the shared implementation slice']],
+    ['publish-the-reviewed-pull-request', [3, '## Publish the reviewed pull request']]
+  ]);
+  const counts = new Map();
+  for (const page of pages) {
+    for (const [, destination] of page.matchAll(/\]\(([^)]*\?step=[^)]*)\)/g)) {
+      const url = new URL(destination, documentBase);
+      assert.equal(url.origin + url.pathname, workshopUrl, destination);
+      const anchor = url.hash.slice(1);
+      assert.ok(targets.has(anchor), `Known navigation heading: ${destination}`);
+      const [target, heading] = targets.get(anchor);
       assert.equal(Number(url.searchParams.get('step')), target, destination);
-      assert.equal(url.hash, `#${anchor}`);
-      count++;
+      assert.ok(pages[target].split('\n').includes(heading), `Heading exists on step ${target}: ${heading}`);
+      counts.set(anchor, (counts.get(anchor) ?? 0) + 1);
     }
-  });
-  assert.ok(count > 0, 'shared procedure is referenced');
+  }
+  for (const anchor of targets.keys()) assert.ok(counts.get(anchor) > 0, `${anchor} is referenced`);
 });
 
 test('each solution copy has a decision check in its own step without moving established gates', () => {

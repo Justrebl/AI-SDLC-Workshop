@@ -536,18 +536,13 @@ without modifying the index or files. Do not create a commit or push.
 Success Criteria:
 - Your working tree is still clean.
 
-**At organization scale:** Who owns and reviews the shared method before your team installs it?
-
 ---
 
 # Level 2: Design Thinking with DT Coach
 
 ## Topic
 
-Explore a listener's situation with DT Coach; you choose the context and ideas.
-Separate observations from assumptions before deciding what is worth building.
-Handoff: a reviewed delivery brief and your chosen, bounded later-slice idea.
-Boundary: exploration does not validate or redefine the facilitator's fixed playlist contract.
+Use DT Coach to explore a listening situation you choose, challenge assumptions, and compare ideas before deciding what is worth building. This sampler gives you practice making evidence-aware decisions, not proof of completed methods or a validated concept. Carry your decisions into a reviewed delivery brief and a bounded later-slice idea of your choice, while keeping the facilitator's shared playlist contract fixed.
 
 **Why this level:** experience HVE helping you think, not filling in predetermined answers. Sampling methods is not completing them; your decisions shape the later slice while duplicate-feedback UX stays open for Level 3.
 
@@ -586,7 +581,7 @@ Give each specialist the goal, known facts, constraints, and relevant artifact. 
 
 The copyable examples below are optional responses to actual questions, not a checklist of answers to force into the conversation. A missing-evidence warning or blocked handoff also demonstrates the framework's value; do not bypass it to match an example.
 
-The [extended Product Manager track](#extended-track-product-manager-with-hve-core) offers optional BRD/PRD authoring. The separate [work-item workflow](?step=2#plan-and-create-the-work-items) uses Functional Planner and Backlog Manager from actual DT decisions or a matching signed-off PRD; the full document-building chain is not required.
+The [extended Product Manager track](#extended-track-product-manager-with-hve-core) offers optional BRD/PRD authoring. The separate [work-item workflow](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=2#plan-and-create-the-work-items) uses Functional Planner and Backlog Manager from actual DT decisions or a matching signed-off PRD; the full document-building chain is not required.
 
 </details>
 
@@ -596,7 +591,7 @@ The [extended Product Manager track](#extended-track-product-manager-with-hve-co
 
 Use the surface where you installed HVE-Core in Level 1.
 
-Select **DT Coach** using the [shared selection procedure](?step=1#selecting-a-specialist-in-cli-or-vs-code). In CLI, use its task-specific entry:
+Select **DT Coach** using the [shared selection procedure](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=1#selecting-a-specialist-in-cli-or-vs-code). In CLI, use its task-specific entry:
 
 ```text
 /agent dt-coach
@@ -763,7 +758,7 @@ The example is a discovery direction, not a request to implement filtering, voic
 
 ### After DT Coach: Continue to backlog planning
 
-Once DT Coach has recapped your work across the nine methods, you can go straight to [Plan and create the work items](?step=2#plan-and-create-the-work-items). That section is separate from the optional formal Product Manager track and resumes the `music-catalog-listening-experience` project from its actual decisions or a matching signed-off PRD.
+Once DT Coach has recapped your work across the nine methods, you can go straight to [Plan and create the work items](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=2#plan-and-create-the-work-items). That section is separate from the optional formal Product Manager track and resumes the `music-catalog-listening-experience` project from its actual decisions or a matching signed-off PRD.
 
 Keep the DT context or exact saved artifact paths; do not infer completion from a sampler or preview. If you take this route before the common handoff below, return to DT Coach for that handoff before leaving Level 2. You can also continue with the common recap first and plan the backlog afterwards.
 
@@ -864,7 +859,7 @@ The coaching exercise ends here. Use HVE's **Documentation** agent to curate the
 <details>
 <summary>🪛 setup/troubleshoot: selecting Documentation</summary>
 
-If the identifier is not recognized, use `/agent documentation` or choose **Documentation** using the [shared selection procedure](?step=1#selecting-a-specialist-in-cli-or-vs-code).
+If the identifier is not recognized, use `/agent documentation` or choose **Documentation** using the [shared selection procedure](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=1#selecting-a-specialist-in-cli-or-vs-code).
 
 </details>
 
@@ -876,7 +871,7 @@ Use author mode to create a short reference from the reviewed shared playlist de
 Keep private coaching notes and personal details out of the document. Limit published changes to this file.
 ```
 
-Open the saved file and compare it with the reviewed contract. Correct differences before sharing it. This brief is the input for PRD Builder and Level 3, not a required reproduction of the coach's headings or filenames. Keep it uncommitted until [Curate what you commit](?step=2#curate-what-you-commit), where you review it with any BRD and PRD.
+Open the saved file and compare it with the reviewed contract. Correct differences before sharing it. This brief is the input for PRD Builder and Level 3, not a required reproduction of the coach's headings or filenames. Keep it uncommitted until [Curate what you commit](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=2#curate-what-you-commit), where you review it with any BRD and PRD.
 
 Keep **Documentation** selected and give it the confirmed later-slice decision from Step 4:
 
@@ -897,7 +892,7 @@ Review this file against your actual decision and correct it before approving it
 
 ## Extended track: Product Manager with HVE-Core
 
-**Optional:** this formal BRD/PRD authoring track is not required for backlog planning. Continue at [Plan and create the work items](?step=2#plan-and-create-the-work-items) if you skip it; expand only when you want the requirements-document route.
+**Optional:** this formal BRD/PRD authoring track is not required for backlog planning. Continue at [Plan and create the work items](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=2#plan-and-create-the-work-items) if you skip it; expand only when you want the requirements-document route.
 
 **Backlog safety:** planning does not authorize tracker writes. Confirm the target repository and review the handoff before separately authorizing execution. If required GitHub write tools are unavailable, stop before execution; do not bypass permissions. Organization policies still apply. Never paste credentials into chat or repository files.
 
@@ -1004,13 +999,13 @@ Success Criteria:
 
 **Meeting Analyst** reads meeting transcripts from Microsoft 365 through the WorkIQ MCP server, extracts requirements, and hands off to PRD Builder. It needs a Microsoft 365 Copilot licence and WorkIQ, and it cannot read a local transcript file.
 
-For this optional demo, select **Meeting Analyst** using the [shared selection procedure](?step=1#selecting-a-specialist-in-cli-or-vs-code); its CLI entry is `/agent meeting-analyst`.
+For this optional demo, select **Meeting Analyst** using the [shared selection procedure](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=1#selecting-a-specialist-in-cli-or-vs-code); its CLI entry is `/agent meeting-analyst`.
 
 The playlist slice has no real meetings, so attendees skip this step. The stakeholder facts in the next prompt stand in for a transcript.
 
 ### Step 3: Write the BRD
 
-Select **BRD Builder** using the [shared selection procedure](?step=1#selecting-a-specialist-in-cli-or-vs-code); its separate CLI command is:
+Select **BRD Builder** using the [shared selection procedure](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=1#selecting-a-specialist-in-cli-or-vs-code); its separate CLI command is:
 
 ```text
 /agent brd-builder
@@ -1055,7 +1050,7 @@ This earlier capture uses workshop-completion measurements; your conversation sh
 <details>
 <summary>🪛 setup/troubleshoot: resume a stalled guided BRD process</summary>
 
-If BRD Builder stops guiding you through the next decision or returns a draft without explaining what remains, invoke `/hve-core:brd-quality-reviewer` to request an analysis of the saved BRD. If your client exposes it as an agent rather than a slash entry, select **BRD Quality Reviewer** using the [shared selection procedure](?step=1#selecting-a-specialist-in-cli-or-vs-code). Give it the saved file path:
+If BRD Builder stops guiding you through the next decision or returns a draft without explaining what remains, invoke `/hve-core:brd-quality-reviewer` to request an analysis of the saved BRD. If your client exposes it as an agent rather than a slash entry, select **BRD Quality Reviewer** using the [shared selection procedure](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=1#selecting-a-specialist-in-cli-or-vs-code). Give it the saved file path:
 
 ```text
 Review docs/project-planning/music-catalog-playlist-slice-brd.md against the product context, reviewed delivery brief, and stakeholder feedback actually recorded. Identify missing evidence, unresolved questions, and quality findings. Do not invent answers or treat this review as approval.
@@ -1255,7 +1250,7 @@ Keep the shared Level 3 playlist scope unchanged. Exploration-derived work items
 
 ### Step 1: Plan the work items from the project context
 
-Select **Functional Planner** using the [shared selection procedure](?step=1#selecting-a-specialist-in-cli-or-vs-code). In CLI, switch without clearing the DT context:
+Select **Functional Planner** using the [shared selection procedure](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=1#selecting-a-specialist-in-cli-or-vs-code). In CLI, switch without clearing the DT context:
 
 ```text
 /agent functional-planner
@@ -1353,7 +1348,7 @@ Success Criteria:
 
 Ask for dependencies and an implementation order without editing the backlog. Level 5 schedules this triage and adds evidence-based reconciliation.
 
-Select **Backlog Manager** using the [shared selection procedure](?step=1#selecting-a-specialist-in-cli-or-vs-code); its CLI entry is `/agent backlog-manager`. Type `/backlog-plan`, select the HVE-Core entry, and press **Tab**. Replace `<owner>/<repo>` and add the read-only request before sending:
+Select **Backlog Manager** using the [shared selection procedure](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=1#selecting-a-specialist-in-cli-or-vs-code); its CLI entry is `/agent backlog-manager`. Type `/backlog-plan`, select the HVE-Core entry, and press **Tab**. Replace `<owner>/<repo>` and add the read-only request before sending:
 
 ```text
 /hve-core:backlog-plan
@@ -1381,9 +1376,9 @@ Example captured during a workshop run. Your issue numbers and ordering will dif
 
 ### Step 5: Hand off to curation
 
-If you came here directly after the nine-method conversation, return to **DT Coach** (`/agent dt-coach` in CLI) for the [common implementation handoff](?step=2#debrief-and-hand-off-to-the-shared-implementation-slice), then save its reviewed delivery brief and later-slice decision. Do not leave Level 2 without those shared inputs.
+If you came here directly after the nine-method conversation, return to **DT Coach** (`/agent dt-coach` in CLI) for the [common implementation handoff](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=2#debrief-and-hand-off-to-the-shared-implementation-slice), then save its reviewed delivery brief and later-slice decision. Do not leave Level 2 without those shared inputs.
 
-Do not commit planning logs or raw coaching notes. Curate the reviewed DT-derived requirements, plus any BRD/PRD actually produced, at [Curate what you commit](?step=2#curate-what-you-commit). Keep the actual issue and handoff links. Give Level 3 issue links only when they match its fixed playlist slice; unrelated DT work remains a separate follow-up.
+Do not commit planning logs or raw coaching notes. Curate the reviewed DT-derived requirements, plus any BRD/PRD actually produced, at [Curate what you commit](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=2#curate-what-you-commit). Keep the actual issue and handoff links. Give Level 3 issue links only when they match its fixed playlist slice; unrelated DT work remains a separate follow-up.
 
 ## Curate what you commit
 
@@ -1470,7 +1465,7 @@ One decision remains yours: **how the user interface handles a duplicate add**. 
 
 **RPI Agent coordinates four skills: Research, Plan, Implement, and Review.** It keeps task context and phase progress, passing saved evidence between phases so work can resume from durable artifacts. Start from the reviewed Level 2 requirements, work one phase at a time, and read each returned artifact before continuing. Keep its path for the next phase.
 
-**Before starting the steps, switch to RPI Agent** using the [shared selection procedure](?step=1#selecting-a-specialist-in-cli-or-vs-code). In Copilot CLI, send this command as a separate message:
+**Before starting the steps, switch to RPI Agent** using the [shared selection procedure](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=1#selecting-a-specialist-in-cli-or-vs-code). In Copilot CLI, send this command as a separate message:
 
 ```text
 /agent rpi-agent
@@ -1617,7 +1612,7 @@ Save the exact approved plan path outside this conversation. Clear the session t
 /clear
 ```
 
-Select **RPI Agent** again using the [shared selection procedure](?step=1#selecting-a-specialist-in-cli-or-vs-code). The fresh conversation must recover this task from your plan, not from the newest tracking file. Repository instructions still apply; a reset does not discard files or approvals recorded in the plan.
+Select **RPI Agent** again using the [shared selection procedure](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=1#selecting-a-specialist-in-cli-or-vs-code). The fresh conversation must recover this task from your plan, not from the newest tracking file. Repository instructions still apply; a reset does not discard files or approvals recorded in the plan.
 
 Success Criteria:
 - The conversation is fresh, RPI Agent is selected, and you can provide the exact reviewed plan path.
@@ -1766,7 +1761,7 @@ Success Criteria:
 
 ## Extended track: Tech Lead with HVE-Core
 
-**Optional:** expand this track for ADR authoring, multi-perspective Code Review, and committing any reviewed extension changes. If you skip it, continue at [Publish the reviewed pull request](?step=3#publish-the-reviewed-pull-request); publication and human acceptance remain required before Level 4.
+**Optional:** expand this track for ADR authoring, multi-perspective Code Review, and committing any reviewed extension changes. If you skip it, continue at [Publish the reviewed pull request](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=3#publish-the-reviewed-pull-request); publication and human acceptance remain required before Level 4.
 
 **Safety:** optional work does not waive review findings or approval gates. Commit only reviewed changes, keep private tracking artifacts local, and separately confirm publication.
 
@@ -1783,7 +1778,7 @@ Use your repository-root Copilot session, not the API or frontend server termina
 /agent adr-creation
 ```
 
-Use the [shared selection procedure](?step=1#selecting-a-specialist-in-cli-or-vs-code) for **ADR Creator** in VS Code. Keep that agent selected, then type `/adr-author`, select the HVE-Core entry, and press **Tab**. Add this open capture request before sending. Replace `<plan-path>` with the exact reviewed plan path returned in Level 3:
+Use the [shared selection procedure](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=1#selecting-a-specialist-in-cli-or-vs-code) for **ADR Creator** in VS Code. Keep that agent selected, then type `/adr-author`, select the HVE-Core entry, and press **Tab**. Add this open capture request before sending. Replace `<plan-path>` with the exact reviewed plan path returned in Level 3:
 
 ```text
 /hve-core:adr-author
@@ -1846,7 +1841,7 @@ A sample ADR is in `solutions/afternoon-2/docs/planning/adrs/0001-in-memory-play
 
 ### Step 2: Review the change with the Code Review agent
 
-Select **Code Review** using the [shared selection procedure](?step=1#selecting-a-specialist-in-cli-or-vs-code); its CLI entry is `/agent code-review`. Copy paste the following prompt:
+Select **Code Review** using the [shared selection procedure](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=1#selecting-a-specialist-in-cli-or-vs-code); its CLI entry is `/agent code-review`. Copy paste the following prompt:
 
 ```text
 Review the local commits for the playlist slice since the initial commit of this workshop repository (the template copy or "Workshop starter" commit).
@@ -2907,7 +2902,7 @@ A sample report with illustrative findings is in `solutions/afternoon-2/docs/sec
 
 Success Criteria:
 - Nothing merges without a human decision.
-- Each finding you accept becomes an issue. You can create these issues with Backlog Manager, as in the separate Level 2 [work-item workflow](?step=2#plan-and-create-the-work-items), using their actual reviewed requirements and handoff.
+- Each finding you accept becomes an issue. You can create these issues with Backlog Manager, as in the separate Level 2 [work-item workflow](https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=2#plan-and-create-the-work-items), using their actual reviewed requirements and handoff.
 
 ### Step 5 (facilitator demo): Delegate with a label and gh-aw
 

@@ -129,6 +129,21 @@ test('required exercise commands and approval gates remain visible and facilitat
   assert.match(visible, /never commit the tracking folder/i);
 });
 
+test('Level 2 introduces the intent as a narrative while preserving learner agency and scope', () => {
+  const start = workshop.indexOf('# Level 2:');
+  const topic = withoutDetails(workshop.slice(workshop.indexOf('## Topic', start),
+    workshop.indexOf('**Why this level:**', start)));
+  const paragraphs = topic.replace(/^## Topic\n/, '').trim().split(/\n\s*\n/);
+  assert.equal(paragraphs.length, 1, 'the introduction is a concise narrative');
+  assert.doesNotMatch(topic, /^(?:[-*] |Handoff:|Boundary:)/m);
+  for (const phrase of [
+    'listening situation you choose', 'challenge assumptions', 'compare ideas',
+    'not proof of completed methods or a validated concept',
+    'reviewed delivery brief', 'bounded later-slice idea of your choice',
+    "facilitator's shared playlist contract fixed",
+  ]) assert.ok(topic.includes(phrase), phrase);
+});
+
 test('Level 2 presents the actual starter scenario and source layout before coaching', () => {
   const level2 = workshop.slice(workshop.indexOf('# Level 2:'), workshop.indexOf('## Start a DT project'));
   const visible = withoutDetails(level2);
@@ -191,7 +206,7 @@ test('formal BRD/PRD authoring is opt-in while work-item planning and curation s
   assert.match(extended, /\*\*Optional:\*\*/);
   assert.match(extended, /<details>\n<summary>Optional extended track: BRD and PRD authoring<\/summary>/);
   const closed = withoutDetails(extended);
-  assert.match(closed, /\[Plan and create the work items\]\(\?step=2#plan-and-create-the-work-items\)/);
+  assert.match(closed, /\[Plan and create the work items\]\(https:\/\/moaw\.dev\/workshop\/gh:Justrebl\/AI-SDLC-Workshop\/main\/docs\/afternoon-2\/\?step=2#plan-and-create-the-work-items\)/);
   assert.doesNotMatch(closed, /### Step [1-8]|Create a business requirements document|Move from the BRD work|Execute the plan/);
   assert.match(withoutDetails(workshop), /## Curate what you commit/);
   assert.equal(withoutDetails('before<details>outer<details>inner</details>tail</details>after'), 'beforeafter');
@@ -206,7 +221,7 @@ test('Tech Lead work is opt-in while required publication and human acceptance s
   assert.match(extension, /\*\*Optional:\*\*/);
   assert.match(extension, /<details>\n<summary>Optional extended track: ADR authoring and Code Review<\/summary>/);
   const closed = withoutDetails(extension);
-  assert.match(closed, /\[Publish the reviewed pull request\]\(\?step=3#publish-the-reviewed-pull-request\)/);
+  assert.match(closed, /\[Publish the reviewed pull request\]\(https:\/\/moaw\.dev\/workshop\/gh:Justrebl\/AI-SDLC-Workshop\/main\/docs\/afternoon-2\/\?step=3#publish-the-reviewed-pull-request\)/);
   assert.match(closed, /optional work does not waive review findings or approval gates/);
   assert.doesNotMatch(closed, /### Step [1-3]:|\/hve-core:adr-author|Review the local commits/);
   const required = withoutDetails(workshop.slice(end, workshop.indexOf('# Level 4:', end)));
@@ -232,7 +247,7 @@ test('the standalone backlog resumes the DT slug or matching signed-off PRD with
   assert.match(closed, /### Step 5: Hand off to curation/);
   const jump = workshop.slice(workshop.indexOf('### After DT Coach: Continue to backlog planning'),
     workshop.indexOf('## Debrief and hand off to the shared implementation slice'));
-  assert.match(jump, /\[Plan and create the work items\]\(\?step=2#plan-and-create-the-work-items\)/);
+  assert.match(jump, /\[Plan and create the work items\]\(https:\/\/moaw\.dev\/workshop\/gh:Justrebl\/AI-SDLC-Workshop\/main\/docs\/afternoon-2\/\?step=2#plan-and-create-the-work-items\)/);
   assert.match(direct, /\/agent functional-planner/);
   assert.match(direct, /without clearing the DT context/);
   assert.match(direct, /Help me plan the backlog for music-catalog-listening-experience/);

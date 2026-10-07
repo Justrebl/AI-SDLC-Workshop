@@ -219,7 +219,7 @@ test('DT sampler permits exploration and keeps its shortcuts distinct from imple
     'Scope Conversations', 'Design Research', 'Input Synthesis', 'Brainstorming', 'User Concepts',
     'Low-Fidelity Prototypes', 'High-Fidelity Prototypes', 'User Testing', 'Iteration at Scale',
   ]) assert.ok(dt.includes(method), method);
-  assert.match(dt, /Explore a listener's situation with DT Coach/);
+  assert.match(dt, /Use DT Coach to explore a listening situation you choose/);
   assert.match(dt, /These shortcuts do not satisfy the full methods' evidence gates/);
   assert.match(dt, /not a result that your DT session must produce or validate/);
   assert.match(dt, /HTTP 409/);
@@ -349,7 +349,8 @@ test('HVE capabilities are exposed without supplying the agents document outline
 test('the reviewed delivery brief is curated before the builders consume it', () => {
   const curationLinks = [...workshop.matchAll(/\[Curate what you commit\]\(([^)]+)\)/g)];
   assert.equal(curationLinks.length, 2);
-  for (const [, target] of curationLinks) assert.equal(target, '?step=2#curate-what-you-commit');
+  for (const [, target] of curationLinks) assert.equal(target,
+    'https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/?step=2#curate-what-you-commit');
   const record = workshop.indexOf('Write a curated Design Thinking decision record');
   const brd = workshop.indexOf('### Step 3: Write the BRD');
   const prd = workshop.indexOf('### Step 4: Turn the BRD into a PRD');
@@ -372,7 +373,7 @@ test('developer essentials stay visible while the detailed RPI lecture is collap
   assert.match(essentials, /keeps task context and phase progress/);
   assert.match(essentials, /resume from durable artifacts/);
   assert.match(essentials, /Before starting the steps, switch to RPI Agent/);
-  assert.match(essentials, /\[shared selection procedure\]\(\?step=1#selecting-a-specialist-in-cli-or-vs-code\)/);
+  assert.match(essentials, /\[shared selection procedure\]\(https:\/\/moaw\.dev\/workshop\/gh:Justrebl\/AI-SDLC-Workshop\/main\/docs\/afternoon-2\/\?step=1#selecting-a-specialist-in-cli-or-vs-code\)/);
   assert.match(essentials, /```text\n\/agent rpi-agent\n```/);
   assert.match(essentials, /Confirm that \*\*RPI Agent\*\* is active before sending the Research request/);
   assert.ok(level3.indexOf('/agent rpi-agent') < level3.indexOf('### Step 1: Ask RPI to research only'));
