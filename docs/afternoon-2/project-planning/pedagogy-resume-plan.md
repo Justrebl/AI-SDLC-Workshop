@@ -224,7 +224,7 @@ Recommended subsequent order, not a current capacity commitment:
 | Role judgement and consistency | [#66](https://github.com/Justrebl/AI-SDLC-Workshop/issues/66), [#71](https://github.com/Justrebl/AI-SDLC-Workshop/issues/71), [#70](https://github.com/Justrebl/AI-SDLC-Workshop/issues/70) | Preserve native agent procedures and real learner choices |
 | GitHub Copilot Zero to Hero | [#72](https://github.com/Justrebl/AI-SDLC-Workshop/issues/72), [#73](https://github.com/Justrebl/AI-SDLC-Workshop/issues/73), [#74](https://github.com/Justrebl/AI-SDLC-Workshop/issues/74) | Separate guide lane; coordinate shared README/tutor changes |
 
-Use one integration owner for the SDLC Workshop guide. The child issues are separately
+Use one integration owner for the AI SDLC workshop guide. The child issues are separately
 assignable, but simultaneous edits to the same guide are not independent work.
 
 ## Resume in a fresh session

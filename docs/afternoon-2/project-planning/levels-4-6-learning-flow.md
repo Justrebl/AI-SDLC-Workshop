@@ -8,7 +8,7 @@ The next focused increment and post-merge recovery sequence are in
 the established scope; the resume plan does not mark that follow-up complete.
 
 This document records the agreed redesign of the
-[the SDLC Workshop](../workshop.md) and the implementation
+[the AI SDLC workshop](../workshop.md) and the implementation
 clarifications below. Local guide, solution, and tester changes do not publish
 workflows, configure repository settings, or execute GitHub operations.
 

@@ -139,7 +139,7 @@ test('Level 4 verifies repository agents before disabling the personal plugin', 
 });
 
 test('starter readiness belongs to the introduction, not a separate level', () => {
-  const introduction = workshop.indexOf('# The SDLC Workshop');
+  const introduction = workshop.indexOf('# AI SDLC with Github Copilot and HVE Core');
   const readiness = workshop.indexOf('## Starter readiness (prerequisite)');
   const firstLevel = workshop.indexOf('# Level 1:');
   assert.ok(introduction >= 0 && readiness > introduction && firstLevel > readiness);

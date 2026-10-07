@@ -1,6 +1,6 @@
-# Workshop tester: AI SDLC with GitHub and GitHub Copilot
+# Workshop tester: AI SDLC with Github Copilot and HVE Core
 
-An agentic workflow that replays the full AI SDLC with GitHub and GitHub Copilot lab ([docs/afternoon-2/workshop.md](../../../docs/afternoon-2/workshop.md)) whenever a change reaches `main`. It runs in a throwaway sandbox repository and Codespace, both deleted at the end of the run. When any step fails or the lab and its results diverge, it files a `[Workshop tester]` issue in this repository.
+An agentic workflow that replays the full AI SDLC with Github Copilot and HVE Core lab ([docs/afternoon-2/workshop.md](../../../docs/afternoon-2/workshop.md)) whenever a change reaches `main`. It runs in a throwaway sandbox repository and Codespace, both deleted at the end of the run. When any step fails or the lab and its results diverge, it files a `[Workshop tester]` issue in this repository.
 
 ## How it works
 
@@ -78,7 +78,7 @@ content and index/HEAD changes remain detectable.
 
 The checkpoint commits only a nonempty index; staging or commit errors still fail the step. Run the local regression fixtures with `bash tests/workshop/afternoon-2/git-checkpoint.test.sh`.
 
-All SDLC Workshop learner commits use `/hve-core:git-commit.prompt`. The extractor
+All AI SDLC workshop learner commits use `/hve-core:git-commit.prompt`. The extractor
 retains ten scoped commit requests, but the headless runner does not send them
 with fabricated whole-path or staged-set approvals. Native commit gates are
 recorded as skipped; deterministic commits in the disposable sandbox are explicitly
@@ -120,7 +120,7 @@ Run the APM PR gate regression checks with `node --test tests/workshop/afternoon
 
 Run the local artifact-binding and HTTP request fixtures with `bash tests/workshop/afternoon-2/rpi-flow.test.sh`. They use temporary files and a mock `curl`; no Copilot invocation or network request runs.
 
-After this Actions workflow completes on `main`, the separate [Workshop Pedagogy Reviewer](../../../.github/agents/workshop-pedagogy-reviewer.agent.md) reviews the tested revision's teaching content with Auto intelligence routing and repository-scoped GitHub issue/PR reads. A separate publisher creates or refreshes its own `pedagogy-review` report even for a clean tester run; it does not close or assign backlog tasks. The reviewer does not replay commands or change workshop files. It needs a credential that can make Copilot requests and read this repository, not the tester's inference-only token. See the [maintainer setup and boundaries](../../../docs/maintainer-handbook.md#pedagogy-review-after-the-tester) and run its local checks with `node --test tests/workshop/pedagogy/review.test.mjs`.
+The independent [pedagogy review agentic workflow](../../../.github/workflows/workshop-pedagogy-review.md) runs automatically when a PR is opened with `workshop.md` changes (`**/workshop.md`); it needs no enable variable and does not wait for this tester. It imports the [Workshop Pedagogy Reviewer](../../../.github/agents/workshop-pedagogy-reviewer.agent.md), asks for `workshop.md` content and their supporting documentation to be reviewed at the opening PR head SHA without prescribing guide paths, and requests one deduplicated `pedagogy-review` report through safe outputs. gh-aw provides the default runtime and setup; no application dependencies or custom preparation/validation scripts are needed. It does not replay commands, change workshop files, or close or assign backlog tasks. See the [maintainer setup and boundaries](../../../docs/maintainer-handbook.md#independent-pedagogy-review-on-pr-creation) and run its configuration checks with `node --test tests/workshop/pedagogy/review.test.mjs`.
 
 ## Setup
 

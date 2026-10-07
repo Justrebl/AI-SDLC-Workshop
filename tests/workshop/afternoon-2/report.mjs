@@ -73,7 +73,7 @@ for (const step of steps) {
   results.get(step.level).push(step);
 }
 
-console.log('## The SDLC Workshop test report');
+console.log('## AI SDLC with Github Copilot and HVE Core test report');
 console.log(`**${verdict}** — ${steps.length} recorded steps: ${count('pass')} passed, ${count('fail')} failed, ${count('warn')} warned, ${count('skip')} skipped.`);
 const url = process.env.RUN_URL;
 if (url && /^https:\/\/[^/\s]+\/[^/\s]+\/[^/\s]+\/actions\/runs\/\d+$/.test(url)) {

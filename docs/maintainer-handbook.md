@@ -17,7 +17,7 @@ The workshop runs over two 4-hour workshop sessions for a technical audience. Ea
 | Workshop | Focus | Source |
 | --- | --- | --- |
 | 1. GitHub Copilot Zero to Hero | Copilot primitives: completions, chat, instructions, prompts, agents, skills, MCP, hooks | Wraps [Philess/GHCopilotHoL](https://github.com/Philess/GHCopilotHoL) and adds Levels 7 to 9 plus an advanced Deeper primitives page |
-| 2. The SDLC Workshop | HVE principles, Design Thinking, RPI, APM and plugin marketplace, agentic workflows, Copilot cloud agent delegation | Original content in this repository |
+| 2. AI SDLC with Github Copilot and HVE Core | HVE principles, Design Thinking, RPI, APM and plugin marketplace, agentic workflows, Copilot cloud agent delegation | Original content in this repository |
 
 The [README crescendo](../README.md#the-crescendo) explains the order to attendees. Read it before you reorder modules.
 
@@ -27,12 +27,12 @@ These decisions shape the content. Changing one usually affects several modules,
 
 | # | Decision | Why |
 | --- | --- | --- |
-| D1 | Two 4-hour workshop sessions | Fits a customer's half-day slots and separates individual use (GitHub Copilot Zero to Hero) from team and SDLC use (the SDLC Workshop). |
+| D1 | Two 4-hour workshop sessions | Fits a customer's half-day slots and separates individual use (GitHub Copilot Zero to Hero) from team and SDLC use (the AI SDLC workshop). |
 | D2 | GitHub Copilot Zero to Hero follows GHCopilotHoL | Reuses a maintained lab instead of forking it. Upstream commits are pinned in [CONTRIBUTING.md](../CONTRIBUTING.md#upstream-pins). |
-| D3 | The SDLC Workshop runs in three acts: build the feature (HVE principles → Design Thinking → RPI), scale the method (APM, policy and plugin marketplace → agentic workflows), then close the loop (delegation to Copilot cloud agent and review) | Each step reuses the output of the previous one. The README crescendo and the "Why this level" lines say what each level adds and why the previous one was not enough. |
+| D3 | AI SDLC with Github Copilot and HVE Core runs in three acts: build the feature (HVE principles → Design Thinking → RPI), scale the method (APM, policy and plugin marketplace → agentic workflows), then close the loop (delegation to Copilot cloud agent and review) | Each step reuses the output of the previous one. The README crescendo and the "Why this level" lines say what each level adds and why the previous one was not enough. |
 | D4 | Hands-on first, demos as fallback | Attendees keep working assets. The tutor guide lists the demo fallbacks. |
 | D5 | Environment setup happens before the day | Setup failures should not consume workshop time. See [prerequisites.md](prerequisites.md) and the `before-d-day-*.md` checklists. |
-| D6 | One application for all of the SDLC Workshop: the Music Catalog (`src/front` React 19 + TypeScript + Vite, `src/api` .NET 10 minimal API) | One shared context keeps prompts, reviews and workflows comparable across the room. |
+| D6 | One application for all of the AI SDLC workshop: the Music Catalog (`src/front` React 19 + TypeScript + Vite, `src/api` .NET 10 minimal API) | One shared context keeps prompts, reviews and workflows comparable across the room. |
 | D7 | Attendees start from a hello-world starter | Keeps the slice small enough to finish. |
 | D8 | One feature: browse tracks and add a track to a playlist | Small enough for a learning loop, rich enough to exercise evidence, a design decision, and acceptance review. |
 | D9 | Exactly one in-memory playlist: no persistence, no users, no playlist creation or reordering | Avoids databases and authentication, which add setup without teaching the method. |
@@ -44,7 +44,7 @@ These decisions shape the content. Changing one usually affects several modules,
 | D16 | Level 5 reconciles opted-in issues with committed planning and linked delivery evidence, then delegates a bounded RPI issue to Copilot cloud agent. Level 6 explicitly requests Copilot review and verifies issue/Project progress | See the [Level 4-6 learning-flow decisions](project-planning/levels-4-6-learning-flow.md). No invented findings, automatic assignment, or closure from merge alone. |
 | D18 | Verification as contract: required `test` and `apm-audit` checks are added before delegation, and `copilot-setup-steps.yml` is extended with a build step | Level 4 copies the audit-only `apm-audit.yml`; Level 5 enables its no-bypass ruleset after setup pushes. The agent's pull request is judged by the same checks as a human's. Solutions: `solutions/afternoon-2/.github/workflows/{ci,apm-audit}.yml` and `solutions/afternoon-2/rulesets/{main-tests-required,main-apm-audit-required}.json`. |
 | D19 | GitHub Copilot Zero to Hero fast track for advanced audiences: upstream Levels 1 to 4 become pre-work or a demo, and the time goes to the Deeper primitives page (instruction layering, a guardrail hook, MCP governance) | Advanced developers and architects need layering and limits, not another pass on completions. Timing is in [tutor.md](tutor.md). |
-| D20 | The SDLC Workshop ends with an architect capstone: org rollout, measuring impact, brownfield adoption, choosing a method, and a model decision guide | Architects leave with the decisions they must take to scale the method. Model and usage guidance lives here, without prices. |
+| D20 | AI SDLC with Github Copilot and HVE Core ends with an architect capstone: org rollout, measuring impact, brownfield adoption, choosing a method, and a model decision guide | Architects leave with the decisions they must take to scale the method. Model and usage guidance lives here, without prices. |
 | D21 | Progressive disclosure: short level introductions, optional deeper explanations, and a visible hands-on path | The [Workshop Authoring skill](../.github/skills/workshop-authoring/SKILL.md) owns the rule and Workshop Creator loads it before content work. Required prompts, prerequisites, warnings, success criteria, and human gates are not hidden. |
 | D17 | Reference for agentic workflow layout: [CoffeesoftDotDev/accessibility-copilot](https://github.com/CoffeesoftDotDev/accessibility-copilot) | A working `.md` plus compiled `.lock.yml` example. It also showed that workflows can open repeated failure issues, so the solutions limit and deduplicate their outputs. |
 
@@ -94,28 +94,27 @@ When a fact cannot be confirmed in official documentation, label it as preview, 
 
 ## Current status
 
-### Pedagogy review after the tester
+### Independent pedagogy review on PR creation
 
 The repository custom agent [Workshop Pedagogy Reviewer](../.github/agents/workshop-pedagogy-reviewer.agent.md) critiques content, narrative flow, presentation, and the short concept primer at the beginning of each level. It reads the target repository's existing issues and linked PR evidence to distinguish tracked, partially addressed, new, and uncertain findings. It does not execute the lab, change files, or mutate the backlog itself. It complements the execution tester; neither a green test run nor an editorial assessment proves learner comprehension.
 
-The [pedagogy review workflow](../.github/workflows/workshop-pedagogy-review.yml) runs after **Workshop tester: Afternoon 2 validation report** completes on `main`, including successful runs that create no failure issue. It uses the tester's exact commit and reports the tester conclusion as context. Failed or cancelled tester runs do not prevent a content review, but they do not establish successful execution. Same-repository and tester-path checks exclude fork and unrelated workflow runs.
+The [pedagogy review agentic workflow](../.github/workflows/workshop-pedagogy-review.md) runs automatically when a pull request is **opened** with changes matching **`**/workshop.md`**. It imports the reviewer instructions, supplies the opening PR's head SHA, and asks for a review of `workshop.md` content and their supporting documentation at that revision, without prescribing guide paths or a guide count. PRs without matching changes do not trigger it. There is no enable variable, tester dependency, manual trigger, or rerun on later PR updates.
 
 Setup:
 
-1. Keep the existing `WORKSHOP_TESTER_ENABLED=true` opt-in; attendee copies remain inactive.
-2. Create the repository label **`pedagogy-review`** in GitHub's Issues > Labels before the first run. The publisher does not create or edit labels.
-3. Allow the job's repository-scoped `GITHUB_TOKEN` to make Copilot requests through the organization's policy, or set an optional **`WORKSHOP_PEDAGOGY_TOKEN`** fine-grained PAT with **Copilot Requests** plus **Contents, Issues, and Pull requests read access** to this repository only. The built-in GitHub MCP server uses the CLI's signed-in credential, so an inference-only token cannot supply the required repository reads. Do not reuse or broaden the tester's infrastructure/sandbox token; the reviewer receives no issue-write credential. No secret is created automatically.
-4. Ensure Copilot CLI Auto routing is allowed. The workflow pins CLI `1.0.90-3` and explicitly requests `--model auto --auto-tier intelligence`; a fixed model is not substituted if this fails. Review the pin periodically.
+1. Create the repository label **`pedagogy-review`** in GitHub's Issues > Labels before the first run. The publisher does not create or edit labels.
+2. Allow the agent job's repository-scoped `GITHUB_TOKEN` to make **Copilot requests** through the organization's policy. The agent has **Contents, Issues, and Pull requests read access**; the separate safe-output job receives **Issues write access** for report publication. No tester token or `WORKSHOP_PEDAGOGY_TOKEN` is required or reused, and no secret is created automatically.
+3. Compile changes with `gh aw compile workshop-pedagogy-review --strict --validate --no-check-update` and keep the Markdown source, generated lock, and action pins together. gh-aw provides the default Copilot runtime and sandbox; the application-building `copilot-setup-steps.yml` is not needed for document review.
 
-The workflow copies Markdown documents into an isolated review workspace and records local image existence without giving the model image pixels. It loads the custom agent from the trusted automation checkout and treats the reviewed revision as data: it never executes that revision's scripts or lab commands. Shell and file writes remain denied, project instructions and GitHub IQ are disabled, and the GitHub MCP server exposes an explicit read-only tool list. The agent profile allowlist covers file reads/search plus those GitHub reads; it contains no write, assignment, or delegation tools. All issue searches are constrained to the supplied repository, and remote document evidence uses the reviewed SHA. Live issue/PR states may be newer than that document snapshot and must be identified as such. Missing GitHub authorization is reported as incomplete backlog evidence, not a successful inspection.
+The frontmatter declares **when to run**, **which reviewer to use**, **read-only access**, and **the report output**. The short Markdown body describes the task. gh-aw handles runtime setup and safe publication; there are no custom preparation scripts, prefetched inventories, model pins, or report-validation steps. GitHub toolsets are limited to **`repos` and `issues`**; dedicated PR tools are not exposed, so unavailable linked-PR details must be reported as evidence gaps. The reviewer is instructed to read files at the supplied SHA, using GitHub reads if the local checkout differs, and to treat document and issue content as evidence rather than executable instructions.
 
-The CLI's stdout is validated for report sections and coverage rows. A separate job with `issues: write` creates or refreshes one `pedagogy-review` report per tester run attempt. Refresh requires the exact provenance marker, report-title prefix, label, and `github-actions[bot]` authorship. It replaces only the marked generated section, preserving maintainer additions and issue state. Identical reruns make no update. For old reports without a generated section, changed output is added once as a digest-marked comment instead of overwriting the body. Malformed markers fail publication explicitly. The publisher never assigns, closes, reopens, or edits unrelated backlog issues or labels.
+The agent requests one six-section, all-level report through `create-issue`, including a clean assessment when no findings are supported. Reports use the `pedagogy-review` label and a `[Pedagogy review] PR <number> (<head SHA>)` title. Exact-title deduplication plus an all-state search avoid duplicate reports; existing reports are not edited, closed, or assigned. A duplicate report or closed PR yields `noop`; missing material or tools that prevent review yield `report_incomplete`. Report completeness is guided by the reviewer instructions, **not enforced by a custom validation script**.
 
-If inference or report validation fails, the run is marked failed and the summary states that the review is incomplete; no report issue is created. If publishing fails, the validated report remains in the summary and the `workshop-pedagogy-report` artifact. Fix the missing label or permission and rerun the failed job.
+Standard gh-aw collaborator and same-repository guards remain; fork PRs are excluded. PRs created by a workflow's `GITHUB_TOKEN` do not trigger another Actions workflow. Inspect run diagnostics and agent-output artifacts for failures; do not treat a missing issue as a clean review. Live inference, publication permissions, and learner comprehension still require a maintainer dry run.
 
-To review manually, run `gh workflow run workshop-pedagogy-review.yml --ref main`. To invoke the same read-only agent locally, run `copilot --agent workshop-pedagogy-reviewer --model auto --auto-tier intelligence`, explicitly name the GitHub repository, and request a review of both local guides plus the current issue context. Your login must have repository read access. Local use returns a report in the conversation; only the Actions publisher maintains report issues. Broader issue changes remain a separate reviewed backlog-execution workflow.
+There is no manual Actions trigger. For an interactive review, select **Workshop Pedagogy Reviewer** in Copilot Chat or ask a pedagogy question so it can be selected automatically; `disable-model-invocation` is not set. Local CLI use remains `copilot --agent workshop-pedagogy-reviewer --model auto --auto-tier intelligence`: explicitly name the GitHub repository and request a review of `workshop.md` content and their supporting documentation plus current issue context. Your login must have repository read access. Interactive use returns the report in the conversation and never publishes it. Broader issue changes remain a separate reviewed backlog-execution workflow.
 
-Run the local regression checks with `node --test tests/workshop/pedagogy/review.test.mjs`. Live inference, publication permissions, and learner comprehension still need a maintainer dry run after these files reach `main`.
+Run the local regression checks with `node --test tests/workshop/pedagogy/review.test.mjs`.
 
 - **Guides.** Both guides keep `published: false` until a dry run is complete.
 - **Kick-off deck.** `docs/kick-off.pptx` is current on `main`.
@@ -165,7 +164,7 @@ gh api -X PUT repos/Justrebl/AI-SDLC-Workshop/pulls/<top-pr>/merge-async -f merg
 
 ## Expected outcome
 
-The change is on `main`, the attendee guides stay free of maintainer-only content, and the [workshop tester](../tests/workshop/afternoon-2/README.md) replays the SDLC Workshop without opening a failure issue.
+The change is on `main`, the attendee guides stay free of maintainer-only content, and the [workshop tester](../tests/workshop/afternoon-2/README.md) replays the AI SDLC workshop without opening a failure issue.
 
 ## Troubleshooting
 

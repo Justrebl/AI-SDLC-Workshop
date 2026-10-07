@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Shared helpers for the AI SDLC with GitHub and GitHub Copilot workshop tester.
+# Shared helpers for the AI SDLC with Github Copilot and HVE Core workshop tester.
 # Results are written as JSON Lines so the validation agent can compare them with docs/afternoon-2/workshop.md.
 
 : "${RESULTS_DIR:=/tmp/workshop-tester}"

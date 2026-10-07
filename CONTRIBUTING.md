@@ -9,7 +9,7 @@ The attendee guides (`docs/afternoon-*/workshop.md`) only contain what attendees
 | Path | Content |
 | --- | --- |
 | `docs/afternoon-1/workshop.md` | GitHub Copilot Zero to Hero (wraps the upstream GHCopilotHoL lab, adds Levels 7 to 9) |
-| `docs/afternoon-2/workshop.md` | The SDLC Workshop |
+| `docs/afternoon-2/workshop.md` | AI SDLC with Github Copilot and HVE Core |
 | `docs/prerequisites.md` | Shared prerequisites, network allowlist, organization settings and pre-D-Day checklists for both workshops |
 | `docs/before-d-day-*.md` | Self-contained pre-D-Day checklists for each delivery option (Codespaces, dev container, local tools). Keep them consistent with `docs/prerequisites.md` |
 | `docs/kick-off-call-checklist.md` | Step-by-step organization checklist for the kick-off call; keep consistent with `docs/prerequisites.md` section 7 |
@@ -49,7 +49,7 @@ GitHub Copilot Zero to Hero was last checked against:
 | [Philess/GHCopilotHoL](https://github.com/Philess/GHCopilotHoL) | `c7f7f94` |
 | [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo) | `f935d88` |
 
-The SDLC Workshop pins HVE-Core by commit SHA in `solutions/afternoon-2/apm.yml` (`1dbd6a7`, the v3.2.2 release commit). Release tags are not resolvable as APM refs.
+AI SDLC with Github Copilot and HVE Core pins HVE-Core by commit SHA in `solutions/afternoon-2/apm.yml` (`1dbd6a7`, the v3.2.2 release commit). Release tags are not resolvable as APM refs.
 
 To re-verify:
 
@@ -71,6 +71,7 @@ These values are matched by scripts or attendee instructions:
 - The `afternoon-1` branch name.
 - The commit message `Baseline Afternoon 2 starter`, which the workshop tester looks for.
 - `.github/workflows/workshop-tester.md`. Any edit requires recompiling `workshop-tester.lock.yml` with `gh aw compile`; commit both files together. Run the compile from a folder outside OneDrive-synced paths if it hangs.
+- `.github/workflows/workshop-pedagogy-review.md` and its imported reviewer. Recompile with `gh aw compile workshop-pedagogy-review --strict --validate --no-check-update` and keep the generated lock file and action pins with the source changes. Run `node --test tests/workshop/pedagogy/review.test.mjs` for the PR/path trigger, reviewer import, and read-only output bounds.
 
 ## Validation
 

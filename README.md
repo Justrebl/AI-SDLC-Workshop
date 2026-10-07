@@ -1,12 +1,12 @@
-# The SDLC Workshop
+# AI SDLC with Github Copilot and HVE Core
 
-A hands-on series of two workshops (240 minutes for GitHub Copilot Zero to Hero; an estimated 255 for the SDLC Workshop). It starts with individual GitHub Copilot primitives and ends with a governed, agentic software development lifecycle: repository-owned packages, policy, structured Research → Plan → Implement → Review execution, automated backlog management, and controlled delegation to the Copilot cloud agent.
+A hands-on series of two workshops (240 minutes for GitHub Copilot Zero to Hero; an estimated 255 for the AI SDLC workshop). It starts with individual GitHub Copilot primitives and ends with a governed, agentic software development lifecycle: repository-owned packages, policy, structured Research → Plan → Implement → Review execution, automated backlog management, and controlled delegation to the Copilot cloud agent.
 
 > **Before D-Day:** every attendee and administrator must complete the checklist for the delivery option your organization chose: [Codespaces](docs/before-d-day-codespace.md), [local dev container](docs/before-d-day-devcontainer.md) or [local tools](docs/before-d-day-local.md). The shared reference is [docs/prerequisites.md](docs/prerequisites.md); organization owners can walk through [docs/kick-off-call-checklist.md](docs/kick-off-call-checklist.md) live during the kick-off call. Most setup problems on the day come from licences, organization policies, and corporate networks, and none of them can be fixed in the room.
 
 ## At a glance
 
-| | **GitHub Copilot Zero to Hero** | **The SDLC Workshop** |
+| | **GitHub Copilot Zero to Hero** | **AI SDLC with Github Copilot and HVE Core** |
 | --- | --- | --- |
 | Goal | Become fluent with Copilot primitives in VS Code, Copilot CLI and on github.com | Run a governed, agentic SDLC on a real repository |
 | Repository | Your fork of [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo) | Your private copy of this template |
@@ -18,18 +18,18 @@ A hands-on series of two workshops (240 minutes for GitHub Copilot Zero to Hero;
 | Concept | In one sentence | Practised in |
 | --- | --- | --- |
 | **Copilot primitives** | Custom instructions, prompt files, custom agents, Agent Skills, MCP servers and hooks: the building blocks that shape what Copilot knows and can do | GitHub Copilot Zero to Hero, Levels 5–7 and Deeper primitives |
-| **Copilot CLI** | Copilot as a terminal agent that plans, edits and runs commands, with the same primitives as VS Code | GitHub Copilot Zero to Hero, Level 8; the SDLC Workshop throughout |
-| **Plugins and marketplaces** | A plugin bundles primitives into one installable unit; a marketplace is a Git repository that lists plugins for discovery | GitHub Copilot Zero to Hero, Level 9; the SDLC Workshop, Levels 1 and 4 |
-| **HVE-Core** | Microsoft's open-source library of Copilot agents, prompts, instructions and skills for hypervelocity engineering, including the Design Thinking coach and the RPI workflow | the SDLC Workshop, Levels 1–3 |
-| **Design Thinking coach** | An HVE-Core agent that guides a team from a vague request to a scoped, user-centred problem statement before any code is written | the SDLC Workshop, Level 2 |
-| **RPI (Research → Plan → Implement → Review)** | A structured agentic workflow that separates investigation, planning, implementation and review into explicit phases with durable artifacts | the SDLC Workshop, Level 3 |
-| **Context engineering** | Deciding what an agent sees: layered instructions, skills loaded on demand, and phase artifacts on disk instead of a long chat history | GitHub Copilot Zero to Hero, Deeper primitives; the SDLC Workshop, Level 3 |
-| **Verification as contract** | Tests, CI and branch rulesets define "done" for humans and agents alike, so delegated work is checked the same way as your own | the SDLC Workshop, Levels 5a and 6 |
-| **Agentic threat model** | Prompt injection, safe outputs, the agent firewall and token scope: what limits an agent that runs without you | the SDLC Workshop, Levels 5b and 6 |
-| **APM (Agent Package Manager)** | A package manager for agent primitives: declare dependencies in `apm.yml`, pin them in a lockfile, and enforce policy and audits in CI | the SDLC Workshop, Level 4 |
-| **GitHub Agentic Workflows (gh-aw)** | Markdown-defined workflows compiled to GitHub Actions, where a coding agent runs on a schedule or on events, with safe outputs such as issues and comments | the SDLC Workshop, Levels 5a and 5b |
-| **Copilot cloud agent** (formerly coding agent) | Assign an issue to Copilot; it works in a GitHub Actions environment and opens a pull request for human review | GitHub Copilot Zero to Hero, Level 6; the SDLC Workshop, Levels 5b and 6 |
-| **Model selection and usage** | Explicit model choice versus Auto model selection, and how usage is measured differently in each Copilot experience | the SDLC Workshop, Recap and Extra Credits |
+| **Copilot CLI** | Copilot as a terminal agent that plans, edits and runs commands, with the same primitives as VS Code | GitHub Copilot Zero to Hero, Level 8; the AI SDLC workshop throughout |
+| **Plugins and marketplaces** | A plugin bundles primitives into one installable unit; a marketplace is a Git repository that lists plugins for discovery | GitHub Copilot Zero to Hero, Level 9; the AI SDLC workshop, Levels 1 and 4 |
+| **HVE-Core** | Microsoft's open-source library of Copilot agents, prompts, instructions and skills for hypervelocity engineering, including the Design Thinking coach and the RPI workflow | the AI SDLC workshop, Levels 1–3 |
+| **Design Thinking coach** | An HVE-Core agent that guides a team from a vague request to a scoped, user-centred problem statement before any code is written | the AI SDLC workshop, Level 2 |
+| **RPI (Research → Plan → Implement → Review)** | A structured agentic workflow that separates investigation, planning, implementation and review into explicit phases with durable artifacts | the AI SDLC workshop, Level 3 |
+| **Context engineering** | Deciding what an agent sees: layered instructions, skills loaded on demand, and phase artifacts on disk instead of a long chat history | GitHub Copilot Zero to Hero, Deeper primitives; the AI SDLC workshop, Level 3 |
+| **Verification as contract** | Tests, CI and branch rulesets define "done" for humans and agents alike, so delegated work is checked the same way as your own | the AI SDLC workshop, Levels 5a and 6 |
+| **Agentic threat model** | Prompt injection, safe outputs, the agent firewall and token scope: what limits an agent that runs without you | the AI SDLC workshop, Levels 5b and 6 |
+| **APM (Agent Package Manager)** | A package manager for agent primitives: declare dependencies in `apm.yml`, pin them in a lockfile, and enforce policy and audits in CI | the AI SDLC workshop, Level 4 |
+| **GitHub Agentic Workflows (gh-aw)** | Markdown-defined workflows compiled to GitHub Actions, where a coding agent runs on a schedule or on events, with safe outputs such as issues and comments | the AI SDLC workshop, Levels 5a and 5b |
+| **Copilot cloud agent** (formerly coding agent) | Assign an issue to Copilot; it works in a GitHub Actions environment and opens a pull request for human review | GitHub Copilot Zero to Hero, Level 6; the AI SDLC workshop, Levels 5b and 6 |
+| **Model selection and usage** | Explicit model choice versus Auto model selection, and how usage is measured differently in each Copilot experience | the AI SDLC workshop, Recap and Extra Credits |
 
 Each lab opens with a short refresher on these concepts. HydraFusion multi-model orchestration is a **Research Preview** and appears only as optional Extra Credit.
 
@@ -54,7 +54,7 @@ Runs the official [GHCopilotHoL](https://moaw.dev/workshop/gh:Philess/GHCopilotH
 
 For advanced developers and architects, the **fast track** turns upstream Levels 1 to 4 into self-paced pre-work or a short facilitator demo, and spends the time saved on the **Deeper primitives** page. See [docs/tutor.md](docs/tutor.md).
 
-## The SDLC Workshop
+## AI SDLC with Github Copilot and HVE Core
 
 Attendees build one capability in a small music catalog app (**browse tracks and add them to an in-memory playlist**) while progressively adding governance and automation.
 
@@ -72,7 +72,7 @@ Attendees build one capability in a small music catalog app (**browse tracks and
 
 ### The crescendo
 
-The SDLC Workshop tells one story in three acts: build a feature, scale the method that built it, then close the loop.
+AI SDLC with Github Copilot and HVE Core tells one story in three acts: build a feature, scale the method that built it, then close the loop.
 
 ```mermaid
 flowchart LR
@@ -91,7 +91,7 @@ flowchart LR
   H -. findings feed the backlog .-> F
 ```
 
-Each step reuses a reviewed handoff: the supplied playlist contract scopes RPI while Design Thinking preserves evidence limits and the learner's chosen later slice. Committed planning and PR evidence keep the backlog current, and a human selects the next cloud-agent task. Level 4 includes participant marketplace practice; GitHub Copilot app setup and browser-supported accessibility review remain tutor demonstrations. Its additional practice extends the estimated SDLC Workshop delivery to 255 minutes without cutting APM.
+Each step reuses a reviewed handoff: the supplied playlist contract scopes RPI while Design Thinking preserves evidence limits and the learner's chosen later slice. Committed planning and PR evidence keep the backlog current, and a human selects the next cloud-agent task. Level 4 includes participant marketplace practice; GitHub Copilot app setup and browser-supported accessibility review remain tutor demonstrations. Its additional practice extends the estimated AI SDLC workshop delivery to 255 minutes without cutting APM.
 
 ## Delivery options
 
@@ -116,7 +116,7 @@ The complete lists, with commands and owners, are in the per-option checklists a
 - [ ] A delivery option chosen and tested:
   - Codespaces: a test Codespace opens in the browser and in VS Code
   - Dev container: **Docker** or **Podman** works (`docker run --rm hello-world`, or Podman with `dev.containers.dockerPath` set to `podman` and an optional `docker` alias)
-  - Local tools: Git, Node.js 22, .NET 8 (GitHub Copilot Zero to Hero) and .NET 10 (the SDLC Workshop), GitHub CLI, Copilot CLI, APM CLI and gh-aw all print a version
+  - Local tools: Git, Node.js 22, .NET 8 (GitHub Copilot Zero to Hero) and .NET 10 (the AI SDLC workshop), GitHub CLI, Copilot CLI, APM CLI and gh-aw all print a version
 - [ ] GitHub Copilot Zero to Hero fork of `Philess/gh-copilot-demo` runs: API on port 3000 and viewer on port 3001
 - [ ] Network checks pass from the network you will use on the day: `github.com`, `api.github.com`, `*.githubcopilot.com`, `*.github.dev`, the Codespaces tunnel at `global.rel.tunnels.api.visualstudio.com`, and `ghcr.io`
 
@@ -139,15 +139,15 @@ The complete lists, with commands and owners, are in the per-option checklists a
 | [docs/before-d-day-codespace.md](docs/before-d-day-codespace.md), [docs/before-d-day-devcontainer.md](docs/before-d-day-devcontainer.md), [docs/before-d-day-local.md](docs/before-d-day-local.md) | Before D-Day checklist for each delivery option |
 | [docs/kick-off-call-checklist.md](docs/kick-off-call-checklist.md) | D-Day readiness checklist (licences, Copilot features, Actions, Codespaces, network) to run live with the customer during the kick-off call |
 | [docs/afternoon-1/workshop.md](docs/afternoon-1/workshop.md) | GitHub Copilot Zero to Hero lab guide |
-| [docs/afternoon-2/workshop.md](docs/afternoon-2/workshop.md) | The SDLC Workshop lab guide |
+| [docs/afternoon-2/workshop.md](docs/afternoon-2/workshop.md) | AI SDLC with Github Copilot and HVE Core lab guide |
 | [docs/tutor.md](docs/tutor.md) | Facilitator guide: timing, pre-flight, risks and messaging guardrails |
-| [solutions/afternoon-2](solutions/afternoon-2) | Reference solution files for the SDLC Workshop |
-| [tests/workshop/afternoon-2](tests/workshop/afternoon-2/README.md) | An agentic workflow that replays the SDLC Workshop lab in a throwaway Codespace on every change to `main` and files an issue when a step fails |
+| [solutions/afternoon-2](solutions/afternoon-2) | Reference solution files for the AI SDLC workshop |
+| [tests/workshop/afternoon-2](tests/workshop/afternoon-2/README.md) | An agentic workflow that replays the AI SDLC workshop lab in a throwaway Codespace on every change to `main` and files an issue when a step fails |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Writing rules, upstream pins, MOAW preview and validation |
 | [docs/maintainer-handbook.md](docs/maintainer-handbook.md) | Design decisions, verified facts, open assumptions and how to resume the work |
 | [docs/design/README.md](docs/design/README.md) | Curated Design Thinking outcomes: problem and scope, stakeholders, assumptions |
 
-## Starter application (the SDLC Workshop)
+## Starter application (the AI SDLC workshop)
 
 A small music catalog mono-repo:
 

@@ -29,7 +29,7 @@ license: "CC-BY 4.0 (Microsoft HVE-Core)"
 > **BRD-001** | Status: draft | Version: 0.1.0 | Last Updated: 2026-10-01
 
 > [!NOTE]
-> Reference output for the SDLC Workshop Product Manager track. Written by hand to match the fixed workshop scope. A real BRD Builder run produces different wording and structure.
+> Reference output for the AI SDLC workshop Product Manager track. Written by hand to match the fixed workshop scope. A real BRD Builder run produces different wording and structure.
 
 ## Executive Summary
 
@@ -41,9 +41,9 @@ Primary success metric: every participant ships the slice with passing tests dur
 
 ## Business Context
 
-The Music Catalog application is a training mono-repo. Its only purpose is to give participants a shared, low-risk code base for the Agentic SDLC with GitHub Copilot workshop. The track catalog is synthetic seed data. The slice must not depend on external services, customer data, or production systems.
+The Music Catalog application is a training mono-repo. Its only purpose is to give participants a shared, low-risk code base for the AI SDLC with Github Copilot and HVE Core workshop. The track catalog is synthetic seed data. The slice must not depend on external services, customer data, or production systems.
 
-Source of the decisions in this BRD: the locked Design Thinking decisions for this slice (Level 2 of the SDLC Workshop).
+Source of the decisions in this BRD: the locked Design Thinking decisions for this slice (Level 2 of the AI SDLC workshop).
 
 ## Stakeholders
 

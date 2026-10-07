@@ -1,8 +1,8 @@
 ---
 published: false
 type: workshop
-title: 'The SDLC Workshop'
-short_title: The SDLC Workshop
+title: 'AI SDLC with Github Copilot and HVE Core'
+short_title: AI SDLC with Github Copilot and HVE Core
 description: Build a governed Music Catalog feature with HVE-Core, Design Thinking, RPI, APM, GitHub Copilot plugins, gh-aw workflows, and Copilot cloud agent.
 level: intermediate
 authors: [Julien Strebler]
@@ -13,7 +13,7 @@ banner_url: assets/banner.png
 navigation_levels: 3
 navigation_numbering: false
 sections_title:
-  - 'The SDLC Workshop'
+  - 'AI SDLC with Github Copilot and HVE Core'
   - 'Level 1: HVE orientation and HVE-Core CLI plugin'
   - 'Level 2: Design Thinking with DT Coach'
   - 'Level 3: RPI implementation loop'
@@ -24,7 +24,7 @@ sections_title:
   - 'Extra Credits 🪙'
 ---
 
-# The SDLC Workshop
+# AI SDLC with Github Copilot and HVE Core
 
 *Version 1.0 - September 2026*
 
@@ -37,9 +37,9 @@ Build a small Music Catalog feature: browse tracks and add them to **one in-memo
 3. **Close the loop:** delegate a bounded task, compare independent review and checks, then make a human acceptance decision.
 
 <details>
-<summary>How the SDLC Workshop connects the SDLC stages</summary>
+<summary>How the AI SDLC workshop connects the SDLC stages</summary>
 
-You will go from an idea to a merged change and then automate the work around it. The SDLC Workshop tells one story in three acts:
+You will go from an idea to a merged change and then automate the work around it. AI SDLC with Github Copilot and HVE Core tells one story in three acts:
 
 1. **Build the feature.**
    - Frame a deliberately small capability with the HVE-Core **Design Thinking Coach**.
@@ -3029,7 +3029,7 @@ Success Criteria:
 
 ## Topic
 
-You will connect the SDLC Workshop into one operating model, then look at it as an architect would: how to roll it out, measure it, apply it to existing code, and choose a method and a model.
+You will connect the AI SDLC workshop into one operating model, then look at it as an architect would: how to roll it out, measure it, apply it to existing code, and choose a method and a model.
 
 ### Facilitator demo: Secret scanning and push protection
 
