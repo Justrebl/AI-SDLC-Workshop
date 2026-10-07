@@ -112,7 +112,7 @@ The complete endpoint table is in [prerequisites, section 6](prerequisites.md#6-
   gh auth setup-git
   copilot                          # then /login, complete the device flow, and /exit
   copilot --version
-  apm --version                    # the AI SDLC workshop
+  apm --version                    # optional WIP Level 7 only; skip for the core path
   gh aw version                    # the AI SDLC workshop
   ```
 

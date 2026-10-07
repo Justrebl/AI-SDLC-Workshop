@@ -89,12 +89,12 @@ content and index/HEAD changes remain detectable.
 The checkpoint commits only a nonempty index; staging or commit errors still fail the step. Run the local regression fixtures with `bash tests/workshop/afternoon-2/git-checkpoint.test.sh`.
 
 All AI SDLC workshop learner commits use `/hve-core:git-commit.prompt`. The extractor
-retains ten scoped commit requests, but the headless runner does not send them
+retains ten core scoped commit requests plus the optional APM request, but the headless runner does not send them
 with fabricated whole-path or staged-set approvals. Native commit gates are
 recorded as skipped; deterministic commits in the disposable sandbox are explicitly
 `translated` checkpoints, not evidence the prompt ran or humans approved the files.
-Level 3's already-committed/clean-tree case remains a no-op. Post-APM commit prompt
-discovery must still be verified in a live client. The template/import prerequisite
+Level 3's already-committed/clean-tree case remains a no-op. Repository-settings
+activation and commit prompt discovery must still be verified in a live client. The template/import prerequisite
 provides an existing `HEAD`; no learner bootstrap raw commit is prescribed.
 
 The lab's remaining Git operations are scoped Copilot requests, not copy-paste
@@ -113,9 +113,11 @@ source-transition/failure mocks. These are control-flow tests, not successful cl
 installs. The sandbox registers its own root catalog, browses it, inspects personal
 HVE provenance, removes only the known upstream identity, verifies absence, and
 installs the curated copy. Unknown/duplicate/managed or malformed inventory stops
-before mutation; failed registration, browse, removal, install, APM/agent checks,
-disable, policy, audit or restore stops dependent publication. Expected deny exits
-with exactly 1. Source replacement is authorized only in the disposable sandbox,
+before mutation; failed registration, browse, removal, settings copy, or
+repository plugin activation stops dependent publication. The sandbox copies the
+exact solution settings and adapts the marketplace source value to its own catalog.
+The inventory must show HVE-Core and Java Development enabled from that catalog;
+Java payload execution is not claimed. Source replacement is authorized only in the disposable sandbox,
 not evidence of learner consent. Fresh CLI agent-picker, VS Code and app checks
 remain skipped and do not establish actual capabilities.
 
@@ -126,7 +128,7 @@ The tester verifies an initial planning-evidence comment and an open issue; repe
 PR reconciliation and post-merge closure require prepared integration cases and a
 human merge decision. The tester never claims to have exercised those gates.
 
-Run the APM PR gate regression checks with `node --test tests/workshop/afternoon-2/apm-ci.test.mjs`. The failure-propagation cases use a Bash mock, not an APM installation or network request.
+Run the optional APM PR gate asset checks with `node --test tests/workshop/afternoon-2/apm-ci.test.mjs`. The audit failure-propagation cases use a Bash mock, not an APM installation or network request. Optional WIP Level 7 is recorded as skipped by the core replay.
 
 Run the local artifact-binding and HTTP request fixtures with `bash tests/workshop/afternoon-2/rpi-flow.test.sh`. They use temporary files and a mock `curl`; no Copilot invocation or network request runs.
 
@@ -200,8 +202,8 @@ Each run consumes several independent usage units. Do not add them up as one "co
 - **Codespaces compute and storage** for one Codespace, billed to the sandbox owner.
 - **Copilot CLI usage** for the DT and RPI prompts. The run saves a `usage/*.json` per prompt (`--usage-output-file`).
 - **Agentic workflow inference** for this validator. Attendees may also incur usage for the daily-backlog workflow after completing its gates; the sandbox replay skips that Stage 5b path.
-- **Copilot cloud agent and code-review usage** apply to the attendee delegation path, not to this replay: Stage 5b and dependent Level 6 work are skipped when the active no-bypass APM rule cannot be verified.
-- **Actions minutes** for the Level 4 APM audit workflow, the Level 5 CI workflow, and Copilot setup steps.
+- **Copilot cloud agent and code-review usage** apply to the attendee delegation path, not to this replay: Stage 5b and dependent Level 6 work are skipped when the required-test and cloud-profile handoff cannot be verified.
+- **Actions minutes** for the Level 5 CI workflow and Copilot setup steps. The APM audit workflow belongs to the optional track and is not published by core replay.
 - **Actions minutes** for the runner that orchestrates the run, up to 6 hours (the lab itself is capped at 4 hours by `LAB_TIMEOUT_S`).
 
 See the official GitHub billing documentation for current rates; this repository makes no price claims. Path filters (`docs/afternoon-2/**`, `solutions/afternoon-2/**`, `src/**`, `tests/**`, `.github/**` and the dev container) limit runs to relevant changes.
@@ -213,11 +215,12 @@ See the official GitHub billing documentation for current rates; this repository
 - Whether `copilot -p` expands plugin commands such as `/hve-core:rpi-research`, and how `--continue` behaves with `-p`, depend on the Copilot CLI version. A failure there is reported as a tester limitation, not a lab defect.
 - The introduction's **Dev Environment Setup** offers a template path and GitHub import fallback, both with an existing `HEAD`. The sandbox is a single-commit snapshot of the tested tree; it does not exercise importer UI or preserve imported history. The `infra-template` preflight warns while this repository is not marked as a template, because the template path then fails for participants.
 - Resources are always deleted, even on failure. Debug with the `workshop-tester-results` artifact (per-step logs, Copilot session exports, gh-aw run logs, the Copilot cloud agent PR JSON, the Copilot code review JSON).
-- Level 5 is reported as separate 5a and 5b stages. The tester runs the 5a CI and APM checks, then skips the Stage 5b setup PR and dependent delegation steps because its sandbox token cannot apply or verify the active no-bypass APM ruleset. The solution JSON is checked statically; that is not live enforcement.
+- Level 5 is reported as separate 5a and 5b stages. The tester runs 5a CI and setup checks, then skips the Stage 5b setup PR and dependent delegation steps because its sandbox token cannot apply or verify required-test enforcement and cannot supply installer consent or cloud-picker evidence. Static ruleset JSON is not live enforcement.
 - Because the Stage 5b gate is unavailable, the tester does not copy or publish the backlog workflow or planning brief, create or opt in an issue, run daily reconciliation, or assign Copilot. It neither bypasses checks nor claims an open setup PR, automated merge, human approval, or delegation as completed. Human review and any replay-only merge remain distinct gates, not automated evidence.
 - Publishing a deferred review finding is skipped because it needs a genuine finding and a human decision to defer it; the tester does not invent replacement findings.
 - The Level 4 curated CLI install is replayed; its VS Code/app UI and live agent-picker are skipped. The retained private screenshot is optional historical context. Level 5 accessibility remains a proctor-only demonstration; the tester does not run `a11y-review`.
-- The tester disables the personal HVE-Core CLI plugin only after repository agent files exist. Managed-policy rejection remains a failure/limitation; fresh interactive picker verification is not simulated.
+- The tester uninstalls only the known curated personal HVE identity before copying repository settings. Managed-policy rejection remains a failure/limitation; fresh interactive `/plugin` and agent-picker verification is not simulated.
+- Optional WIP Level 7 preserves the APM installation, policy, deny-and-restore, publication, and optional required-check exercises. The core replay skips them and claims no APM audit or gate evidence.
 - The shared Project configuration and intermediate fields (`l5-project-progress`) are skipped. The repository token does not grant Project access.
 - Because Stage 5b is skipped, Level 6 PR detection (`l6-pr`), review request (`l6-code-review`), workflow approval (`l6-approve-checks`), and acceptance/merge (`l6-accept-and-reconcile`) are recorded as skipped. The replay does not imply a Copilot review or human decision occurred.
 - The recap's facilitator-only push-protection demo is recorded as skipped. It needs GitHub Secret Protection on a licensed proctor repository, plus settings-UI steps (custom pattern and dry run) that the tester does not automate.

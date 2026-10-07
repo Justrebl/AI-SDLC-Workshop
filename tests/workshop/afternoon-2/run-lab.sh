@@ -54,7 +54,7 @@ git config user.email >/dev/null || git config user.email "workshop-tester@users
 
 # ---------------------------------------------------------------- Preflight
 step pre-tools preflight "Workshop tools available in the Codespace" literal 60 \
-  'for t in git dotnet node npm gh copilot apm curl; do printf "%s: " "$t"; command -v "$t" || exit 1; done; dotnet --version; node --version; gh --version | head -n1; copilot --version; apm --version'
+  'for t in git dotnet node npm gh copilot curl; do printf "%s: " "$t"; command -v "$t" || exit 1; done; dotnet --version; node --version; gh --version | head -n1; copilot --version'
 finish_step
 
 step pre-prompts preflight "Extract copy-paste prompts from workshop.md" translated 30 \
@@ -377,71 +377,36 @@ skip_step l4-marketplace-vscode "Level 4" "Register and verify catalog in VS Cod
 skip_step l4-marketplace-app "Level 4" "Tutor app registration demo" \
   "tutor-only app UI; no participant or tenant operations"
 
-step l4-copy-apm "Level 4" "Copy the solution manifest" literal 30 'cp solutions/afternoon-2/apm.yml ./apm.yml && cat apm.yml'
-grep -q 'microsoft/hve-core#1dbd6a7ea90b74accaf8c809262e38952bd4c359' apm.yml \
-  && check "apm.yml pins HVE-Core by SHA" true || check "apm.yml pins HVE-Core by SHA" false
+step l4-plugin-uninstall "Level 4" "Remove the known curated personal HVE installation" emulated 300 \
+  ". '$SCRIPT_DIR/marketplace.sh' && curated_hve_uninstall"
+note "qualified removal is authorized only in the disposable sandbox; learner consent and interactive restart are not emulated"
 finish_step
 [ "$STEP_FAILED" -eq 0 ] || exit 1
 
-step l4-apm-install "Level 4" "Install the APM dependency" literal 1200 'apm install --target copilot'
-[ -f apm.lock.yaml ] && check "apm.lock.yaml created" true || check "apm.lock.yaml created" false
-grep -q 'resolved_commit' apm.lock.yaml 2>/dev/null && check "lockfile records resolved_commit" true "$(grep -m3 'resolved_commit' apm.lock.yaml)" \
-  || check "lockfile records resolved_commit" false
+step l4-copy-settings "Level 4" "Copy and adapt the shared marketplace settings" translated 30 \
+  'test ! -e .github/copilot/settings.json && mkdir -p .github/copilot && cp solutions/afternoon-2/.github/copilot/settings.json .github/copilot/settings.json && node -e '"'"'const fs=require("fs");const p=".github/copilot/settings.json";const s=JSON.parse(fs.readFileSync(p,"utf8"));s.extraKnownMarketplaces["contoso-plugin-marketplace"].source.repo=process.env.SANDBOX_REPO;fs.writeFileSync(p,JSON.stringify(s,null,2)+"\n");'"'"
+note "the marketplace repo value uses the sandbox catalog; the supplied company example is unchanged in solutions"
 finish_step
 [ "$STEP_FAILED" -eq 0 ] || exit 1
 
-step l4-plugin-disable "Level 4" "Disable personal HVE-Core after verifying repository agents" emulated 300 \
-  ". '$SCRIPT_DIR/marketplace.sh' && curated_hve_disable"
-note "repository profile presence is checked before disabling; fresh interactive agent-picker verification is not emulated"
+step l4-settings-inventory "Level 4" "Inspect repository-selected plugin activation" emulated 900 \
+  'set -o pipefail; copilot plugin list --json | tee "$RESULTS_DIR/repository-plugins.json" && node -e '"'"'const fs=require("fs");const rows=JSON.parse(fs.readFileSync(process.argv[1],"utf8"));if(!Array.isArray(rows))throw new Error("Expected plugin inventory array");for(const name of ["hve-core","java-development"]){const found=rows.filter(p=>p.name===name);if(found.length!==1||found[0].marketplace!=="contoso-plugin-marketplace"||found[0].enabled!==true)throw new Error("Missing or ambiguous enabled curated plugin: "+name);}'"'"' "$RESULTS_DIR/repository-plugins.json"'
+note "CLI inventory is not a live /plugin or agent-picker check; Java payload execution is not claimed"
 finish_step
 [ "$STEP_FAILED" -eq 0 ] || exit 1
-
-step l4-copy-policy "Level 4" "Copy the policy" literal 30 'cp solutions/afternoon-2/apm-policy.yml ./apm-policy.yml'
-grep -q 'self_defined: deny' apm-policy.yml && check "policy denies self-defined MCP" true || check "policy denies self-defined MCP" false
-grep -q '^targets:' apm-policy.yml && check "no top-level targets key" false || check "no top-level targets key" true
-finish_step
-[ "$STEP_FAILED" -eq 0 ] || exit 1
-
-step l4-policy-status "Level 4" "Confirm APM parses the policy" literal 300 'apm policy status --policy-source apm-policy.yml'
-log_has 'found' && check "Outcome: found" true || check "Outcome: found" false
-log_has 'block' && check "Enforcement: block" true || check "Enforcement: block" false
-log_has 'warnings?[^a-z]*none' && check "Warnings: none" true || check "Warnings: none" false
-finish_step
-[ "$STEP_FAILED" -eq 0 ] || exit 1
-
-step l4-policy-audit "Level 4" "Audit with policy" literal 1200 'apm audit --ci --policy apm-policy.yml'
-finish_step
-[ "$STEP_FAILED" -eq 0 ] || exit 1
-
-step l4-deny-edit "Level 4" "Temporarily deny microsoft/hve-core in the policy" translated 30 \
-  'cp apm-policy.yml "$RESULTS_DIR/policy-before-deny.yml" && awk '"'"'/^  require_pinned_constraint:/{print "  deny:\n    - \"microsoft/hve-core\""} {print}'"'"' apm-policy.yml > apm-policy.tmp && mv apm-policy.tmp apm-policy.yml && cat apm-policy.yml'
-finish_step
-[ "$STEP_FAILED" -eq 0 ] || exit 1
-
-step l4-deny-audit "Level 4" "Policy audit fails with exit code 1" literal 1200 'apm audit --ci --policy apm-policy.yml'
-finish_step 1
-[ "$STEP_FAILED" -eq 0 ] || exit 1
-
-step l4-restore-policy "Level 4" "Remove the temporary deny entry and audit the original policy" translated 1200 \
-  'cp "$RESULTS_DIR/policy-before-deny.yml" apm-policy.yml && apm audit --ci --policy apm-policy.yml'
-finish_step
-[ "$STEP_FAILED" -eq 0 ] || exit 1
-
-step l4-copy-apm-ci "Level 4" "Copy the PR audit workflow" literal 30 \
-  'mkdir -p .github/workflows && cp solutions/afternoon-2/.github/workflows/apm-audit.yml .github/workflows/apm-audit.yml'
-grep -q 'microsoft/apm-action@v1' .github/workflows/apm-audit.yml \
-  && check "PR audit uses the APM action" true || check "PR audit uses the APM action" false
-finish_step
-[ "$STEP_FAILED" -eq 0 ] || exit 1
+skip_step l4-settings-ui "Level 4" "Reload and inspect /plugin, DT Coach and RPI" \
+  "interactive restart, trust prompts and UI discovery are not exercised headlessly; a manual personal reinstall is not a settings pass"
+skip_step l4-enterprise-settings "Level 4" "Discuss enterprise-managed marketplace and plugin baseline" \
+  "administrator rollout discussion; no enterprise settings are written"
 
 skip_step l4-hve-commit "Level 4" "HVE governed setup commit prompt" \
   "native prompt availability and human path/staged-set confirmations unverified; following sandbox commit is a translation"
-step l4-commit "Level 4" "Sandbox translation: commit and push governed setup" translated 300 \
-  'git status; git add apm.yml apm.lock.yaml apm-policy.yml .github .agents && git diff --cached --stat && git commit -m "Add governed repository agents and APM audit" && git push'
+step l4-commit "Level 4" "Sandbox translation: commit and push repository plugin settings" translated 300 \
+  'git status; git add .github/copilot/settings.json && git diff --cached --stat && git commit -m "Share curated repository plugin settings" && git push'
 git ls-files --error-unmatch .github/workflows/daily-backlog.lock.yml >/dev/null 2>&1 \
   && check "no workflow lock files committed in Level 4" false || check "no workflow lock files committed in Level 4" true
-gh api "repos/$SANDBOX_REPO/contents/.github/agents/rpi-agent.agent.md" --jq .path >/dev/null 2>&1 \
-  && check "RPI Agent is on the default branch" true || check "RPI Agent is on the default branch" false
+gh api "repos/$SANDBOX_REPO/contents/.github/copilot/settings.json" --jq .path >/dev/null 2>&1 \
+  && check "plugin settings are on the default branch" true || check "plugin settings are on the default branch" false
 untracked=$(git status --porcelain | head -n 30)
 [ -n "$untracked" ] && note "left uncommitted after Level 4: $(echo "$untracked" | tr '\n' ' ')"
 finish_step
@@ -483,39 +448,22 @@ grep -q 'dotnet build MusicCatalog.slnx --no-restore' .github/workflows/copilot-
 note "manual YAML edit replaced by an awk insertion after the npm ci step"
 finish_step
 
-step l5-apm-ci "Level 5a" "Wait for the audit on the latest main commit" translated 600 "
-  expected_sha=\$(git rev-parse HEAD)
-  apm_run=''
-  for _ in \$(seq 1 30); do
-    apm_run=\$(gh run list -R '$SANDBOX_REPO' --workflow apm-audit.yml --branch main --limit 5 \
-      --json databaseId,headSha --jq \"[.[] | select(.headSha == \\\"\$expected_sha\\\")][0].databaseId // empty\")
-    [ -n \"\$apm_run\" ] && break
-    sleep 10
-  done
-  [ -n \"\$apm_run\" ] || { echo 'No APM Audit run found for the latest main commit'; exit 1; }
-  gh run watch \"\$apm_run\" -R '$SANDBOX_REPO' --exit-status
-"
-finish_step
-
-step l5-apm-gate-config "Level 5a" "Verify the strict APM required-check rule" translated 30 \
-  'node -e '"'"'const fs=require("fs");const r=JSON.parse(fs.readFileSync(process.argv[1],"utf8"));const ok=r.target==="branch"&&r.enforcement==="active"&&r.bypass_actors.length===0&&r.conditions.ref_name.include.includes("~DEFAULT_BRANCH")&&r.rules.some(x=>x.type==="required_status_checks"&&x.parameters.required_status_checks.some(c=>c.context==="apm-audit"));process.exit(ok?0:1)'"'"' solutions/afternoon-2/rulesets/main-apm-audit-required.json'
-finish_step
-skip_step l5-apm-ruleset "Level 5a" "Require the apm-audit check before delegation" \
-  "needs Administration permission; the strict solution JSON is checked, but live merge enforcement is not simulated"
+skip_step l5-cloud-profiles "Level 5a" "Verify RPI cloud-agent profile and supporting files" \
+  "repository plugin settings are not cloud-profile deployment; installer collision/publication consent and live cloud picker cannot be verified unattended"
 
 # ---------------------------------------------------------------- Level 5b
 skip_step l5b-setup-pr "Level 5b" "Publish the backlog workflow and planning brief in a reviewed PR" \
-  "cannot verify the active no-bypass APM rule: Administration permission is unavailable, so the setup PR and dependent delegation are skipped rather than bypassing the gate"
+  "cannot verify the active required-test rule or cloud-profile handoff unattended; dependent delegation is skipped rather than claiming readiness"
 skip_step l5b-human-review "Level 5b" "Human review and merge of the setup PR" \
   "no Stage 5b setup PR was created; the unattended replay cannot provide human approval"
 skip_step l5b-sandbox-merge-translation "Level 5b" "Merge the setup PR as a replay-only translation" \
-  "no Stage 5b setup PR was created because active no-bypass enforcement could not be verified"
+  "no Stage 5b setup PR was created because the verification handoff could not be established"
 skip_step l5-ghaw-install "Level 5b" "Install the gh-aw extension" \
-  "Stage 5b cannot begin until the strict APM audit rule is active"
+  "Stage 5b cannot begin until the verified test and cloud-profile handoff"
 skip_step l5-ghaw-init "Level 5b" "Initialize the repository (gh aw init)" \
-  "Stage 5b setup is gated on verified no-bypass APM enforcement"
+  "Stage 5b setup is gated on verified required tests and cloud readiness"
 skip_step l5-copy-workflows "Level 5b" "Copy the bounded backlog workflow" \
-  "Stage 5b setup PR is skipped because live no-bypass APM enforcement is unavailable"
+  "Stage 5b setup PR is skipped because live required-test enforcement and cloud profiles are unverified"
 skip_step l5-compile "Level 5b" "Compile workflows (gh aw compile)" \
   "the workflow was not copied because the Stage 5b setup PR gate is unavailable"
 skip_step l5-review-diff "Level 5b" "Review generated files without editing" \
@@ -609,7 +557,7 @@ if [ -n "${ISSUE_NUMBER:-}" ]; then
   fi
 else
   skip_step l6-pr "Level 6" "Copilot cloud agent opens a PR that references the issue" \
-    "Stage 5b did not create or assign an issue because its no-bypass APM gate is unavailable"
+    "Stage 5b did not create or assign an issue because its test/cloud-profile handoff is unverified"
   skip_step l6-approve-checks "Level 6" "Approve and run workflows on the Copilot PR, then wait for the test check" \
     "no Copilot PR exists because Stage 5b delegation was skipped"
   skip_step l6-code-review "Level 6" "Request a Copilot code review on the PR" \
@@ -618,6 +566,9 @@ fi
 
 skip_step l6-accept-and-reconcile "Level 6" "Accept delivery and verify issue/Project closure evidence" \
   "requires a human merge decision; automated tester does not merge or claim acceptance"
+
+skip_step l7-apm "Optional Level 7" "WIP: dependency installation, policy audit, deny-and-restore, publication and optional required-check rule" \
+  "optional APM track is not executed by the core replay; no audit or live required-check enforcement is claimed"
 
 skip_step l6-push-protection "Recap" "Facilitator demo: secret scanning push protection" \
   "facilitator demo: needs GitHub Secret Protection on a licensed proctor repository and settings-UI steps (custom pattern, dry run)"

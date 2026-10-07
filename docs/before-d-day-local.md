@@ -73,7 +73,7 @@ Codespaces and container registry endpoints are **not** needed for this setup. T
    | .NET SDK | 8.x for GitHub Copilot Zero to Hero (`albums-api`) and 10.x for the AI SDLC workshop; both can be installed side by side | A1, A2 | [dotnet.microsoft.com](https://dotnet.microsoft.com/download) | `dotnet --version` |
    | GitHub CLI | Latest | A1, A2 | [cli.github.com](https://cli.github.com/) | `gh --version` |
    | GitHub Copilot CLI | Latest | A1, A2 | `npm install -g @github/copilot` ([docs](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli)) | `copilot --version` |
-   | APM CLI | Latest | A2 | [APM installation](https://microsoft.github.io/apm/getting-started/installation/) | `apm --version` |
+   | APM CLI | 0.33.0 | A2 optional WIP Level 7 only | [APM installation](https://microsoft.github.io/apm/getting-started/installation/) | `apm --version` |
    | gh-aw extension | Latest | A2 | `gh extension install github/gh-aw` | `gh aw version` |
 
 4. **Sign in.**

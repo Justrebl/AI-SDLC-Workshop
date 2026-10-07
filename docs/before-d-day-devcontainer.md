@@ -130,7 +130,7 @@ Codespaces endpoints are **not** needed for this setup. The complete endpoint ta
   gh auth setup-git
   copilot                             # then /login, complete the device flow, and /exit
   copilot --version
-  apm --version                       # the AI SDLC workshop
+  apm --version                       # optional WIP Level 7 only; skip for the core path
   gh aw version                       # the AI SDLC workshop
   ```
 

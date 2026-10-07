@@ -1,7 +1,33 @@
 # Levels 4-6: agreed learning-flow decisions
 
 **Decision date:** 2026-10-06  
-**Status:** Applied to the guide and solution workflow; live delivery validation remains separate.
+**Status:** Historical baseline; the Level 4/APM allocation is superseded by the 2026-10-08 decision below. Live delivery validation remains separate.
+
+## Superseding decision: repository plugin settings and optional APM
+
+**Decision date:** 2026-10-08.
+
+Level 4 now covers marketplace discovery and repository plugin settings only.
+Keep **Use your company's curated marketplace** unchanged. After that exercise,
+uninstall the known curated personal CLI plugin, copy and review
+`solutions/afternoon-2/.github/copilot/settings.json`, commit/push it, and verify
+the repository-selected plugins in `/plugin`. The supplied JSON uses
+`Justrebl/AI-SDLC-WKSDay`, catalog auto-update, and enabled
+HVE-Core plus Java Development; learners adapt the marketplace repo value to their
+registered catalog. Java discovery is not proof of usable Java payloads.
+Marketplace restrictions are deferred and are not part of the current settings asset.
+
+Close Level 4 with enterprise-managed settings for distributing approved catalogs,
+restricting marketplaces, and extending the enabled plugin baseline across teams.
+Move the APM installation, lockfile, policy, audit, deny-and-restore, publication,
+and optional CI ruleset into **Optional Level 7: WIP — Going further with plugin
+audit and traceability**, outside the core agenda.
+
+Levels 5–6 require application tests and independently verified cloud/gh-aw
+profiles, not an APM gate. CLI plugin settings do not deploy the cloud RPI profile
+or satisfy the backlog workflow's agent import. Current operational instructions
+and timing are in the [guide](../workshop.md) and [tutor guide](../../tutor.md).
+The remainder of this record preserves the earlier design for historical context.
 
 The next focused increment and post-merge recovery sequence are in
 [the pedagogy resume plan](pedagogy-resume-plan.md). This decision record describes

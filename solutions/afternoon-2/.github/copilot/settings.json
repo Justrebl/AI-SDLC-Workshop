@@ -3,11 +3,13 @@
     "contoso-plugin-marketplace": {
       "source": {
         "source": "github",
-        "repo": "YOUR-ORG/YOUR-REPO"
-      }
+        "repo": "Justrebl/AI-SDLC-WKSDay"
+      },
+      "autoUpdate": true
     }
   },
   "enabledPlugins": {
-    "hve-core@contoso-plugin-marketplace": true
+    "hve-core@contoso-plugin-marketplace": true,
+    "java-development@contoso-plugin-marketplace": true
   }
 }

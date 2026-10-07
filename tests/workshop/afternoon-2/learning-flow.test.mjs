@@ -10,7 +10,8 @@ const tutor = read('../../../docs/tutor.md');
 const workflow = read('../../../solutions/afternoon-2/.github/workflows/daily-backlog.md');
 const runner = read('./run-lab.sh');
 const level = (number) => guide.slice(guide.indexOf(`# Level ${number}:`),
-  guide.indexOf(number === 6 ? '# Recap:' : `# Level ${number + 1}:`));
+  guide.indexOf(number === 6 ? '# Optional Level 7:' : `# Level ${number + 1}:`));
+const optional = guide.slice(guide.indexOf('# Optional Level 7:'), guide.indexOf('# Recap:'));
 const visible = withoutDetails;
 const header = workflow.split('\n---\n')[0];
 const output = (name) => header.match(new RegExp(`^  ${name}:\\n((?:    .*\\n)+)`, 'm'))?.[1];
@@ -130,8 +131,8 @@ test('Level 5 security assignment serializes the repository and actual default b
   assert.match(payload.agent_assignment.custom_instructions, /do not change application code/);
 });
 
-test('APM executable governance is explained before the command and checked through files and output', () => {
-  const l4 = level(4);
+test('optional APM executable governance is explained before the command and checked through files and output', () => {
+  const l4 = optional;
   const section = l4.slice(l4.indexOf('### Step 1: Set the allowed sources'),
     l4.indexOf('### Step 3: Edit a rule to block a dependency'));
   const copy = section.indexOf('cp solutions/afternoon-2/apm-policy.yml');
@@ -176,9 +177,9 @@ test('Level 5a establishes verification before the reviewed 5b delegation handof
   assert.ok(stage5aStart >= 0 && stage5bStart > stage5aStart);
   assert.ok(primerLines.length <= 5, `${primerLines.length} visible Stage 5a topic lines`);
   assert.doesNotMatch(topic, /```/);
-  for (const phrase of ['application tests, cloud setup, and APM audit as separate parts',
+  for (const phrase of ['application tests, cloud setup, and cloud-agent profiles as separate parts',
     'before delegation', 'rulesets make selected checks merge requirements',
-    'strict `apm-audit` gate before Stage 5b']) assert.ok(topic.includes(phrase), phrase);
+    'available RPI profile before Stage 5b']) assert.ok(topic.includes(phrase), phrase);
 
   const positions = [
     stage5a.indexOf('cp solutions/afternoon-2/.github/workflows/ci.yml'),
@@ -188,8 +189,7 @@ test('Level 5a establishes verification before the reviewed 5b delegation handof
     stage5a.indexOf('main-tests-required.json'),
     stage5a.indexOf('Commit the reviewed Copilot setup at .github/workflows/copilot-setup-steps.yml'),
     stage5a.indexOf('Check that **Copilot Setup Steps** passed'),
-    stage5a.indexOf('wait for **APM Audit** on its latest commit to pass'),
-    stage5a.indexOf('main-apm-audit-required.json'),
+    stage5a.indexOf('### Step 3: Verify the cloud-agent profiles'),
     stage5a.indexOf('### Handoff artifact: Stage 5a verification record'),
     stage5bStart,
   ];
@@ -208,8 +208,8 @@ test('Level 5a establishes verification before the reviewed 5b delegation handof
     stage5b.indexOf('Open your committed `docs/project-planning/dt-later-slice.md`'),
     stage5b.indexOf('**Decision check:** Does this brief revise the original agreement'),
     stage5b.indexOf('Create a PR titled "Add the Stage 5b backlog setup"'),
-    stage5b.indexOf('Wait for both required checks, `test` and `apm-audit`'),
-    stage5b.indexOf('A human reviews and merges the PR'),
+    stage5b.indexOf('Wait for the required `test` check'),
+    stage5b.indexOf('A human reviews and merges'),
     stage5b.indexOf('Verify the Stage 5b setup PR is merged'),
   ];
   assert.ok(stage5bPositions.every((position, index) =>
@@ -231,7 +231,7 @@ test('Level 5a establishes verification before the reviewed 5b delegation handof
   }
   assert.match(stage5b, /reading it does not grant write authority/);
   assert.match(stage5b, /one summary issue, five comments, three closures, and ten label additions or removals/);
-  assert.match(stage5b, /The generated gh-aw `\.lock\.yml` is not APM's `apm\.lock\.yaml`/);
+  assert.match(optional, /generated gh-aw `\.lock\.yml` and APM's `apm\.lock\.yaml` lock different systems/);
   assert.match(stage5b, /people set the intermediate review state/);
   assert.match(stage5b, /### Handoff artifact: Human-selected backlog task[\s\S]*?Planning[\s\S]*?Selection[\s\S]*?Issue contract[\s\S]*?Authority/);
   assert.match(workflow, /schedule: daily on weekdays/);
@@ -240,14 +240,13 @@ test('Level 5a establishes verification before the reviewed 5b delegation handof
   assert.match(workflow, /If a file or tool is missing, report\s+missing evidence/);
 
   const stage5aCi = runner.indexOf('step l5-ci');
-  const stage5aAudit = runner.indexOf('step l5-apm-ci');
-  const strictRuleSkip = runner.indexOf('skip_step l5-apm-ruleset');
+  const cloudProfiles = runner.indexOf('skip_step l5-cloud-profiles');
   const stage5bSkip = runner.indexOf('skip_step l5b-setup-pr');
   const stage5bInstall = runner.indexOf('skip_step l5-ghaw-install');
-  assert.ok(stage5aCi >= 0 && stage5aAudit > stage5aCi && strictRuleSkip > stage5aAudit);
-  assert.ok(stage5bSkip > strictRuleSkip && stage5bInstall > stage5bSkip);
-  assert.match(runner, /strict solution JSON is checked, but live merge enforcement is not simulated/);
-  assert.match(runner, /cannot verify the active no-bypass APM rule/);
+  assert.ok(stage5aCi >= 0 && cloudProfiles > stage5aCi);
+  assert.ok(stage5bSkip > cloudProfiles && stage5bInstall > stage5bSkip);
+  assert.match(runner, /cannot verify the active required-test rule or cloud-profile handoff/);
+  assert.doesNotMatch(stage5a, /apm-audit|main-apm-audit-required/);
   assert.match(runner, /skip_step l5b-human-review/);
   assert.match(runner, /skip_step l5b-sandbox-merge-translation/);
   assert.doesNotMatch(runner, /gh pr merge.*--admin|gh pr merge.*--force/);
@@ -267,10 +266,9 @@ test('the required path works with optional context closed', () => {
   const l4 = visible(level(4));
   const l5 = visible(level(5));
   const l6 = visible(level(6));
-  for (const text of ['apm install --target copilot', 'copilot plugin disable hve-core',
-    'apm audit --ci --policy apm-policy.yml', 'Restore a passing audit before committing',
-    'Commit the governed repository setup: apm.yml, apm.lock.yaml, apm-policy.yml',
-    'the reviewed deployed files under .github/ and .agents/', 'default branch']) {
+  for (const text of ['copilot plugin uninstall hve-core@contoso-plugin-marketplace',
+    'cp solutions/afternoon-2/.github/copilot/settings.json', '/plugin',
+    'Commit the reviewed repository plugin settings', 'default branch']) {
     assert.ok(l4.includes(text), text);
   }
   for (const text of ['backlog-managed', 'committed', 'gh aw compile', 'gh aw run daily-backlog',
@@ -279,7 +277,7 @@ test('the required path works with optional context closed', () => {
     assert.ok(l5.includes(text), text);
   }
   for (const text of ['Under **Reviewers**, request **Copilot**', 'posted Copilot review', 'Approve and run workflows',
-    'both', '`test`', '`apm-audit`', 'substantive changes', 'Partial delivery stays open']) {
+    '`test`', 'active required checks', 'substantive changes', 'Partial delivery stays open']) {
     assert.ok(l6.includes(text), text);
   }
 });
@@ -290,14 +288,14 @@ test('Level 6 binds review evidence to the current PR head and keeps acceptance 
   const primerLines = topic.split('\n').filter((line) => line.trim() && !line.startsWith('## Topic'));
   assert.ok(primerLines.length <= 5, `${primerLines.length} visible Level 6 topic lines`);
   assert.doesNotMatch(topic, /```/);
-  for (const phrase of ['exact PR revision', 'posted Copilot review and current `test`/`apm-audit` checks',
+  for (const phrase of ['exact PR revision', 'posted Copilot review and current `test` check',
     'Handoff:', 'human approves or requests changes', 'an open PR stays open']) {
     assert.ok(topic.includes(phrase), phrase);
   }
 
   assert.match(l6, /Record the current PR head SHA/);
   assert.match(l6, /confirm the posted review also covers it/);
-  assert.match(l6, /Any later push makes earlier review\/check evidence stale/);
+  assert.match(l6, /Any later push\s+makes earlier review\/check evidence stale/);
   assert.match(l6, /Compare the five issue criteria with code, tests, and any observed UI behavior/);
   assert.match(l6, /Merge only when the issue criteria are satisfied, required checks pass for the latest revision/);
   assert.doesNotMatch(l6, /## Secret scanning and push protection/);
@@ -406,7 +404,7 @@ test('each solution copy has a decision check in its own step without moving est
     const step = guide.slice(block.index, end < 0 ? guide.length : end);
     assert.match(step, /\*\*Decision check:\*\*/, block[1]);
   }
-  assert.ok(level(4).includes('# Level 4: APM-governed repository agents'));
+  assert.ok(level(4).includes('# Level 4: Curated marketplace and repository plugin settings'));
   assert.ok(guide.slice(guide.indexOf('# Recap:')).includes('### Facilitator demo: Secret scanning'));
 });
 
@@ -452,7 +450,7 @@ test('proctor demos are not replayed as participant runs', () => {
   assert.match(runner, /skip_step l5-accessibility-demo/);
   assert.doesNotMatch(runner, /wait_aw_run l5-run-a11y|step l4-plugin-install|skip_step l6-test-writer/);
   const capstone = guide.slice(guide.indexOf('## Architect capstone'));
-  assert.match(capstone, /\| Your template copy's curated marketplace, registered in CLI and VS Code \|/);
+  assert.match(capstone, /\| Your curated marketplace and `\.github\/copilot\/settings\.json` \|/);
 });
 
 test('the follow-up issue has committed planning evidence before delegation', () => {
@@ -461,8 +459,8 @@ test('the follow-up issue has committed planning evidence before delegation', ()
   const setupPr = l5.indexOf('Create a PR titled "Add the Stage 5b backlog setup"');
   const issue = l5.indexOf('### Step 3: Create a scoped feature issue');
   assert.ok(planningCopy >= 0 && planningCopy < setupPr && setupPr < issue);
-  assert.match(l5, /Wait for both required checks, `test` and `apm-audit`/);
-  assert.match(l5, /A human reviews and merges the PR through the normal workflow/);
+  assert.match(l5, /Wait for the required `test` check/);
+  assert.match(l5, /A human reviews and merges\s+the PR through the normal workflow/);
   assert.match(runner, /skip_step l5-planning-follow-up/);
   assert.match(runner, /skip_step l5-managed-issue/);
   assert.match(runner, /skip_step l5-run-daily-backlog/);

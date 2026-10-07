@@ -74,3 +74,9 @@ curated_hve_disable() {
   copilot plugin disable hve-core@contoso-plugin-marketplace || return
   hve_state disabled
 }
+
+curated_hve_uninstall() {
+  hve_state enabled || return
+  copilot plugin uninstall hve-core@contoso-plugin-marketplace || return
+  hve_state absent
+}
