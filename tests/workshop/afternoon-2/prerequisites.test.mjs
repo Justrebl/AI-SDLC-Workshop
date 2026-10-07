@@ -82,6 +82,10 @@ test('Level 4 preserves the pinned installation without maintainer verification 
   assert.match(level4, /deployment layout for this workshop, not an AI model/);
   assert.match(level4, /Managed settings may prevent local disabling/);
   assert.match(level4, /does not disable a separate VS Code extension or plugin/);
+  assert.match(level4, /All HVE-Core assets deployed by APM for this[\s\S]*?repository should remain available/);
+  assert.match(level4, /repository-owned copy of the pinned[\s\S]*?dependency, rather than the personal plugin/);
+  assert.match(level4, /quick checks, not the complete set/);
+  assert.match(level4, /client support and tool permissions still apply/);
 });
 
 test('Level 4 demonstrates a temporary deny without widening the original allowlist', () => {

@@ -2162,8 +2162,14 @@ copilot plugin list --json
 ```
 
 Verify the curated row is disabled, then start `copilot` again from the repository
-root and check the agent picker. **RPI Agent** and **Backlog Manager** should remain
-available from the repository. Disable preserves the personal install;
+root and check the agent picker. **All HVE-Core assets deployed by APM for this
+repository should remain available** from its repository-owned copy of the pinned
+dependency, rather than the personal plugin. **RPI Agent** and **Backlog Manager**
+are quick checks, not the complete set: also inspect the other deployed agents,
+skills, and prompts you use. Disabling the personal plugin does not remove those
+repository assets; client support and tool permissions still apply.
+
+Disable preserves the personal install;
 `copilot plugin enable hve-core@contoso-plugin-marketplace` restores it later.
 
 <div class="warning" data-title="Managed plugins and VS Code">
@@ -2172,7 +2178,8 @@ available from the repository. Disable preserves the personal install;
 > to resolve the intended handoff; do not claim the personal plugin is disabled.
 > This CLI command does not disable a separate VS Code extension or plugin.
 > In VS Code, disable the personal HVE plugin through its plugin UI, then verify
-> repository RPI Agent and Backlog Manager remain available. Distinguish any managed
+> the repository-deployed HVE-Core assets remain available, using RPI Agent and
+> Backlog Manager as quick checks. Distinguish any managed
 > duplicate entries explicitly; they do not mean the APM installation failed.
 
 </div>
