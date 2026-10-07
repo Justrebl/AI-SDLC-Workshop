@@ -3,13 +3,10 @@
 This folder contains supplied screenshots and generated diagrams for `docs\afternoon-2\workshop.md`. The four remaining screenshot captures referenced by the guide are documented below; save them with the exact filenames shown.
 
 - `banner.png` — Supplied SDLC stage diagram used as the MOAW workshop banner, showing Setup through Operations and the rework, next-sprint, hotfix, and next-iteration paths.
-- `a2-route-map.png` — Generated introduction route map: all stages gray because no level has started. The introduction remains Starter readiness, not a separate Level 0 page.
-- `a2-route-map-level-1.png` through `a2-route-map-level-6.png` — Matching generated maps highlighting only the current level in blue; other levels and the recap remain gray. Highlighting indicates focus, not completion.
 - `starter-repository.png` — Supplied VS Code starter-readiness capture showing the repository layout and passing xUnit and Vitest results. This image does not establish a clean working tree.
 - `l1-hve-plugin-installed.png` — Supplied Copilot CLI Installed plugins capture showing HVE-Core v3.2.2 enabled in user scope.
 - `l1-hve-plugin-install-success.png` — Supplied Copilot CLI marketplace registration and plugin installation success messages, displayed after Level 1 Step 2.
 - Level 1 Step 4 uses the supplied `docs\assets\vscode-hve-core.png` — VS Code Marketplace page for the `ise-hve-essentials.hve-core` extension alternative; no separate placeholder remains.
-- Level 2 uses `a2-route-map-level-2.png` after the discovery explanation, replacing the former `l2-dt-coach-framing.png` placeholder.
 - `l2-dt-decisions.png` — Supplied VS Code capture showing the shared playlist design decisions beside a separate, proposed Level 5 mood-filter slice. The playlist document preserves the open duplicate-feedback UX choice; the later-slice document states that it is not implemented or validated.
 - `l2-brd-guided-decisions.png` — Supplied Copilot CLI capture showing BRD Builder asking for measurement decisions. The Define gate remains open because the quality review report was not validated; this is not approval evidence.
 - `l2-backlog-handoff-review.png` — Supplied Copilot CLI capture showing Functional Planner's handoff guidance, the user switching to Backlog Manager, and dispatch to the GitHub Backlog Executor. The capture flags incorrect operation ticks and PRD scope discrepancies; dispatch alone does not establish successful issue creation.
@@ -35,24 +32,3 @@ Resume at the earliest capture whose prerequisites are met in your learner repos
 | **`l5-daily-backlog-issue.png`** | **After a completed daily-backlog run produces a summary.** Show the GitHub `[Daily backlog]` issue and readable **Evidence and progress**, **Recommended implementation order**, **Needs a human decision**, and **Can be developed in parallel** sections where genuinely present. Include planning/evidence links. Do not invent parallel tasks or hide missing-evidence results. |
 | **`l5-cloud-agent-assignment.png`** | **At the human assignment step.** Show the selected feature issue and the open **Assignees/Copilot task control**, including Copilot and **RPI Agent** where supported. Include bounded task instructions if the dialog exposes them. Use the learner's chosen later slice; **Remove a track is only a fallback**. If the custom-agent selector is unavailable, capture the real UI and document that limitation. |
 | **`l6-cloud-agent-pr-review.png`** | **After the independent Copilot review is posted.** Show the cloud-agent PR, linked issue, agent-session link, posted review, and both **`test` and `apm-audit`** checks. Checks and review must correspond to the same PR revision. Use a labelled composite if necessary for readability. Preserve pending/failed statuses: a requested reviewer is not a completed review, and green checks are not human acceptance. |
-
-## Route-map source and regeneration
-
-`a2-route-map.mmd` is the shared Mermaid source for all seven maps. Arrows show
-the workshop sequence and handoffs, not infrastructure or network connections.
-The three act boundaries group feature delivery, method scaling and review.
-Level 5 includes verification, backlog reconciliation and cloud delegation;
-Level 6 keeps hosted checks, independent Copilot review and human acceptance
-distinct. The recap is a destination, not an extra implementation level.
-
-To regenerate, use Node.js and Mermaid CLI 12.0.0. If the renderer is missing,
-obtain it in the npm cache, then run the script from the repository root:
-
-```bash
-npx --yes --package @mermaid-js/mermaid-cli@12.0.0 mmdc --version
-node tests/workshop/afternoon-2/render-route-maps.mjs
-```
-
-The script renders the all-gray source and six single-level variants to PNG,
-using a white background at double resolution. It does not change the guide
-or infer completion from learner progress.
