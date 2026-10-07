@@ -10,6 +10,7 @@ const workshop = readFileSync(new URL('../../../docs/afternoon-2/workshop.md', i
 const runner = readFileSync(new URL('./run-lab.sh', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const testerReadme = readFileSync(new URL('./README.md', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const overview = readFileSync(new URL('../../../README.md', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
+const optional = workshop.slice(workshop.indexOf('# Optional Level 7:'), workshop.indexOf('# Recap:'));
 const level3 = workshop.slice(workshop.indexOf('# Level 3:'), workshop.indexOf('# Level 4:'));
 const phaseInvocation = (phase) => level3.match(new RegExp(
   '```text\\n(/hve-core:' + phase + '\\n[\\s\\S]*?)\\n```',
@@ -40,7 +41,7 @@ test('Level 3 publishes through a reviewed PR and proceeds directly to Level 4',
   assert.match(level3, /default branch includes the merged Level 3 pull request/);
   assert.doesNotMatch(level3, /You do not push until Level 4/);
 
-  const l3Replay = runner.slice(runner.indexOf('copilot_prompt l3-research'), runner.indexOf('step l4-copy-apm'));
+  const l3Replay = runner.slice(runner.indexOf('copilot_prompt l3-research'), runner.indexOf('step l4-marketplace-install'));
   assert.ok(l3Replay.indexOf('step l3-feature-branch') < l3Replay.indexOf('copilot_prompt l3-implement'));
   assert.ok(l3Replay.indexOf('step l3-review-npm') < l3Replay.indexOf('step l3-pr-push'));
   assert.ok(l3Replay.indexOf('step l3-pr-create') < l3Replay.indexOf('skip_step l3-human-review-merge'));
@@ -54,42 +55,37 @@ test('Level 3 publishes through a reviewed PR and proceeds directly to Level 4',
   assert.match(testerReadme, /automated merge is not human review, human acceptance, or evidence of live ruleset enforcement/);
 });
 
-test('Level 4 preserves the pinned installation without maintainer verification notes', () => {
+test('Level 4 shares plugin settings while the pinned installation remains optional', () => {
   const level4 = workshop.slice(workshop.indexOf('# Level 4:'), workshop.indexOf('# Level 5:'));
   assert.doesNotMatch(level4, /Documented capability plus live verification|Live verification for this workshop|release-tag pins failed/);
   assert.doesNotMatch(level4, /```(?:powershell|cmd)|Copy-Item|New-Item|\.\\/);
-  assert.match(level4, /```bash\ncp solutions\/afternoon-2\/apm\.yml \.\/apm\.yml\n```/);
-  assert.match(level4, /microsoft\/hve-core#1dbd6a7ea90b74accaf8c809262e38952bd4c359/);
-  assert.match(level4, /apm install --target copilot/);
-  assert.match(runner, /cp solutions\/afternoon-2\/apm\.yml \.\/apm\.yml/);
-  const topic = level4.slice(level4.indexOf('## Topic'), level4.indexOf('<details>'));
+  assert.match(optional, /```bash\ncp solutions\/afternoon-2\/apm\.yml \.\/apm\.yml\n```/);
+  assert.match(optional, /microsoft\/hve-core#1dbd6a7ea90b74accaf8c809262e38952bd4c359/);
+  assert.match(optional, /apm install --target copilot/);
+  assert.doesNotMatch(level4, /apm install|apm audit --ci|cp solutions\/afternoon-2\/apm/);
+  const topic = level4.slice(level4.indexOf('## Topic'), level4.indexOf('**Why this level:**'));
   const visibleLines = topic.split('\n').filter((line) => line.trim() && !line.startsWith('## Topic'));
-  assert.match(level4, /^# Level 4: APM-governed repository agents$/m);
-  assert.match(workshop, /^  - 'Level 4: APM-governed repository agents'$/m);
-  assert.match(overview, /^\| 4 \| APM and repository agents \|/m);
+  assert.match(level4, /^# Level 4: Curated marketplace and repository plugin settings$/m);
+  assert.match(workshop, /^  - 'Level 4: Curated marketplace and repository plugin settings'$/m);
+  assert.match(overview, /^\| 4 \| Curated marketplace and repository plugin settings \|/m);
   assert.ok(visibleLines.length <= 5, `${visibleLines.length} visible topic lines`);
   assert.doesNotMatch(topic, /```/);
   for (const phrase of [
-    'APM moves HVE-Core from your personal install into this repository',
-    'manifest pins the dependency; the lockfile records its resolution',
-    'Copilot reads deployed profiles and skills',
-    'policy and audit verify them',
-    'Level 5 requires that audit before cloud-agent PRs merge',
-    'does not run RPI or change the playlist',
+    "company's curated marketplace", 'remove the personal CLI installation',
+    '.github/copilot/settings.json', 'Commit and publish', '/plugin',
+    'enterprise-managed settings',
   ]) assert.ok(topic.includes(phrase), phrase);
-  assert.match(level4, /lockfile records APM's\nresolved dependency state/);
-  assert.match(level4, /does not guarantee identical behavior across client or\nmodel versions/);
-  assert.match(level4, /deployment layout for this workshop, not an AI model/);
-  assert.match(level4, /Managed settings may prevent local disabling/);
-  assert.match(level4, /does not disable a separate VS Code extension or plugin/);
-  assert.match(level4, /All HVE-Core assets deployed by APM for this[\s\S]*?repository should remain available/);
-  assert.match(level4, /repository-owned copy of the pinned[\s\S]*?dependency, rather than the personal plugin/);
-  assert.match(level4, /quick checks, not the complete set/);
-  assert.match(level4, /client support and tool permissions still apply/);
+  assert.match(optional, /Matching content does not guarantee identical behavior/);
+  assert.match(optional, /deployment layout for this workshop, not an AI model/);
+  assert.match(optional, /Managed settings may prevent local disabling/);
+  assert.match(optional, /does not disable a separate VS Code extension or plugin/);
+  assert.match(optional, /All HVE-Core assets deployed by APM for this[\s\S]*?repository should remain available/);
+  assert.match(optional, /quick checks, not the complete set/);
+  assert.match(optional, /client support and tool permissions still apply/);
 });
 
-test('Level 4 demonstrates a temporary deny without widening the original allowlist', () => {
-  const level4 = workshop.slice(workshop.indexOf('# Level 4:'), workshop.indexOf('# Level 5:'));
+test('optional Level 7 demonstrates a temporary deny without widening the original allowlist', () => {
+  const level4 = optional;
   const installation = level4.slice(level4.indexOf('## Install HVE-Core through APM'),
     level4.indexOf('## Apply repository policy'));
   const publication = level4.slice(level4.indexOf('## Publish the method and its audit'));
@@ -113,7 +109,7 @@ test('Level 4 demonstrates a temporary deny without widening the original allowl
   assert.deepEqual([...denyImage.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
   const assets = readFileSync(new URL('../../../docs/afternoon-2/assets/README.md', import.meta.url), 'utf8');
   assert.match(assets, /`l4-apm-denied-dependency\.png`.*intentionally blocked state/);
-  assert.match(runner, /policy-before-deny\.yml/);
+  assert.match(runner, /skip_step l7-apm/);
   assert.doesNotMatch(runner, /sed -i '.*deny:.*allow:/);
   assert.match(policy, /cp solutions\/afternoon-2\/apm-policy\.yml/);
   assert.match(publication, /mkdir -p \.github\/workflows/);
@@ -131,11 +127,14 @@ test('Level 4 demonstrates a temporary deny without widening the original allowl
   assert.doesNotMatch(policy, /validated command used the experimental policy path/);
 });
 
-test('Level 4 restores curated registration and install before the APM transition', () => {
+test('Level 4 keeps curated registration before the repository-settings transition', () => {
   const level4 = workshop.slice(workshop.indexOf('# Level 4:'), workshop.indexOf('# Level 5:'));
   assert.match(level4, /copilot plugin marketplace add OWNER\/REPO/);
   assert.match(level4, /copilot plugin install hve-core@contoso-plugin-marketplace/);
-  assert.ok(level4.indexOf('copilot plugin install') < level4.indexOf('apm install --target copilot'));
+  assert.ok(level4.indexOf('copilot plugin install') <
+    level4.indexOf('copilot plugin uninstall hve-core@contoso-plugin-marketplace'));
+  assert.ok(level4.indexOf('copilot plugin uninstall hve-core@contoso-plugin-marketplace') <
+    level4.indexOf('cp solutions/afternoon-2/.github/copilot/settings.json'));
   assert.match(level4, /No Java runtime or Microsoft 365 account is required/);
   assert.doesNotMatch(level4, /cp -R solutions\/afternoon-2\/plugins/);
   const replay = runner.slice(runner.indexOf('# ---------------------------------------------------------------- Level 4'));
@@ -144,13 +143,15 @@ test('Level 4 restores curated registration and install before the APM transitio
   assert.match(replay, /skip_step l4-marketplace-app/);
 });
 
-test('Level 4 verifies repository agents before disabling the personal plugin', () => {
-  const level4 = workshop.slice(workshop.indexOf('# Level 4:'), workshop.indexOf('# Level 5:'));
+test('optional Level 7 verifies agents and removes the repository overlay before disabling HVE', () => {
+  const level4 = optional;
   const disable = level4.indexOf('copilot plugin disable hve-core');
   assert.ok(level4.indexOf('.github/agents/rpi-agent.agent.md') < disable);
   assert.match(level4, /copilot plugin disable hve-core@contoso-plugin-marketplace\ncopilot plugin list --json/);
   assert.match(level4, /Managed settings may prevent local disabling/);
   assert.match(level4, /does not disable a separate VS Code extension or plugin/);
+  assert.match(level4, /remove only\nthe HVE entry from `enabledPlugins`/);
+  assert.ok(level4.indexOf('remove only\nthe HVE entry') < disable);
   const transition = readFileSync(new URL('./marketplace.sh', import.meta.url), 'utf8');
   assert.ok(transition.indexOf('test -f .github/agents/rpi-agent.agent.md') <
     transition.indexOf('copilot plugin disable hve-core@contoso-plugin-marketplace'));

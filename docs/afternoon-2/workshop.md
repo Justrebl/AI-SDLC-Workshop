@@ -3,7 +3,7 @@ published: false
 type: workshop
 title: 'AI SDLC with Github Copilot and HVE Core'
 short_title: AI SDLC with Github Copilot and HVE Core
-description: Build a governed Music Catalog feature with HVE-Core, Design Thinking, RPI, APM, GitHub Copilot plugins, gh-aw workflows, and Copilot cloud agent.
+description: Build a governed Music Catalog feature with HVE-Core, Design Thinking, RPI, curated Copilot plugins, repository settings, gh-aw, and Copilot cloud agent; explore APM audits in an optional WIP track.
 level: intermediate
 authors: [Julien Strebler]
 contacts: ['@justrebl']
@@ -17,9 +17,10 @@ sections_title:
   - 'Level 1: HVE orientation and HVE-Core CLI plugin'
   - 'Level 2: Design Thinking with DT Coach'
   - 'Level 3: RPI implementation loop'
-  - 'Level 4: APM-governed repository agents'
+  - 'Level 4: Curated marketplace and repository plugin settings'
   - 'Level 5: Agentic workflows and delegation'
   - 'Level 6: Review the delegated work'
+  - 'Optional Level 7: WIP — Going further with plugin audit and traceability'
   - 'Recap: Governed agentic SDLC'
   - 'Extra Credits 🪙'
 ---
@@ -33,7 +34,7 @@ Welcome to this workshop. It follows **GitHub Copilot Zero to Hero**: there you 
 Build a small Music Catalog feature: browse tracks and add them to **one in-memory playlist**, with duplicate rejection and a visible empty state. Then share the method, automate surrounding work, and review a delegated change.
 
 1. **Build:** install HVE, explore listener needs, then implement the shared playlist contract with RPI.
-2. **Scale:** govern repository context with APM and reconcile the backlog with delivery evidence.
+2. **Scale:** share curated plugins through repository settings and reconcile the backlog with delivery evidence.
 3. **Close the loop:** delegate a bounded task, compare independent review and checks, then make a human acceptance decision.
 
 <details>
@@ -45,8 +46,8 @@ You will go from an idea to a merged change and then automate the work around it
    - Frame a deliberately small capability with the HVE-Core **Design Thinking Coach**.
    - Implement it with the **RPI** workflow (Research, Plan, Implement, Review), and make one real design decision at the review gate.
 2. **Scale the method that built it.**
-   - Make the method repository-owned and governed with **APM** and policy.
-   - Compare that with discovering capabilities in a Copilot **plugin marketplace**.
+   - Discover capabilities in a curated Copilot **plugin marketplace**.
+   - Share and version the team's plugin selection in repository settings.
    - Reconcile issues with committed planning and delivery evidence using **GitHub Agentic Workflows (gh-aw)**.
 3. **Close the loop.**
    - Delegate one scoped RPI issue to **Copilot cloud agent** (formerly Copilot coding agent), behind a test contract.
@@ -75,7 +76,7 @@ The shared application is the Music Catalog starter. It has a React + TypeScript
 You can start the lab without reading the full reference below. Return to it when a term is unfamiliar.
 
 <details>
-<summary>Reference: Copilot primitives, HVE, APM, workflows, and trust</summary>
+<summary>Reference: Copilot primitives, HVE, workflows, and trust</summary>
 
 ### Copilot primitives (recap from GitHub Copilot Zero to Hero)
 
@@ -99,15 +100,6 @@ Principle: **context is the product**. The quality of an agent's output depends 
 - **Design Thinking Coach**: guides a team through the problem space before any code is written: scope, research, synthesis, then ideas.
 - **RPI (Research → Plan → Implement → Review)**: separates finding facts, deciding, changing code, and verifying. Each phase writes an artifact that a human can review, and each phase starts from a clean context.
 - HVE-Core describes itself as *rapidly evolving*. Treat it as a source of patterns, and pin the version that you use.
-
-### APM (Agent Package Manager)
-
-[APM](https://microsoft.github.io/apm/) is a dependency manager for agent context. It applies the `package.json` model to agent context.
-
-- `apm.yml` declares the skills, prompts, instructions, plugins, and MCP servers that a repository needs.
-- The **lockfile** pins exact versions, so every developer and CI run gets the same context.
-- **Policy** and `apm audit` restrict allowed sources, executable components, and MCP servers at enterprise, organization, or repository level.
-- Principle: agent context is part of your **software supply chain**. Review, version, and govern it like code.
 
 ### GitHub Agentic Workflows (gh-aw)
 
@@ -155,7 +147,7 @@ Three ideas connect the levels. Each one gets a short segment where it matters.
 To complete this lab, you need:
 
 - A GitHub account with a GitHub Copilot licence. Business or Enterprise is recommended. Copilot cloud agent, plugins, and gh-aw may need administrator enablement. See the [full prerequisites checklist](https://github.com/Justrebl/AI-SDLC-Workshop/blob/main/docs/prerequisites.md) for the policy, licence, and administrator checks, or the checklist for your delivery option: [Codespaces](https://github.com/Justrebl/AI-SDLC-Workshop/blob/main/docs/before-d-day-codespace.md), [local dev container](https://github.com/Justrebl/AI-SDLC-Workshop/blob/main/docs/before-d-day-devcontainer.md) or [local tools](https://github.com/Justrebl/AI-SDLC-Workshop/blob/main/docs/before-d-day-local.md).
-- **Your own repository** created from the workshop template. Level 4 publishes repository agents, Level 5 runs a bounded workflow and assigns an issue to Copilot cloud agent, and Level 6 reviews its pull request, so the repository must belong to you.
+- **Your own repository** created from the workshop template. Level 4 publishes repository plugin settings, Level 5 runs a bounded workflow and assigns an issue to Copilot cloud agent, and Level 6 reviews its pull request, so the repository must belong to you.
 
 Create your repository from the template: open [Justrebl/AI-SDLC-Workshop](https://github.com/Justrebl/AI-SDLC-Workshop), select **Use this template** → **Create a new repository**, and choose a **private** repository under your account. [Learn more about template repositories](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
 
@@ -218,13 +210,13 @@ Use this option if you cannot run containers. Install:
 
 | Tool | Why |
 | --- | --- |
-| [Git](https://git-scm.com/downloads) | Checkpoint commits and APM dependency resolution |
+| [Git](https://git-scm.com/downloads) | Checkpoint commits and plugin source retrieval |
 | [VS Code](https://code.visualstudio.com/download) + GitHub Copilot Chat | Local agent work |
 | [Node.js 22 LTS](https://nodejs.org/en/download) | Vite + React front end, and Copilot CLI |
 | [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) | Minimal API and xUnit tests |
 | [GitHub CLI](https://cli.github.com/) | Repository operations and gh-aw |
 | [Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli) | HVE-Core plugin and marketplace exercises |
-| [APM CLI](https://microsoft.github.io/apm/getting-started/installation/) | Repository-owned HVE-Core dependency and policy audit |
+| [APM CLI](https://microsoft.github.io/apm/getting-started/installation/) (optional) | Optional Level 7 dependency and policy audit; not required for the core path |
 
 Use a Linux/Bash environment for the participant commands: the Codespace or dev
 container terminal runs Linux; Windows attendees without containers use WSL 2
@@ -262,7 +254,6 @@ node --version
 dotnet --version
 gh --version
 copilot --version
-apm --version
 gh aw version
 ```
 
@@ -1929,44 +1920,29 @@ Success Criteria:
 
 ---
 
-# Level 4: APM-governed repository agents
+# Level 4: Curated marketplace and repository plugin settings
 
 ## Topic
 
-Your company catalog lists remote plugins; install HVE-Core through it, then APM moves HVE-Core from your personal install into this repository.
-The manifest pins the dependency; the lockfile records its resolution.
-Copilot reads deployed profiles and skills; policy and audit verify them.
-Level 5 requires that audit before cloud-agent PRs merge; this does not run RPI or change the playlist.
+Discover and test HVE-Core through your company's curated marketplace.
+Then remove the personal CLI installation and share the team's plugin selection in `.github/copilot/settings.json`.
+Commit and publish that file, reload Copilot CLI, and check the plugins in `/plugin`.
+Finish with enterprise-managed settings as the administrator-owned way to standardize this practice across repositories.
 
-**Why this level:** cloud-agent work needs the same verified repository practices that you used locally.
+**Why this level:** a personal installation does not travel with the code; reviewed repository settings make the team's marketplace and plugin selection visible and versioned.
+
+The core path ends with repository settings, not a personal-to-APM handoff.
+The APM installation, policy, and CI audit exercises are in **Optional Level 7**.
 
 <details>
-<summary>Organization agents, plugin marketplaces, and APM: which problem does each solve?</summary>
+<summary>Personal installation, repository selection, and enterprise standards</summary>
 
-A **plugin** bundles capabilities such as agents, skills, and MCP configuration. A **Copilot plugin marketplace** lists those packages for discovery. It is a Git-hosted catalog, not GitHub Marketplace for Actions and apps.
-
-| Sharing surface | Useful for | What it does not replace |
-| --- | --- | --- |
-| Personal plugin, as in Level 1 | Capabilities in your own Copilot environment | The repository setup used by a teammate or cloud agent |
-| Organization or enterprise agents | Centrally maintained custom-agent profiles | A project-specific dependency selection and lockfile |
-| Copilot plugin marketplace | Discovering and installing packaged capabilities | APM source policy and content audit |
-| APM dependency | Declaring, pinning, deploying, and auditing practices with the code | Runtime permissions, tests, or human review of agent behavior |
-
-The manifest pins the direct HVE-Core dependency; the lockfile records APM's
-resolved dependency state for installation and audit. Keeping both makes that
-resolution inspectable even when the direct reference is already a commit SHA.
-Matching package content does not guarantee identical behavior across client or
-model versions, tool permissions, or runtime context.
-
-GitHub's documented shared-agent repositories are **`.github` and `.github-private`**, with profiles in their root `agents/` directory. Enterprise-wide governance uses a designated `.github-private` repository configured by an Enterprise Owner. That enterprise route is distinct from repository agents under `.github/agents`; organization-level custom agents are also supported. A repository named `.copilot-private` is not the documented special repository.
-
-Do not assume that storing standalone prompts or skills in the shared-agent repository distributes them to every client. Check the capability's supported sharing path. See [organization agents](https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-for-organization/prepare-for-custom-agents) and [enterprise governance](https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-agents/create-github-private-repo).
-
-APM can also manage compatible **whole Agent Plugins**. After the curated personal
-installation below, this exercise separately deploys HVE-Core's repository agents
-and skills. [Plugin support](https://microsoft.github.io/apm/consumer/copilot-agent-plugins/) depends on the APM and Copilot client versions.
-
-For other harnesses, [`apm compile`](https://microsoft.github.io/apm/producer/compile/) compiles **instructions** into target context files such as `AGENTS.md` or `CLAUDE.md`. Agents, skills, and other primitives are deployed by `apm install`. Their tools and formats must still be compatible with the target harness; compilation is not universal translation.
+A marketplace is a Git-hosted catalog for discovering plugins, not GitHub
+Marketplace for Actions and apps. A personal install belongs to your CLI profile;
+repository settings describe the selection shared with this project.
+Enterprise-managed settings are a separate administrator-owned baseline with
+precedence rules and client-specific support. None of these replaces tests,
+human review, or the cloud agent's own supported setup.
 
 </details>
 
@@ -2119,193 +2095,112 @@ by shipping this catalog. Company curation is not itself enforced enterprise pol
 
 </details>
 
-## Install HVE-Core through APM
+## Share and version plugins for team usage based on the curated Copilot marketplace settings
 
-### Step 1: Declare the repository dependency
+### Step 1: Remove the local CLI plugin
 
-Use the same repository as Levels 1–3. Copy the manifest that tells APM which package and version this project uses. Run this Bash file-copy command from the repository root:
-
-```bash
-cp solutions/afternoon-2/apm.yml ./apm.yml
-```
-
-**Decision check:** Which exact HVE-Core commit SHA and deployment target are selected in `apm.yml`? Record both values before you install.
-
-Open `apm.yml`. Its dependency is `microsoft/hve-core#1dbd6a7ea90b74accaf8c809262e38952bd4c359`: a commit SHA, not “whatever is newest.” The `copilot` target selects the deployment layout for this workshop, not an AI model.
-
-### Step 2: Install and inspect the repository agents
-
-Install that dependency for Copilot:
+After completing the curated-marketplace exercise, inspect the installed plugins
+from the repository root. Continue only when the known curated HVE entry is the
+sole HVE installation; stop for duplicate, unknown, or managed entries:
 
 ```bash
-apm install --target copilot
-```
-
-Open `apm.lock.yaml` and locate `resolved_commit`. Then open `.github/agents/rpi-agent.agent.md` and `.github/agents/backlog-manager.agent.md`: these are the profiles the later exercises will use. Inspect the supporting skills under `.agents/skills`.
-
-**What to expect:** the lockfile records the pinned commit, and the repository contains readable agent profiles and skills. If any are missing, resolve the installation error before continuing.
-
-### Step 3: Switch from personal to repository agents
-
-The curated personal HVE-Core plugin and the new repository profiles can both
-appear in the agent picker. After verifying the repository files, exit the current
-CLI session and disable the exact curated personal copy from your terminal:
-
-```bash
-copilot plugin disable hve-core@contoso-plugin-marketplace
 copilot plugin list --json
 ```
 
-Verify the curated row is disabled, then start `copilot` again from the repository
-root and check the agent picker. **All HVE-Core assets deployed by APM for this
-repository should remain available** from its repository-owned copy of the pinned
-dependency, rather than the personal plugin. **RPI Agent** and **Backlog Manager**
-are quick checks, not the complete set: also inspect the other deployed agents,
-skills, and prompts you use. Disabling the personal plugin does not remove those
-repository assets; client support and tool permissions still apply.
-
-Disable preserves the personal install;
-`copilot plugin enable hve-core@contoso-plugin-marketplace` restores it later.
-
-<div class="warning" data-title="Managed plugins and VS Code">
-
-> Managed settings may prevent local disabling. If so, stop and ask the tutor/admin
-> to resolve the intended handoff; do not claim the personal plugin is disabled.
-> This CLI command does not disable a separate VS Code extension or plugin.
-> In VS Code, disable the personal HVE plugin through its plugin UI, then verify
-> the repository-deployed HVE-Core assets remain available, using RPI Agent and
-> Backlog Manager as quick checks. Distinguish any managed
-> duplicate entries explicitly; they do not mean the APM installation failed.
-
-</div>
-
-## Apply repository policy
-
-### Step 1: Set the allowed sources
-
-The manifest selects a package; the policy decides whether that selection is permitted. This policy allows **`microsoft/**`** sources, requires pins, limits dependency depth, and denies inline self-defined MCP servers.
-
-`executables.deny` is a separate guard on components that can run code: hooks, `bin` executables, self-defined MCP servers, LSP servers, and canvas extensions. The `untrusted-org/*` rule blocks matching executable components even if local consent is given. Source selection and executable trust are different checks.
-
-Copy the policy with Bash, then open it to inspect those two rule groups:
+With your agreement to remove that personal installation, keep the CLI session
+open and use a separate Bash terminal to uninstall **only** its qualified identity:
 
 ```bash
-cp solutions/afternoon-2/apm-policy.yml ./apm-policy.yml
+copilot plugin uninstall hve-core@contoso-plugin-marketplace
+copilot plugin list --json
 ```
 
-**Decision check:** Which dependency source pattern is allowed, and which executable namespace is denied? Point to the two rule groups in `apm-policy.yml`.
-
-Success Criteria:
-- `apm-policy.yml` exists at the repository root with `enforcement: block`.
-- `dependencies.allow` contains `microsoft/**`, and `executables.deny` contains `untrusted-org/*`.
-
-### Step 2: Check policy and installed content
-
-Parse the policy first so configuration errors are visible, then check whether the installed dependency and deployed files comply. The audit checks provenance, consistency, and policy—not whether the agent will always behave correctly:
-
-```bash
-apm policy status --policy-source apm-policy.yml
-apm audit --ci --policy apm-policy.yml
-```
-
-Success Criteria:
-- Policy status reports `Outcome: found`, `Enforcement: block`, and `Warnings: none`.
-- The audit exits successfully for the pinned HVE-Core dependency and its deployed content.
-
-![APM policy audit showing lockfile and deployed-content consistency, pinned dependency checks and no drift, alongside policy checks that are not configured or skipped](assets/l4-apm-policy-audit.png)
-
-**Captured installed-content audit:** the output reports consistent dependency references, deployed files, pinned constraints, and no drift. Read each message: green rows can also mean a control is **not configured** or its check was **skipped**. This is not proof that every policy control is enforced or that an agent behaves correctly. Verify your own policy status, audit output, and successful exit code.
-
-If either check fails, inspect the named error before continuing; a parsed policy alone is not a passing audit.
-
-<div class="warning" data-title="Audit coverage">
-
-> Drift detection can replay installation and fetch dependencies. On a restricted network, ask for help or inspect the recorded output; a blocked audit is not a pass. `--no-drift` reduces coverage and is not a substitute for the CI gate. Upstream labels policy auditing experimental; no `apm experimental enable` command is needed.
-
-</div>
-
-<details>
-<summary>How an organization makes the policy a gate across repositories</summary>
-
-An organization can publish shared `apm-policy.yml` rules; repositories can extend that policy, and an organization policy can extend an enterprise baseline. Inheritance is **tighten-only**: a repository cannot broaden the parent's allowed sources or weaken its block rule.
-
-For example, a company could curate packages in reviewed GitHub repositories, list those repositories as trusted APM sources, and expose plugins through a company marketplace. **Marketplace discovery and APM source trust remain separate**: allowing the marketplace's name is not an APM dependency rule.
-
-A shared GitHub Actions audit checks the committed lockfile and deployed files against that policy. An organization ruleset can require a centrally controlled workflow across selected repositories where the GitHub plan supports it. This prevents a repository from simply removing its local audit to avoid the gate. Policy distribution, workflow execution, and mandatory enforcement are three distinct pieces.
-
-For **enterprise-owned organizations**, Enterprise Owners can designate an organization's `.github-private` repository as the enterprise's client-governance source and publish `copilot/managed-settings.json` there. Server-managed settings apply to users receiving a Copilot license from the enterprise or any of its organizations, even without access to that repository; this is not a settings file to add to your workshop repository.
-
-Supported keys include `extraKnownMarketplaces` to distribute approved catalogs, `strictKnownMarketplaces` to restrict plugin installation to listed marketplaces, and `enabledPlugins` to enable or disable specific plugins. Administrators can also control permissions and specialize eligible settings for enterprise teams. Managed settings take precedence over user configuration, but **client support varies by key**: check the [supported-keys matrix](https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings#supported-keys) before a rollout.
-
-This enterprise-admin control is **not** APM policy or a repository CI gate, and does not imply every governed user needs a Copilot Enterprise seat. Configuring enterprise governance is outside this participant lab; see [Getting started with enterprise-managed settings](https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-for-enterprise/use-managed-settings/get-started).
-
-See [APM policy inheritance](https://microsoft.github.io/apm/enterprise/apm-policy/), [organization workflow gates](https://microsoft.github.io/apm/enterprise/github-rulesets/), and [Copilot enterprise-managed plugin standards](https://docs.github.com/en/copilot/concepts/enterprise/plugin-standards).
-
-</details>
-
-### Step 3: Edit a rule to block a dependency, then restore the policy
-
-**Learner edit:** Keep the allowlist unchanged and add a temporary `dependencies.deny` entry for `microsoft/hve-core` to the existing `dependencies` block:
-
-```yaml
-dependencies:
-  allow:
-    - "microsoft/**"
-  deny:
-    - "microsoft/hve-core"
-  require_pinned_constraint: true
-  max_depth: 3
-```
-
-Run `apm audit --ci --policy apm-policy.yml` again. It should exit with code `1`: the deny rule wins even though the source matches the allowlist. Remove only the temporary `deny` entry and rerun the audit. **Restore a passing audit before committing.**
-
-![APM audit showing no drift but one dependency-denylist match, with microsoft/hve-core denied by the microsoft/hve-core pattern](assets/l4-apm-denied-dependency.png)
-
-**Captured deny-rule evidence:** `dependency-denylist` matches one dependency, and its details identify `microsoft/hve-core` as denied. Passing checks and **No drift detected** do not override that policy failure. Check your actual command output and exit code; this capture does not show the restored passing audit, which is still required before committing.
-
-## Publish the method and its audit
-
-### Step 1: Add the PR audit workflow
-
-Copy the workflow with Bash so GitHub checks the committed setup on pushes and pull requests:
-
-```bash
-mkdir -p .github/workflows
-cp solutions/afternoon-2/.github/workflows/apm-audit.yml .github/workflows/apm-audit.yml
-```
-
-**Decision check:** Does this workflow reinstall packages or audit the committed context as-is? Verify `setup-only` and the audit command in the copied file.
-
-Open `.github/workflows/apm-audit.yml`. It sets up APM **without reinstalling your packages**, then runs `apm audit --ci --no-cache --policy apm-policy.yml`. Reinstalling first could overwrite the drift you wanted to detect. The workflow pins APM `0.33.0`; use the same release locally when regenerating committed APM outputs.
-
-**A workflow alone does not block merging.** Level 5 makes `apm-audit` required after the remaining setup is published.
-
-### Step 2: Commit and push the verified setup
-
-Review the pending paths and their diffs. Include the deployed agents and shared skills, not just the manifest: a fresh cloud environment cannot read your personal plugin or private tracking notes.
-
-Check pending paths first; verify `/git-commit` still offers the HVE commit prompt
-from the repository deployment after personal HVE is disabled. If it is missing,
-stop and ask the tutor to resolve the deployment rather than using a raw commit.
+Return to Copilot CLI and reload the session before adding repository settings:
 
 ```text
-Inspect the pending repository setup paths and their diffs. Identify deployed
-agents and shared skills as well as the APM manifest, lock and policy. Report
-unrelated or partly staged files; do not stage, commit, discard or push anything.
+/restart
 ```
 
-Select `/hve-core:git-commit.prompt` with **Tab**, then give it the governed scope.
-Review the requested whole paths and exact staged set before confirming:
+**Success Criteria:** the personal HVE entry is absent. If it remains or a managed
+setting prevents removal, stop and ask your tutor/admin; do not force removal.
+A separate VS Code installation is not removed by this CLI command.
+
+### Step 2: Copy and review the repository settings
+
+Copy the supplied team settings into the repository. If the destination already
+exists, inspect it and merge the reviewed keys instead of overwriting other settings:
+
+```bash
+mkdir -p .github/copilot
+cp solutions/afternoon-2/.github/copilot/settings.json .github/copilot/settings.json
+```
+
+Open `.github/copilot/settings.json`. The solution uses
+`Justrebl/AI-SDLC-WKSDay` as the company catalog. For this exercise, replace
+the marketplace source's `repo` value with the `OWNER/REPO` you registered above, so the
+marketplace name still resolves to the same catalog. Keep the supplied
+`autoUpdate` and `enabledPlugins` keys. This exercise does not restrict the
+available marketplaces.
+Do not overwrite or try to weaken enterprise-managed restrictions.
+
+The enabled identities are **`hve-core@contoso-plugin-marketplace`** and
+**`java-development@contoso-plugin-marketplace`**. This settings sample selects
+Java Development, not Java Modernization Studio. Its Java entry remains a
+configuration/discovery demonstration: the earlier source-payload warning still
+applies, and no Java workload or canvas is exercised.
+
+**Decision check:** point to the known catalog, its auto-update setting, and
+the two enabled plugin identities. `autoUpdate: true` refreshes the catalog;
+it is not a lockfile or a guarantee that every client runs identical content.
+
+### Step 3: Reload, verify, then commit and push
+
+Reload Copilot CLI from this repository so it reads the new settings. Review any
+installation or trust prompt rather than approving capabilities blindly:
+
+```text
+/restart
+```
+
+Open the plugin view to check the repository-selected plugins:
+
+```text
+/plugin
+```
+
+Confirm HVE-Core and Java Development appear under `contoso-plugin-marketplace`,
+then check their enabled state and provenance from Bash:
+
+```bash
+copilot plugin list --json
+```
+
+Verify DT Coach and RPI are available from the reloaded HVE plugin. If the client
+does not apply the settings, reports a blocked source, or fails to fetch a package,
+stop and record that error with the tutor; the file alone is not evidence that
+installation worked. Do not manually reinstall the personal plugin to claim
+repository-settings success.
+
+Inspect the settings diff before committing:
+
+```text
+Inspect the pending repository setup paths and their diffs. Check only
+.github/copilot/settings.json for the intended curated marketplace and enabled
+plugin identities. Report unrelated or partly staged files; do not stage,
+commit, discard or push anything.
+```
+
+Select the restored HVE commit prompt with **Tab**, then confirm the selected
+whole path and exact staged set:
 
 ```text
 /hve-core:git-commit.prompt
-Commit the governed repository setup: apm.yml, apm.lock.yaml, apm-policy.yml, and
-the reviewed deployed files under .github/ and .agents/. Exclude .copilot-tracking/
-and unrelated files. Ask me to select whole paths and confirm the exact staged set.
+Commit the reviewed repository plugin settings at .github/copilot/settings.json
+only. Ask me to select the whole path and confirm its exact staged set.
+Exclude .copilot-tracking/ and unrelated changes.
 ```
 
-Once the local commit succeeds, publish it separately. A failed or missing commit
-is not permission to continue:
+After the local commit succeeds, publish it separately:
 
 ```text
 Publish the committed Level 4 repository setup to the current branch's upstream
@@ -2314,18 +2209,55 @@ Stop if branch rules reject the push; use a reviewed setup PR instead, without
 bypassing protection or force-pushing. Do not create another commit.
 ```
 
-### Step 3: Confirm readiness on GitHub
+On GitHub, open the committed settings file. If you used a setup PR, get it
+reviewed and merged before continuing. Reload CLI once more from the repository
+and reopen `/plugin` to confirm the shared selection still appears.
 
-On the default branch, open `.github/agents` and `.agents/skills`, then inspect the **APM Audit** run in **Actions**. If your setup was published on a branch, get it reviewed and merged before continuing.
+**Success Criteria:** `.github/copilot/settings.json` is on the default branch,
+both curated plugin identities appear enabled in `/plugin`, and HVE's DT Coach
+and RPI are available. This proves CLI discovery/activation, not Java capability
+execution or Copilot cloud-agent readiness.
 
-**Success Criteria:** the pinned setup is on the default branch, the audit passed for that commit, and RPI Agent and Backlog Manager are available in the repository. You will use them next—not the disabled personal plugin.
+## Standardize the practice with enterprise-managed settings
 
-**Marketplace checkpoint:** your own repository catalog is registered in CLI and
-VS Code; the curated HVE source/version was checked before the personal-to-APM
-handoff. No private company repository access or optional-plugin installation was
-needed. Catalog discovery and APM source trust remain separate.
+Repository settings version a team's choice. Enterprise-managed settings let
+administrators distribute approved catalogs, restrict allowed marketplaces, and
+broaden the enabled plugin baseline across repositories and eligible teams.
+This is an administrator rollout discussion, not another file to copy today.
 
-**At organization scale:** Who controls trusted context sources, pins, and required audit checks across repositories?
+<details>
+<summary>How an organization standardizes marketplace and plugin settings across repositories</summary>
+
+For **enterprise-owned organizations**, Enterprise Owners can designate an
+organization's `.github-private` repository as the enterprise's client-governance
+source and publish `copilot/managed-settings.json` there. Server-managed settings
+apply to users receiving a Copilot license from the enterprise or any of its
+organizations, even without access to that repository.
+
+Use `extraKnownMarketplaces` to distribute approved catalogs,
+`strictKnownMarketplaces` to restrict plugin installation to listed marketplaces,
+and `enabledPlugins` to enable or disable specific plugins. Administrators can
+extend the reviewed plugin selection and specialize eligible settings for
+enterprise teams. Managed settings take precedence over user configuration.
+**Client support varies by key**: check the
+[supported-keys matrix](https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings#supported-keys)
+before a rollout.
+
+This does not make repository settings an organization-wide enforcement gate,
+does not deploy custom-agent profiles to Copilot cloud agent, and does not imply
+every governed user needs a Copilot Enterprise seat. See
+[Getting started with enterprise-managed settings](https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-for-enterprise/use-managed-settings/get-started)
+and [Copilot enterprise-managed plugin standards](https://docs.github.com/en/copilot/concepts/enterprise/plugin-standards).
+
+</details>
+
+**At organization scale:** who reviews the catalog and plugin selection, and who
+owns the enterprise-managed baseline?
+
+## Further reading
+
+- [Where can I get plugins?](https://docs.github.com/en/copilot/concepts/agents/about-plugins#where-can-i-get-plugins) — Plugin discovery and available sources.
+- [Repository settings: `.github/copilot/settings.json`](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-config-dir-reference#repository-settings-githubcopilotsettingsjson) — Copilot CLI's repository-scoped configuration reference.
 
 ---
 
@@ -2335,10 +2267,10 @@ needed. Catalog discovery and APM source trust remain separate.
 
 ## Topic
 
-Verify application tests, cloud setup, and APM audit as separate parts of the baseline.
+Verify application tests, cloud setup, and cloud-agent profiles as separate parts of the baseline.
 Run them before delegation so the agent starts with working code and tools.
 GitHub rulesets make selected checks merge requirements; green checks do not prove acceptance criteria.
-Handoff: a tested `main`, working cloud setup, and strict `apm-audit` gate before Stage 5b.
+Handoff: a tested `main`, working cloud setup, and available RPI profile before Stage 5b.
 
 **Why this level:** delegated work needs a verified baseline and a working environment before the agent starts.
 
@@ -2384,7 +2316,10 @@ Wait for **CI** on `main` to pass. Then make its `test` job a required check usi
 gh api --method POST "repos/{owner}/{repo}/rulesets" --input solutions/afternoon-2/rulesets/main-tests-required.json
 ```
 
-In **Settings > Rules > Rulesets**, confirm **Tests must pass on main** is active. The supplied test rule allows repository administrators to complete setup pushes; ordinary pull requests must pass `test`. That exception does not apply to the separate APM audit rule. Level 3 used local tests before repository CI or required checks existed.
+In **Settings > Rules > Rulesets**, confirm **Tests must pass on main** is active.
+The supplied test rule allows repository administrators to complete setup pushes;
+ordinary pull requests must pass `test`. Level 3 used local tests before repository
+CI or required checks existed.
 
 ### Step 2: Prepare a working cloud environment
 
@@ -2395,8 +2330,7 @@ In **Settings > Rules > Rulesets**, confirm **Tests must pass on main** is activ
         run: dotnet build MusicCatalog.slnx --no-restore
 ```
 
-Use the same HVE capability to commit the reviewed setup change before enabling
-the strict audit rule:
+Use the same HVE capability to commit the reviewed setup change:
 
 ```text
 /hve-core:git-commit.prompt
@@ -2416,15 +2350,43 @@ Check that **Copilot Setup Steps** passed in Actions. Dependencies missing from 
 
 See [Customize the agent environment](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent).
 
-### Step 3: Require the APM audit
+### Step 3: Verify the cloud-agent profiles
 
-After the initial CI and cloud-setup changes are on `main`, wait for **APM Audit** on its latest commit to pass. Then make its `apm-audit` check required:
+Level 4's plugin settings configure the CLI; they do not establish that Copilot
+cloud agent or a gh-aw job can read the same plugin. Before delegation, verify
+**RPI Agent** is available in the cloud-agent picker. The backlog workflow also
+imports `.github/agents/backlog-manager.agent.md`; verify that file and both
+agents' supporting files are committed on the default branch. If the supported
+installer preserves a nested agent path, use that actual copied path in the
+workflow import rather than flattening or guessing it.
 
-```bash
-gh api --method POST "repos/{owner}/{repo}/rulesets" --input solutions/afternoon-2/rulesets/main-apm-audit-required.json
+If the profile is missing, use the HVE-Core installer skill's supported
+clone-based component-copy workflow with your tutor. Select the reviewed HVE
+revision and the RPI and Backlog Manager profiles plus their supporting instructions, prompts, and
+skills; preserve existing repository files and review every collision and
+publication gate. Do not treat a local extension or CLI picker entry as proof
+of cloud availability. The optional security track also needs Security Reviewer.
+
+Ask the CLI agent to activate the installer skill, not to invent its own copy
+procedure. Keep its native consent and collision checkpoints:
+
+```text
+Use the hve-core-installer skill to prepare repository-owned HVE components for
+Copilot cloud agent and the daily-backlog workflow. Use the reviewed HVE source
+revision from our curated catalog. Guide me through the supported clone-based
+component installation for RPI Agent, Backlog Manager, and their dependencies.
+Preserve existing files and canonical component paths. Ask before installation,
+collision resolution, settings changes, or publication; do not commit or push yet.
 ```
 
-Confirm **APM audit must pass on main** is active. Its ruleset has **no bypass list**, including for administrators. A failed or missing `apm-audit` blocks merging. Once active, later Stage 5b workflow and planning changes must use a reviewed pull request; do not push them directly to `main`.
+Review the resulting profiles and supporting files, then use the HVE commit
+capability to select their exact whole paths and confirm the staged set. Publish
+them through the normal reviewed workflow before claiming default-branch readiness.
+
+**Success Criteria:** the cloud picker offers RPI Agent, the workflow's Backlog
+Manager import exists, and the reviewed profiles and dependencies are available
+on the default branch. If this cannot be established, stop the delegation path and use
+the facilitator's prepared PR; do not add APM as an unannounced core prerequisite.
 
 ### Handoff artifact: Stage 5a verification record
 
@@ -2434,7 +2396,7 @@ Record the current default-branch commit and link the passing run or setting for
 | --- | --- |
 | Application tests | `test` passed and is required by the active test ruleset |
 | Cloud environment | `Copilot Setup Steps` passed with the API build |
-| Repository agents | `APM Audit` passed; `apm-audit` is required with no bypass actors |
+| Agent profiles | RPI Agent is available in the cloud picker; Backlog Manager and reviewed supporting files are committed |
 
 ## Stage 5b: Backlog and delegation
 
@@ -2467,7 +2429,9 @@ Level 4 made the method repository-readable. This level makes the work traceable
 
 ### Start the Stage 5b setup branch
 
-The strict APM audit rule is active before any backlog workflow or planning changes begin. Create a feature branch for those changes; the setup PR must pass both required checks and receive human review before you continue:
+The required test rule is active before backlog workflow or planning changes
+begin. Create a feature branch for those changes; the setup PR must pass required
+checks and receive human review before you continue:
 
 ```text
 Verify the working tree is clean and the current default-branch baseline includes
@@ -2505,13 +2469,17 @@ The solution imports the repository's Backlog Manager profile and declares which
 cp solutions/afternoon-2/.github/workflows/daily-backlog.md .github/workflows/daily-backlog.md
 ```
 
+Before compiling, compare `imports` with the reviewed Backlog Manager path from
+Stage 5a. If component copy preserved a nested path, change this import to that
+exact committed `.agent.md` path. Keep the rest of the workflow's write boundary.
+
 **Decision check:** Which committed planning paths does the job read, which profile does it import, and which label and caps gate issue writes? Find `Gather revision-bound evidence`, `imports`, and `safe-outputs` in the copied file.
 
 ### Step 2: Inspect the write boundary
 
 Open `.github/workflows/daily-backlog.md`. Locate the schedule, `imports`, and `safe-outputs`.
 
-- `imports` reuses `.github/agents/backlog-manager.agent.md`; this is the workshop's integration pattern, not a grant of its local tools.
+- `imports` reuses the reviewed Backlog Manager profile (the solution's default is `.github/agents/backlog-manager.agent.md`); this integration is not a grant of its local tools.
 - The agent reads repository content, issues, PRs, and Actions evidence. `copilot-requests: write` authorizes inference, not repository edits.
 - A separate safe-output job applies only declared writes. Comments, labels, and closures require the **`backlog-managed`** opt-in; the workflow caps one summary issue, five comments, three closures, and ten label additions or removals per operation.
 - No assignment, application-code write, or Project write is enabled.
@@ -2535,7 +2503,7 @@ See [safe outputs](https://github.github.com/gh-aw/reference/safe-outputs/).
 
 ### Step 3: Compile and review the job
 
-Compilation validates the source and creates the Actions workflow. The generated gh-aw `.lock.yml` is not APM's `apm.lock.yaml`: they lock different systems. Do not hand-edit the generated workflow; review the source, generated files, and initializer output before staging:
+Compilation validates the source and creates the Actions workflow. Do not hand-edit the generated workflow; review the source, generated files, and initializer output before staging:
 
 ```bash
 gh aw compile
@@ -2576,7 +2544,7 @@ Keep the original slice's exclusions: the selected document records a follow-up,
 
 ### Step 2: Publish the 5b setup in a reviewed PR
 
-The strict `apm-audit` rule is already active. Review the `gh aw init` output and ask Copilot to inspect the setup before invoking the commit prompt:
+The `test` rule is already active. Review the `gh aw init` output and ask Copilot to inspect the setup before invoking the commit prompt:
 
 ```text
 Inspect pending paths and diffs under .github/workflows and the selected later-slice
@@ -2607,10 +2575,12 @@ to this repository's default branch for the committed bounded backlog workflow
 and reviewed planning brief. Show me the description, target and needed push,
 then ask for publication approval. After confirmation, publish only this feature
 branch and open the PR, reusing an existing matching PR if present.
-Do not merge, push to the default branch or bypass test or apm-audit checks.
+Do not merge, push to the default branch or bypass required checks.
 ```
 
-Wait for both required checks, `test` and `apm-audit`, on the PR revision. A human reviews and merges the PR through the normal workflow; do not bypass either check or treat an open PR as completion. After merge, sync the default branch before creating the feature issue:
+Wait for the required `test` check on the PR revision. A human reviews and merges
+the PR through the normal workflow; do not bypass required checks or treat an
+open PR as completion. After merge, sync the default branch before creating the feature issue:
 
 ```text
 Verify the Stage 5b setup PR is merged and the working tree is clean. Switch to
@@ -2913,7 +2883,7 @@ The solution workflow `solutions/afternoon-2/.github/workflows/security-review-d
 - **Safe output:** `assign-to-agent` performs the assignment with `custom-agent: security-reviewer`, `target: triggering`, and `max: 1`. The `names: [security-review]` trigger filter is the label gate.
 - **Authentication:** assigning Copilot needs a fine-grained PAT stored as the `GH_AW_AGENT_TOKEN` secret. The PAT needs read access to metadata and write access to actions, contents, issues, and pull requests. The default `GITHUB_TOKEN` and GitHub App tokens are not accepted.
 
-Ask Copilot to prepare a new branch; the APM rule now protects the default branch:
+Ask Copilot to prepare a new branch; the test rule now protects the default branch:
 
 ```text
 Verify the default-branch baseline and clean working tree, then create and switch
@@ -2977,7 +2947,7 @@ Success Criteria:
 ## Topic
 
 Compare issue criteria with evidence for the exact PR revision, not an earlier commit.
-The posted Copilot review and current `test`/`apm-audit` checks add distinct evidence; neither proves every behavior.
+The posted Copilot review and current `test` check add distinct evidence; neither proves every behavior.
 Handoff: resolved findings, verified criteria, and review/check results tied to the same PR head.
 Boundary: a human approves or requests changes and decides whether to merge; an open PR stays open.
 
@@ -2990,7 +2960,7 @@ Boundary: a human approves or requests changes and decides whether to merge; an 
 | --- | --- | --- |
 | RPI Review in the coding task | Compares the work with the plan and issue criteria | Performed within the agent's own delivery loop |
 | Copilot code review on GitHub | Examines the PR diff and repository instructions; posts comments and suggestions | A separate request; a comment review, not human approval |
-| Required `test` and `apm-audit` checks | Exercise behavior and verify the repository's APM setup | Green checks alone do not prove every acceptance criterion |
+| Required `test` check | Exercises API and front-end behavior | Green checks alone do not prove every acceptance criterion |
 | Human review | Accepts scope, evidence, trade-offs, and remaining risk | The decision about merging |
 
 Copilot does not automatically repeat its review after each new push. Request another review after substantive fixes. The final check and review evidence must relate to the revision you intend to merge.
@@ -3033,7 +3003,12 @@ Wait for a posted Copilot review in the PR timeline, even if it reports no findi
 
 GitHub Actions on a cloud-agent PR may wait for approval from a user with write access. They execute PR code: inspect the diff first, then choose **Approve and run workflows** where prompted.
 
-Record the current PR head SHA. Check **both** `test` and `apm-audit` on that revision, and confirm the posted review also covers it. Where you enabled the rulesets, a missing or failed check blocks merging. A test run in the agent session is useful context, not a replacement for those hosted checks. Any later push makes earlier review/check evidence stale; wait for both checks and request another review after substantive changes.
+Record the current PR head SHA. Check `test` and any other active required checks
+on that revision, and confirm the posted review also covers it. Where you enabled
+the ruleset, a missing or failed check blocks merging. A test run in the agent
+session is useful context, not a replacement for hosted checks. Any later push
+makes earlier review/check evidence stale; wait for current checks and request
+another review after substantive changes.
 
 ### Step 4: Match the change to the issue
 
@@ -3103,6 +3078,286 @@ Success Criteria:
 - The delegated work is merged or tracked in its pull request, and the rest of the backlog is tracked in GitHub.
 
 **At organization scale:** Who accepts the final scope and residual risk, independently of green checks or an agent's review?
+
+---
+
+# Optional Level 7: WIP — Going further with plugin audit and traceability
+
+## Topic
+
+This optional work-in-progress track explores APM dependency pins, deployed
+repository agents, policy, and auditable CI evidence. It is not a prerequisite
+for Levels 5–6. Complete the core workshop first; use a separate reviewed branch
+and keep every approval and audit checkpoint.
+
+**Prerequisites:** APM CLI `0.33.0`, network access to the pinned dependency, and
+repository administration permission for the optional ruleset. Inspect any
+existing HVE deployment and resolve collisions with the tutor before installing.
+The generated gh-aw `.lock.yml` and APM's `apm.lock.yaml` lock different systems.
+
+<details>
+<summary>APM concepts, sharing surfaces, and portability</summary>
+
+### APM (Agent Package Manager)
+
+[APM](https://microsoft.github.io/apm/) is a dependency manager for agent context.
+`apm.yml` declares dependencies, the lockfile records their exact resolution, and
+policy plus `apm audit` check source trust and deployed-content consistency.
+Treat agent context as part of the software supply chain, not a guarantee of
+agent behavior.
+
+| Sharing surface | Useful for | What it does not replace |
+| --- | --- | --- |
+| Personal plugin | Capabilities in your own Copilot environment | A teammate's or cloud agent's setup |
+| Organization or enterprise agents | Centrally maintained custom-agent profiles | Project-specific dependencies and lockfiles |
+| Curated marketplace and repository settings | Discovering plugins and sharing a team's selection | APM source policy and content audit |
+| APM dependency | Declaring, pinning, deploying, and auditing practices with code | Runtime permissions, tests, or human review |
+
+The manifest pins the direct dependency; the lockfile records APM's resolved
+state. Matching content does not guarantee identical behavior across clients,
+models, tool permissions, or runtime context.
+
+GitHub's documented shared-agent repositories are **`.github` and
+`.github-private`**, with profiles in root `agents/`. Enterprise governance uses
+a designated `.github-private` configured by an Enterprise Owner. This differs
+from repository agents under `.github/agents`; `.copilot-private` is not the
+documented special repository. Standalone prompts or skills are not automatically
+distributed to every client. See
+[organization agents](https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-for-organization/prepare-for-custom-agents)
+and [enterprise governance](https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-agents/create-github-private-repo).
+
+APM can manage compatible
+[whole Agent Plugins](https://microsoft.github.io/apm/consumer/copilot-agent-plugins/),
+depending on APM and client versions. This exercise deploys repository agents
+and skills separately.
+[`apm compile`](https://microsoft.github.io/apm/producer/compile/) compiles
+**instructions** into context files such as `AGENTS.md` or `CLAUDE.md`;
+`apm install` deploys agents, skills, and other supported primitives.
+Compilation is not universal harness translation.
+
+</details>
+
+## Install HVE-Core through APM
+
+### Step 1: Declare the repository dependency
+
+Use the same repository as Levels 1–3. Copy the manifest that tells APM which package and version this project uses. Run this Bash file-copy command from the repository root:
+
+```bash
+cp solutions/afternoon-2/apm.yml ./apm.yml
+```
+
+**Decision check:** Which exact HVE-Core commit SHA and deployment target are selected in `apm.yml`? Record both values before you install.
+
+Open `apm.yml`. Its dependency is `microsoft/hve-core#1dbd6a7ea90b74accaf8c809262e38952bd4c359`: a commit SHA, not “whatever is newest.” The `copilot` target selects the deployment layout for this workshop, not an AI model.
+
+### Step 2: Install and inspect the repository agents
+
+Install that dependency for Copilot:
+
+```bash
+apm install --target copilot
+```
+
+Open `apm.lock.yaml` and locate `resolved_commit`. Then open `.github/agents/rpi-agent.agent.md` and `.github/agents/backlog-manager.agent.md`: these are the repository profiles to verify in this optional track. Inspect the supporting skills under `.agents/skills`.
+
+**What to expect:** the lockfile records the pinned commit, and the repository contains readable agent profiles and skills. If any are missing, resolve the installation error before continuing.
+
+### Step 3: Switch from personal to repository agents
+
+The settings-selected HVE plugin and the new repository profiles can both appear
+in the agent picker. After verifying the repository files, review and remove only
+the HVE entry from `enabledPlugins` in `.github/copilot/settings.json` for this
+optional handoff; preserve the marketplace and Java settings. Otherwise the
+repository enable overlay can keep HVE active despite a local disable.
+Reload CLI and inspect the inventory. If the curated plugin remains installed,
+exit the session and disable that exact identity from your terminal:
+
+```bash
+copilot plugin disable hve-core@contoso-plugin-marketplace
+copilot plugin list --json
+```
+
+Verify the curated row is disabled (or absent after removing the settings entry),
+then start `copilot` again from the repository
+root and check the agent picker. **All HVE-Core assets deployed by APM for this
+repository should remain available** from its repository-owned copy of the pinned
+dependency, rather than the personal plugin. **RPI Agent** and **Backlog Manager**
+are quick checks, not the complete set: also inspect the other deployed agents,
+skills, and prompts you use. Disabling the personal plugin does not remove those
+repository assets; client support and tool permissions still apply.
+
+Disabling preserves any installed copy. To return to the core Level 4 setup,
+restore the reviewed HVE `enabledPlugins` entry and reload CLI; if the plugin
+remains locally disabled, review and re-enable its qualified identity.
+
+<div class="warning" data-title="Managed plugins and VS Code">
+
+> Managed settings may prevent local disabling. If so, stop and ask the tutor/admin
+> to resolve the intended handoff; do not claim the personal plugin is disabled.
+> This CLI command does not disable a separate VS Code extension or plugin.
+> In VS Code, disable the personal HVE plugin through its plugin UI, then verify
+> the repository-deployed HVE-Core assets remain available, using RPI Agent and
+> Backlog Manager as quick checks. Distinguish any managed
+> duplicate entries explicitly; they do not mean the APM installation failed.
+
+</div>
+
+## Apply repository policy
+
+### Step 1: Set the allowed sources
+
+The manifest selects a package; the policy decides whether that selection is permitted. This policy allows **`microsoft/**`** sources, requires pins, limits dependency depth, and denies inline self-defined MCP servers.
+
+`executables.deny` is a separate guard on components that can run code: hooks, `bin` executables, self-defined MCP servers, LSP servers, and canvas extensions. The `untrusted-org/*` rule blocks matching executable components even if local consent is given. Source selection and executable trust are different checks.
+
+Copy the policy with Bash, then open it to inspect those two rule groups:
+
+```bash
+cp solutions/afternoon-2/apm-policy.yml ./apm-policy.yml
+```
+
+**Decision check:** Which dependency source pattern is allowed, and which executable namespace is denied? Point to the two rule groups in `apm-policy.yml`.
+
+Success Criteria:
+- `apm-policy.yml` exists at the repository root with `enforcement: block`.
+- `dependencies.allow` contains `microsoft/**`, and `executables.deny` contains `untrusted-org/*`.
+
+### Step 2: Check policy and installed content
+
+Parse the policy first so configuration errors are visible, then check whether the installed dependency and deployed files comply. The audit checks provenance, consistency, and policy—not whether the agent will always behave correctly:
+
+```bash
+apm policy status --policy-source apm-policy.yml
+apm audit --ci --policy apm-policy.yml
+```
+
+Success Criteria:
+- Policy status reports `Outcome: found`, `Enforcement: block`, and `Warnings: none`.
+- The audit exits successfully for the pinned HVE-Core dependency and its deployed content.
+
+![APM policy audit showing lockfile and deployed-content consistency, pinned dependency checks and no drift, alongside policy checks that are not configured or skipped](assets/l4-apm-policy-audit.png)
+
+**Captured installed-content audit:** the output reports consistent dependency references, deployed files, pinned constraints, and no drift. Read each message: green rows can also mean a control is **not configured** or its check was **skipped**. This is not proof that every policy control is enforced or that an agent behaves correctly. Verify your own policy status, audit output, and successful exit code.
+
+If either check fails, inspect the named error before continuing; a parsed policy alone is not a passing audit.
+
+<div class="warning" data-title="Audit coverage">
+
+> Drift detection can replay installation and fetch dependencies. On a restricted network, ask for help or inspect the recorded output; a blocked audit is not a pass. `--no-drift` reduces coverage and is not a substitute for the CI gate. Upstream labels policy auditing experimental; no `apm experimental enable` command is needed.
+
+</div>
+
+<details>
+<summary>How an organization makes the APM policy a gate across repositories</summary>
+
+An organization can publish shared `apm-policy.yml` rules; repositories can extend that policy, and an organization policy can extend an enterprise baseline. Inheritance is **tighten-only**: a repository cannot broaden the parent's allowed sources or weaken its block rule.
+
+For example, a company could curate packages in reviewed GitHub repositories, list those repositories as trusted APM sources, and expose plugins through a company marketplace. **Marketplace discovery and APM source trust remain separate**: allowing the marketplace's name is not an APM dependency rule.
+
+A shared GitHub Actions audit checks the committed lockfile and deployed files against that policy. An organization ruleset can require a centrally controlled workflow across selected repositories where the GitHub plan supports it. This prevents a repository from simply removing its local audit to avoid the gate. Policy distribution, workflow execution, and mandatory enforcement are three distinct pieces.
+
+These supply-chain controls are separate from the enterprise-managed client
+settings discussed in Level 4. See
+[APM policy inheritance](https://microsoft.github.io/apm/enterprise/apm-policy/)
+and [organization workflow gates](https://microsoft.github.io/apm/enterprise/github-rulesets/).
+
+</details>
+
+### Step 3: Edit a rule to block a dependency, then restore the policy
+
+**Learner edit:** Keep the allowlist unchanged and add a temporary `dependencies.deny` entry for `microsoft/hve-core` to the existing `dependencies` block:
+
+```yaml
+dependencies:
+  allow:
+    - "microsoft/**"
+  deny:
+    - "microsoft/hve-core"
+  require_pinned_constraint: true
+  max_depth: 3
+```
+
+Run `apm audit --ci --policy apm-policy.yml` again. It should exit with code `1`: the deny rule wins even though the source matches the allowlist. Remove only the temporary `deny` entry and rerun the audit. **Restore a passing audit before committing.**
+
+![APM audit showing no drift but one dependency-denylist match, with microsoft/hve-core denied by the microsoft/hve-core pattern](assets/l4-apm-denied-dependency.png)
+
+**Captured deny-rule evidence:** `dependency-denylist` matches one dependency, and its details identify `microsoft/hve-core` as denied. Passing checks and **No drift detected** do not override that policy failure. Check your actual command output and exit code; this capture does not show the restored passing audit, which is still required before committing.
+
+## Publish the method and its audit
+
+### Step 1: Add the PR audit workflow
+
+Copy the workflow with Bash so GitHub checks the committed setup on pushes and pull requests:
+
+```bash
+mkdir -p .github/workflows
+cp solutions/afternoon-2/.github/workflows/apm-audit.yml .github/workflows/apm-audit.yml
+```
+
+**Decision check:** Does this workflow reinstall packages or audit the committed context as-is? Verify `setup-only` and the audit command in the copied file.
+
+Open `.github/workflows/apm-audit.yml`. It sets up APM **without reinstalling your packages**, then runs `apm audit --ci --no-cache --policy apm-policy.yml`. Reinstalling first could overwrite the drift you wanted to detect. The workflow pins APM `0.33.0`; use the same release locally when regenerating committed APM outputs.
+
+**A workflow alone does not block merging.** The optional required-check step
+below makes `apm-audit` a gate after the setup is published.
+
+### Step 2: Commit and push the verified setup
+
+Review the pending paths and their diffs. Include the deployed agents and shared skills, not just the manifest: a fresh cloud environment cannot read your personal plugin or private tracking notes.
+
+Check pending paths first; verify `/git-commit` still offers the HVE commit prompt
+from the repository deployment after personal HVE is disabled. If it is missing,
+stop and ask the tutor to resolve the deployment rather than using a raw commit.
+
+```text
+Inspect the pending repository setup paths and their diffs. Identify deployed
+agents and shared skills as well as the APM manifest, lock and policy. Report
+unrelated or partly staged files; do not stage, commit, discard or push anything.
+```
+
+Select `/hve-core:git-commit.prompt` with **Tab**, then give it the governed scope.
+Review the requested whole paths and exact staged set before confirming:
+
+```text
+/hve-core:git-commit.prompt
+Commit the governed repository setup: apm.yml, apm.lock.yaml, apm-policy.yml, and
+the reviewed deployed files under .github/ and .agents/. Exclude .copilot-tracking/
+and unrelated files. Ask me to select whole paths and confirm the exact staged set.
+```
+
+Once the local commit succeeds, publish it separately. A failed or missing commit
+is not permission to continue:
+
+```text
+Publish the committed optional APM repository setup to the current branch's upstream
+after showing me the remote, branch and commits and obtaining my confirmation.
+Stop if branch rules reject the push; use a reviewed setup PR instead, without
+bypassing protection or force-pushing. Do not create another commit.
+```
+
+### Step 3: Confirm readiness on GitHub
+
+On the default branch, open `.github/agents` and `.agents/skills`, then inspect the **APM Audit** run in **Actions**. If your setup was published on a branch, get it reviewed and merged before continuing.
+
+**Success Criteria:** the pinned setup is on the default branch, the audit passed
+for that commit, and RPI Agent and Backlog Manager are available in the repository.
+
+**Marketplace checkpoint:** catalog discovery and APM source trust remain separate.
+
+**At organization scale:** Who controls trusted context sources, pins, and required audit checks across repositories?
+
+
+### Step 4: Optionally require the APM audit
+
+After the initial CI and cloud-setup changes are on `main`, wait for **APM Audit** on its latest commit to pass. With repository-admin approval, make its `apm-audit` check required:
+
+```bash
+gh api --method POST "repos/{owner}/{repo}/rulesets" --input solutions/afternoon-2/rulesets/main-apm-audit-required.json
+```
+
+Confirm **APM audit must pass on main** is active. Its ruleset has **no bypass list**, including for administrators. A failed or missing `apm-audit` blocks merging. Once active, later workflow and planning changes must use a reviewed pull request; do not push them directly to `main`.
+
 
 ---
 
@@ -3207,9 +3462,17 @@ Success Criteria:
 
 **Act 1, build the feature.** You started with a clean starter app. You used DT Coach to constrain the problem. You used RPI Agent to research, plan, implement, and review a full-stack slice, kept its context small with phase artifacts, and made one real design decision at the gate.
 
-**Act 2, scale the method.** You installed pinned repository agents with APM, applied a source policy, and published an audit. You compared that with marketplace discovery, then compiled a daily backlog job that reconciles opted-in issues with committed planning and delivery evidence.
+**Act 2, scale the method.** You discovered HVE through a curated marketplace,
+removed the personal install, and versioned the team's plugin selection in
+repository settings. You discussed an enterprise-managed baseline, then compiled
+a daily backlog job that reconciles opted-in issues with committed planning and
+delivery evidence.
 
-**Act 3, close the loop.** You required tests and the APM audit, prepared the cloud environment, and delegated a scoped issue to RPI Agent. You requested Copilot code review on the resulting PR and made a human acceptance decision, then checked issue and shared dashboard progress.
+**Act 3, close the loop.** You required tests, prepared the cloud environment and
+verified its RPI profile, then delegated a scoped issue. You requested Copilot
+code review on the resulting PR and made a human acceptance decision, then checked
+issue and shared dashboard progress. APM pins, policy, and audits are explored
+separately in the optional WIP Level 7.
 
 The standalone Level 2 work-item workflow plans from actual DT-derived requirements or a matching signed-off PRD. If you ran the optional extensions, you also authored formal BRD/PRD documents as a Product Manager, added an ADR and a multi-perspective code review as a Tech Lead, or delegated a report-only review as a Security Architect.
 
@@ -3221,8 +3484,9 @@ The standalone Level 2 work-item workflow plans from actual DT-derived requireme
 | Requirements authoring (optional) | BRD Builder and PRD Builder turned reviewed decisions into requirements documents. | A draft or file alone does not establish sign-off. |
 | Work-item planning and creation | Functional Planner and Backlog Manager used the actual DT-derived source or matching signed-off PRD. | Planning is read-only; reviewed execution requires separate target and write authorization. |
 | RPI Agent | Sequenced research, plan, implement, review. | Humans gate each phase; tests and commits verified progress. |
-| APM | Installed HVE-Core into the repo with a SHA pin. | `apm.lock.yaml` and policy audit made it reproducible. |
-| Plugin marketplace | Registered your curated catalog in CLI/VS Code and installed HVE before the APM transition. | Catalog/plugin versions and source SHA differ; discovery is distinct from APM trust. App setup stayed a tutor demo. |
+| Repository plugin settings | Shared the curated catalog and enabled plugin identities in `.github/copilot/settings.json`. | Reviewed commit plus CLI `/plugin` evidence; not a cloud-agent deployment or organization-wide gate. |
+| Plugin marketplace | Registered your curated catalog and tested HVE installation; VS Code setup was optional. | Catalog/plugin versions and source SHA differ; discovery alone is not enforcement. App setup stayed a tutor demo. |
+| APM (optional WIP Level 7) | Installed a SHA-pinned dependency and audited repository context. | Lockfile, policy, CI audit, and an optional required-check rule. |
 | gh-aw | Reconciled opted-in issues with committed plans and linked delivery evidence. | Read-only agent job; capped safe outputs; human delegation. |
 | CI and ruleset | Made `dotnet test` and `npm test` a required check on the default branch. | The same contract for humans and agents; bypasses are audited. |
 | Security Reviewer (extended) | Ran a report-only security review in Copilot cloud agent. | A human labels or assigns, and a qualified person validates every finding. |
@@ -3268,8 +3532,7 @@ Use this section as a short facilitated discussion, or read it on your own. Each
 | --- | --- |
 | You inherited the Copilot features, models and MCP access that your organization allows | Enterprise and organization **Copilot policies** decide which features, models, preview features and MCP servers are available. MCP access can be limited to servers from an [MCP registry](https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-mcp-usage/configure-mcp-server-access) |
 | `.github/copilot-instructions.md` and `.github/agents` in one repository | Organization custom instructions, and [organization or enterprise custom agents](https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-custom-agents) in a `.github` or `.github-private` repository |
-| `apm.yml` and `apm-policy.yml` in one repository | An organization or enterprise APM policy that repositories extend. APM policy inheritance is designed to tighten only: a repository can add restrictions but not relax its parent. Check the current [APM documentation](https://microsoft.github.io/apm/), because the policy schema is evolving |
-| Your template copy's curated marketplace, registered in CLI and VS Code | An organization-curated marketplace repository for discovery; marketplace listing remains distinct from APM source trust |
+| Your curated marketplace and `.github/copilot/settings.json` | Enterprise-managed `extraKnownMarketplaces`, `strictKnownMarketplaces`, and `enabledPlugins` distribute and constrain the reviewed baseline across supported clients |
 | One repository ruleset | Organization rulesets that apply the same required checks and reviews to many repositories |
 
 ### Measure the impact

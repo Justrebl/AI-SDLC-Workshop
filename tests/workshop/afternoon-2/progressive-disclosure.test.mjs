@@ -33,7 +33,7 @@ test('each level has a concise visible introduction and optional background', ()
     '## Install the CLI plugin',
     '## Start a DT project',
     '## Research phase',
-    '## Install HVE-Core through APM',
+    "## Use your company's curated marketplace",
     '## Install and initialize gh-aw',
     '## Review the pull request',
   ];

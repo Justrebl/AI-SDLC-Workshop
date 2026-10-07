@@ -1,6 +1,6 @@
 # AI SDLC with Github Copilot and HVE Core
 
-A hands-on series of two workshops (240 minutes for GitHub Copilot Zero to Hero; an estimated 255 for the AI SDLC workshop). It starts with individual GitHub Copilot primitives and ends with a governed, agentic software development lifecycle: repository-owned packages, policy, structured Research → Plan → Implement → Review execution, automated backlog management, and controlled delegation to the Copilot cloud agent.
+A hands-on series of two workshops (240 minutes for GitHub Copilot Zero to Hero; an estimated 255 for the AI SDLC workshop). It starts with individual GitHub Copilot primitives and ends with a governed, agentic software development lifecycle: curated plugins, repository-shared settings, structured Research → Plan → Implement → Review execution, automated backlog management, and controlled delegation to the Copilot cloud agent.
 
 > **Before D-Day:** every attendee and administrator must complete the checklist for the delivery option your organization chose: [Codespaces](docs/before-d-day-codespace.md), [local dev container](docs/before-d-day-devcontainer.md) or [local tools](docs/before-d-day-local.md). The shared reference is [docs/prerequisites.md](docs/prerequisites.md); organization owners can walk through [docs/kick-off-call-checklist.md](docs/kick-off-call-checklist.md) live during the kick-off call. Most setup problems on the day come from licences, organization policies, and corporate networks, and none of them can be fixed in the room.
 
@@ -26,7 +26,7 @@ A hands-on series of two workshops (240 minutes for GitHub Copilot Zero to Hero;
 | **Context engineering** | Deciding what an agent sees: layered instructions, skills loaded on demand, and phase artifacts on disk instead of a long chat history | GitHub Copilot Zero to Hero, Deeper primitives; the AI SDLC workshop, Level 3 |
 | **Verification as contract** | Tests, CI and branch rulesets define "done" for humans and agents alike, so delegated work is checked the same way as your own | the AI SDLC workshop, Levels 5a and 6 |
 | **Agentic threat model** | Prompt injection, safe outputs, the agent firewall and token scope: what limits an agent that runs without you | the AI SDLC workshop, Levels 5b and 6 |
-| **APM (Agent Package Manager)** | A package manager for agent primitives: declare dependencies in `apm.yml`, pin them in a lockfile, and enforce policy and audits in CI | the AI SDLC workshop, Level 4 |
+| **APM (Agent Package Manager)** | A package manager for agent primitives: declare dependencies in `apm.yml`, pin them in a lockfile, and enforce policy and audits in CI | the AI SDLC workshop, optional WIP Level 7 |
 | **GitHub Agentic Workflows (gh-aw)** | Markdown-defined workflows compiled to GitHub Actions, where a coding agent runs on a schedule or on events, with safe outputs such as issues and comments | the AI SDLC workshop, Levels 5a and 5b |
 | **Copilot cloud agent** (formerly coding agent) | Assign an issue to Copilot; it works in a GitHub Actions environment and opens a pull request for human review | GitHub Copilot Zero to Hero, Level 6; the AI SDLC workshop, Levels 5b and 6 |
 | **Model selection and usage** | Explicit model choice versus Auto model selection, and how usage is measured differently in each Copilot experience | the AI SDLC workshop, Recap and Extra Credits |
@@ -64,9 +64,10 @@ Attendees build one capability in a small music catalog app (**browse tracks and
 | 1 | HVE-Core CLI plugin | Install HVE-Core and compare actual read-only responses with an ordinary agent | GitHub Copilot Zero to Hero primitives were your own; HVE-Core brings a shared method |
 | 2 | Design Thinking coach | Explore listener needs, distinguish assumptions, and choose a bounded later slice | Discovery informs a reviewed handoff; it does not validate or redefine the shared playlist coding contract |
 | 3 | RPI loop | Research, plan, implement and review the playlist feature, with context engineering and one real decision at the review gate | A single prompt mixes facts, decisions and edits; RPI separates them into reviewable artifacts |
-| 4 | APM and repository agents | Register your curated marketplace in CLI/VS Code, install HVE, inspect source/version metadata, then install and audit pinned repository agents | Discovery does not enforce trust; personal setup does not travel with the code |
+| 4 | Curated marketplace and repository plugin settings | Test curated HVE installation, uninstall the personal CLI copy, then commit shared marketplace and enabled-plugin settings and verify `/plugin` | Personal setup does not travel with the code; enterprise-managed settings can standardize the baseline |
 | 5 | Agentic workflows and delegation | Reconcile opted-in issues with committed plans and delivery evidence, then delegate a scoped RPI task | The backlog should reflect reality; people select work while automation records evidence |
 | 6 | Review the delegated work | Request Copilot review on the RPI PR, inspect required checks, and verify issue/Project closure after human acceptance | The coding agent's self-review is not independent review or a merge decision |
+| Optional 7 (WIP) | Going further with plugin audit and traceability | Explore APM pins, repository deployment, source policy, audits and an optional CI gate | Settings share a selection; supply-chain checks inspect resolution and deployed content |
 | Recap | | Operating model, then an architect capstone: org rollout, measuring impact, brownfield adoption, method and model choice | |
 | Extra Credits | | Model and harness measurement, HydraFusion (Research Preview) | |
 
@@ -80,7 +81,7 @@ flowchart LR
     A[Design Thinking] --> B[RPI]
   end
   subgraph Scale["Act 2: scale the method"]
-    C[Repository-owned with APM] --> D[Governed by policy]
+    C[Repository-shared plugin settings] --> D[Enterprise-managed baseline]
     D --> F[Backlog evidence with gh-aw]
   end
   subgraph Close["Act 3: close the loop"]
@@ -91,7 +92,7 @@ flowchart LR
   H -. findings feed the backlog .-> F
 ```
 
-Each step reuses a reviewed handoff: the supplied playlist contract scopes RPI while Design Thinking preserves evidence limits and the learner's chosen later slice. Committed planning and PR evidence keep the backlog current, and a human selects the next cloud-agent task. Level 4 includes participant marketplace practice; GitHub Copilot app setup and browser-supported accessibility review remain tutor demonstrations. Its additional practice extends the estimated AI SDLC workshop delivery to 255 minutes without cutting APM.
+Each step reuses a reviewed handoff: the supplied playlist contract scopes RPI while Design Thinking preserves evidence limits and the learner's chosen later slice. Committed planning and PR evidence keep the backlog current, and a human selects the next cloud-agent task. Level 4 covers marketplace discovery and repository settings, closing with an enterprise-managed rollout discussion. APM is an optional WIP Level 7, outside the estimated 255-minute core agenda. GitHub Copilot app setup and browser-supported accessibility review remain tutor demonstrations.
 
 ## Delivery options
 
@@ -101,7 +102,7 @@ Both labs support three ways to work. Pick one per attendee before D-Day.
 | --- | --- | --- | --- |
 | 🥇 **GitHub Codespaces** | Nothing to install; a preconfigured cloud environment | Your network and organization allow Codespaces (recommended) | [before-d-day-codespace.md](docs/before-d-day-codespace.md) |
 | 🥈 **Local dev container** | The same environment in Docker or Podman on your machine | Codespaces is blocked, but containers are allowed | [before-d-day-devcontainer.md](docs/before-d-day-devcontainer.md) |
-| 🥉 **Local tools** | Install Git, Node.js, .NET, GitHub CLI, Copilot CLI, APM and gh-aw yourself | Containers are not allowed | [before-d-day-local.md](docs/before-d-day-local.md) |
+| 🥉 **Local tools** | Install Git, Node.js, .NET, GitHub CLI, Copilot CLI and gh-aw yourself; APM is optional for Level 7 | Containers are not allowed | [before-d-day-local.md](docs/before-d-day-local.md) |
 
 Each checklist is self-contained: organization settings, network rules, attendee installation, D-7 and D-1 checks, and troubleshooting for that option only. The [prerequisites](docs/prerequisites.md) page keeps the full comparison and the complete endpoint table.
 
@@ -116,7 +117,7 @@ The complete lists, with commands and owners, are in the per-option checklists a
 - [ ] A delivery option chosen and tested:
   - Codespaces: a test Codespace opens in the browser and in VS Code
   - Dev container: **Docker** or **Podman** works (`docker run --rm hello-world`, or Podman with `dev.containers.dockerPath` set to `podman` and an optional `docker` alias)
-  - Local tools: Git, Node.js 22, .NET 8 (GitHub Copilot Zero to Hero) and .NET 10 (the AI SDLC workshop), GitHub CLI, Copilot CLI, APM CLI and gh-aw all print a version
+  - Local tools: Git, Node.js 22, .NET 8 (GitHub Copilot Zero to Hero) and .NET 10 (the AI SDLC workshop), GitHub CLI, Copilot CLI and gh-aw all print a version; check APM only for optional Level 7
 - [ ] GitHub Copilot Zero to Hero fork of `Philess/gh-copilot-demo` runs: API on port 3000 and viewer on port 3001
 - [ ] Network checks pass from the network you will use on the day: `github.com`, `api.github.com`, `*.githubcopilot.com`, `*.github.dev`, the Codespaces tunnel at `global.rel.tunnels.api.visualstudio.com`, and `ghcr.io`
 

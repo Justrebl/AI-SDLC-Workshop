@@ -1,4 +1,5 @@
-import { readFileSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { readFileSync, mkdtempSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -11,6 +12,42 @@ const catalog = JSON.parse(read('../../../.github/plugin/marketplace.json'));
 const bash = process.platform === 'win32' ? 'C:\\Program Files\\Git\\bin\\bash.exe' : 'bash';
 const upstream = [{ name: 'hve-core', marketplace: 'hve-core', version: '3.2.2', enabled: true }];
 const curated = [{ name: 'hve-core', marketplace: 'contoso-plugin-marketplace', version: '3.2.2', enabled: true }];
+
+test('the existing curated-marketplace exercise is unchanged', () => {
+  const guide = read('../../../docs/afternoon-2/workshop.md');
+  const exercise = guide.slice(guide.indexOf("## Use your company's curated marketplace"),
+    guide.indexOf('## Share and version plugins for team usage'));
+  assert.equal(createHash('sha256').update(exercise).digest('hex'),
+    'f4b3d20499465911133772109af3f14dd363179a02d60b50827a169cd6fc516a');
+});
+
+test('repository settings have visible removal, reload, publication, and enterprise boundaries', () => {
+  const guide = read('../../../docs/afternoon-2/workshop.md');
+  const section = guide.slice(guide.indexOf('## Share and version plugins for team usage'),
+    guide.indexOf('# Level 5:'));
+  const positions = [
+    section.indexOf('copilot plugin uninstall hve-core@contoso-plugin-marketplace'),
+    section.indexOf('cp solutions/afternoon-2/.github/copilot/settings.json'),
+    section.indexOf('### Step 3: Reload, verify, then commit and push'),
+    section.indexOf('```text\n/plugin\n```'),
+    section.indexOf('Commit the reviewed repository plugin settings'),
+    section.indexOf('Publish the committed Level 4 repository setup'),
+    section.indexOf('Standardize the practice with enterprise-managed settings'),
+  ];
+  assert.ok(positions.every((position, index) =>
+    position >= 0 && (index === 0 || position > positions[index - 1])));
+  assert.match(section, /replace\nthe marketplace source's `repo` value/);
+  assert.match(section, /merge the reviewed keys instead of overwriting/);
+  assert.match(section, /Do not manually reinstall the personal plugin/);
+  assert.match(section, /Java Development, not Java Modernization Studio/);
+  assert.match(section, /file alone is not evidence/);
+  assert.match(section, /copilot\/managed-settings\.json/);
+  assert.match(section, /Client support varies by key/);
+  assert.match(section, /does not deploy custom-agent profiles to Copilot cloud agent/);
+  assert.doesNotMatch(section, /apm install|apm audit|apm-policy/);
+  const optional = guide.indexOf('# Optional Level 7:');
+  assert.ok(guide.indexOf('# Level 6:') < optional && optional < guide.indexOf('# Recap:'));
+});
 
 test('template and solution catalog have exactly the reviewed four remote sources', () => {
   assert.equal(catalog.name, 'contoso-plugin-marketplace');
@@ -27,8 +64,18 @@ test('template and solution catalog have exactly the reviewed four remote source
       path: 'plugins/workiq', sha: '7fde3f8e6477fc75c79a7d8386e8501105b2d9bd' }],
   ]);
   const settings = JSON.parse(read('../../../solutions/afternoon-2/.github/copilot/settings.json'));
-  assert.deepEqual(settings.enabledPlugins, { 'hve-core@contoso-plugin-marketplace': true });
-  assert.equal(settings.extraKnownMarketplaces[catalog.name].autoUpdate, undefined);
+  assert.deepEqual(settings, {
+    extraKnownMarketplaces: {
+      'contoso-plugin-marketplace': {
+        source: { source: 'github', repo: 'Justrebl/AI-SDLC-WKSDay' },
+        autoUpdate: true,
+      },
+    },
+    enabledPlugins: {
+      'hve-core@contoso-plugin-marketplace': true,
+      'java-development@contoso-plugin-marketplace': true,
+    },
+  });
 });
 
 test('visible Level 4 path keeps source gates, Linux prerequisites and revised timing consistent', () => {
@@ -42,7 +89,9 @@ test('visible Level 4 path keeps source gates, Linux prerequisites and revised t
     'copilot plugin install hve-core@contoso-plugin-marketplace',
     'source.sha',
     'Install only HVE-Core', 'No Java runtime or Microsoft 365 account is required',
-    'copilot plugin disable hve-core@contoso-plugin-marketplace']) {
+    'copilot plugin uninstall hve-core@contoso-plugin-marketplace',
+    'cp solutions/afternoon-2/.github/copilot/settings.json',
+    'autoUpdate', 'enabledPlugins', '/plugin']) {
     assert.ok(l4.includes(text), text);
   }
   assert.doesNotMatch(l4, /```powershell|```cmd|Copy-Item|New-Item|\.\\/);
@@ -77,7 +126,7 @@ test('all lab commits use scoped HVE requests while clean-tree and approval chec
   const shellBlocks = [...guide.matchAll(/```(?:bash|powershell|cmd)\n([\s\S]*?)\n```/g)];
   for (const [, body] of shellBlocks) assert.doesNotMatch(body, /\bgit\s/);
   const requests = [...guide.matchAll(/```text\n(\/hve-core:git-commit\.prompt\n[\s\S]*?)\n```/g)];
-  assert.equal(requests.length, 10);
+  assert.equal(requests.length, 11);
   for (const [, body] of requests) {
     const text = body.replace(/\s+/g, ' ');
     assert.match(text, /select (?:the (?:intended )?whole path|whole paths)/);
@@ -98,7 +147,7 @@ test('all lab commits use scoped HVE requests while clean-tree and approval chec
   assert.doesNotMatch(runner, /copilot_prompt .*commit-(?:l2|l3|l4|ci|setup)/);
 });
 
-test('extractor keeps all ten commit tasks and rejects a missing scoped request', () => {
+test('extractor keeps the ten core commit tasks plus optional APM and rejects a missing scoped request', () => {
   const work = mkdtempSync(join(tmpdir(), 'workshop-commit-prompts-'));
   try {
     const extractor = new URL('./extract-prompts.mjs', import.meta.url);
@@ -112,7 +161,9 @@ test('extractor keeps all ten commit tasks and rejects a missing scoped request'
     const assignment = readFileSync(join(work, 'agent-instructions.txt'), 'utf8');
     assert.match(assignment, /using docs\/project-planning\/dt-later-slice\.md/);
     assert.doesNotMatch(assignment, /remove-playlist-track/);
-    assert.equal(readdirSync(work).filter(name => name.startsWith('commit-')).length, 10);
+    assert.equal(readdirSync(work).filter(name => name.startsWith('commit-')).length, 11);
+    assert.match(readFileSync(join(work, 'commit-l4.txt'), 'utf8'), /repository plugin settings/);
+    assert.match(readFileSync(join(work, 'commit-apm.txt'), 'utf8'), /apm\.yml/);
     assert.equal(readdirSync(work).filter(name => name.startsWith('git-')).length, 22);
     const pr = readFileSync(join(work, 'git-l3-pr.txt'), 'utf8');
     assert.match(pr, /^\/hve-core:pull-request\n/);
@@ -275,29 +326,132 @@ printf 'PUBLISH-CONTINUATION\\n'
   }
 });
 
-test('every Level 4 replay step gates dependent work including the intentional deny', () => {
+test('qualified curated uninstall stops on failed removal, remaining or managed identities', () => {
+  for (const mode of ['pass', 'command-fails', 'remains', 'managed', 'absent']) {
+    const result = spawnSync(bash, ['-c', `
+. tests/workshop/afternoon-2/marketplace.sh || exit
+current=$CURATED
+[ "$MODE" != managed ] || current=$MANAGED
+[ "$MODE" != absent ] || current='[]'
+copilot() {
+  printf 'CALL %s\\n' "$*" >&2
+  case "$*" in
+    "plugin list --json") printf '%s\\n' "$current" ;;
+    "plugin uninstall hve-core@contoso-plugin-marketplace")
+      [ "$MODE" != command-fails ] || return 19
+      [ "$MODE" = remains ] || current='[]' ;;
+    *) return 99 ;;
+  esac
+}
+curated_hve_uninstall || exit 1
+printf 'SETTINGS-CONTINUATION\\n'
+`], { encoding: 'utf8', env: { ...process.env, MODE: mode, CURATED: JSON.stringify(curated),
+      MANAGED: JSON.stringify([{ ...curated[0], managed: true }]) } });
+    assert.equal(result.status === 0, mode === 'pass', result.stderr);
+    if (mode !== 'pass') assert.doesNotMatch(result.stdout, /SETTINGS-CONTINUATION/);
+    if (mode === 'managed' || mode === 'absent') assert.doesNotMatch(result.stderr, /CALL plugin uninstall/);
+  }
+});
+
+test('sandbox settings copy adapts the marketplace source without adding restrictions or overwriting an existing file', () => {
+  const runner = read('./run-lab.sh');
+  const block = runner.match(/step l4-copy-settings\b[\s\S]*?\nfinish_step/)?.[0];
+  assert.ok(block);
+  const captured = spawnSync(bash, ['-c', `
+step() { printf '%s' "$6"; }
+finish_step() { :; }
+note() { :; }
+${block}
+`], { encoding: 'utf8' });
+  assert.equal(captured.status, 0, captured.stderr);
+  const work = mkdtempSync(join(tmpdir(), 'workshop-settings-'));
+  const source = read('../../../solutions/afternoon-2/.github/copilot/settings.json');
+  try {
+    const solution = join(work, 'solutions', 'afternoon-2', '.github', 'copilot');
+    mkdirSync(solution, { recursive: true });
+    writeFileSync(join(solution, 'settings.json'), source);
+    const execute = () => spawnSync(bash, ['-c', captured.stdout],
+      { cwd: work, encoding: 'utf8', env: { ...process.env, SANDBOX_REPO: 'learner/catalog' } });
+    const result = execute();
+    assert.equal(result.status, 0, result.stderr);
+    const path = join(work, '.github', 'copilot', 'settings.json');
+    const settings = JSON.parse(readFileSync(path, 'utf8'));
+    assert.equal(settings.extraKnownMarketplaces[catalog.name].source.repo, 'learner/catalog');
+    assert.equal(Object.hasOwn(settings, 'strictKnownMarketplaces'), false);
+    assert.deepEqual(settings.enabledPlugins, JSON.parse(source).enabledPlugins);
+    assert.equal(settings.extraKnownMarketplaces[catalog.name].autoUpdate, true);
+    const before = readFileSync(path, 'utf8');
+    assert.notEqual(execute().status, 0);
+    assert.equal(readFileSync(path, 'utf8'), before);
+    assert.equal(read('../../../solutions/afternoon-2/.github/copilot/settings.json'), source);
+  } finally {
+    rmSync(work, { recursive: true, force: true });
+  }
+});
+
+test('repository plugin inventory requires both enabled curated identities and propagates command errors', () => {
+  const block = read('./run-lab.sh').match(/step l4-settings-inventory\b[\s\S]*?\nfinish_step/)?.[0];
+  assert.ok(block);
+  const captured = spawnSync(bash, ['-c', `
+step() { printf '%s' "$6"; }
+finish_step() { :; }
+note() { :; }
+${block}
+`], { encoding: 'utf8' });
+  assert.equal(captured.status, 0, captured.stderr);
+  const java = { name: 'java-development', marketplace: catalog.name, enabled: true };
+  const valid = [...curated, java];
+  const cases = [
+    ['pass', valid],
+    ['missing-java', curated],
+    ['wrong-source', [...curated, { ...java, marketplace: 'other' }]],
+    ['disabled-java', [...curated, { ...java, enabled: false }]],
+    ['duplicate-java', [...valid, java]],
+    ['malformed', 'not-json'],
+    ['object', { plugins: valid }],
+    ['command-fails', valid],
+    ['tee-fails', valid],
+  ];
+  const work = mkdtempSync(join(tmpdir(), 'workshop-plugin-inventory-'));
+  try {
+    for (const [mode, inventory] of cases) {
+      const result = spawnSync(bash, ['-c', `
+copilot() {
+  [ "$*" = "plugin list --json" ] || return 99
+  printf '%s\\n' "$INVENTORY"
+  [ "$MODE" != command-fails ] || return 17
+}
+if [ "$MODE" = tee-fails ]; then tee() { return 13; }; fi
+${captured.stdout}
+`], { cwd: work, encoding: 'utf8', env: { ...process.env, MODE: mode, RESULTS_DIR: '.',
+        INVENTORY: typeof inventory === 'string' ? inventory : JSON.stringify(inventory) } });
+      assert.equal(result.status === 0, mode === 'pass', `${mode}: ${result.stderr}`);
+    }
+  } finally {
+    rmSync(work, { recursive: true, force: true });
+  }
+});
+
+test('every core Level 4 replay step gates dependent publication', () => {
   const runner = read('./run-lab.sh');
   const l4 = runner.slice(runner.indexOf('# ---------------------------------------------------------------- Level 4'),
     runner.indexOf('# ---------------------------------------------------------------- Level 5a'));
   const finishes = [...l4.matchAll(/^finish_step(?: 1)?\n/gm)];
-  assert.equal(finishes.length, 12);
+  assert.equal(finishes.length, 5);
   for (const finish of finishes) {
     assert.ok(l4.slice(finish.index + finish[0].length).startsWith('[ "$STEP_FAILED" -eq 0 ] || exit 1'));
   }
-  assert.match(l4, /step l4-deny-audit[\s\S]*?finish_step 1\n\[ "\$STEP_FAILED" -eq 0 \] \|\| exit 1/);
+  assert.doesNotMatch(l4, /step l4-deny|apm audit|apm install/);
   assert.doesNotMatch(l4, /push_fallback/);
 });
 
-test('replay control flow stops after marketplace/APM/policy failures without publication', () => {
+test('replay control flow stops after marketplace/removal/settings failures without publication', () => {
   const runner = read('./run-lab.sh');
   const l4 = runner.slice(runner.indexOf('# ---------------------------------------------------------------- Level 4'),
     runner.indexOf('# ---------------------------------------------------------------- Level 5a'));
   for (const [failure, code] of [
-    ['', 0], ['l4-marketplace-install', 1], ['l4-copy-apm', 1],
-    ['l4-apm-install', 1], ['l4-plugin-disable', 1], ['l4-copy-policy', 1],
-    ['l4-policy-status', 1], ['l4-policy-audit', 1], ['l4-deny-edit', 1],
-    ['l4-deny-audit', 0], ['l4-deny-audit', 2], ['l4-restore-policy', 1],
-    ['l4-copy-apm-ci', 1], ['l4-commit', 1],
+    ['', 0], ['l4-marketplace-install', 1], ['l4-plugin-uninstall', 1],
+    ['l4-copy-settings', 1], ['l4-settings-inventory', 1], ['l4-commit', 1],
   ]) {
     const result = spawnSync(bash, ['-c', `
 SANDBOX_REPO=owner/repo SCRIPT_DIR=unused RESULTS_DIR=unused STEP_FAILED=0
@@ -305,7 +459,6 @@ step() {
   STEP_ID=$1
   printf 'STEP %s\\n' "$1"
   STEP_CODE=0
-  [ "$1" != l4-deny-audit ] || STEP_CODE=1
   [ "$1" != "$FAILURE" ] || STEP_CODE=$CODE
 }
 finish_step() { STEP_FAILED=0; [ "$STEP_CODE" -eq "\${1:-0}" ] || STEP_FAILED=1; }

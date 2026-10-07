@@ -144,7 +144,7 @@ Install the tools yourself. AI SDLC with Github Copilot and HVE Core needs every
 | .NET SDK | 8.x for GitHub Copilot Zero to Hero (`albums-api`) and 10.x for the AI SDLC workshop; both can be installed side by side | A1, A2 | [dotnet.microsoft.com](https://dotnet.microsoft.com/download) | `dotnet --version` |
 | GitHub CLI | Latest | A1, A2 | [cli.github.com](https://cli.github.com/) | `gh --version` |
 | GitHub Copilot CLI | Latest | A1, A2 | `npm install -g @github/copilot` ([docs](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli)) | `copilot --version` |
-| APM CLI | Latest | A2 | [APM installation](https://microsoft.github.io/apm/getting-started/installation/) | `apm --version` |
+| APM CLI | 0.33.0 | A2 optional WIP Level 7 only | [APM installation](https://microsoft.github.io/apm/getting-started/installation/) | `apm --version` |
 | gh-aw extension | Latest | A2 | `gh extension install github/gh-aw` | `gh aw version` |
 
 ## 5. Sign in and verify tools (all options)
@@ -160,7 +160,7 @@ node --version
 dotnet --version
 gh --version
 copilot --version
-apm --version           # the AI SDLC workshop only
+apm --version           # optional WIP Level 7 only; skip for the core path
 gh aw version           # the AI SDLC workshop only
 ```
 
@@ -296,7 +296,7 @@ Enterprise policies take precedence: if an enterprise owner has set a policy, th
 - Decide whether attendees may use Auto model selection, and which explicit models are allowed.
 - **HydraFusion** is a **Research Preview**. Include it only if your tenant has access, and present it as optional.
 
-<div class="warning" data-title="Restricted networks and APM audit">
+<div class="warning" data-title="Optional Level 7: restricted networks and APM audit">
 
 > `apm audit --ci` replays the install to detect drift, which needs network access. On a restricted network it can be very slow. The facilitator should record one passing and one failing audit ahead of time as a fallback.
 
