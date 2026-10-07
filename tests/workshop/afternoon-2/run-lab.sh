@@ -128,6 +128,9 @@ done
 skip_step l2-method-next "Level 2" "DT Method Next: inspect native sequencing advice" \
   "requires a human choice from actual coaching state; sampler contributions do not establish method completion"
 
+skip_step l2-dt-functional-plan "Level 2" "Standalone slug-led DT/PRD-to-Functional-Planner intake" \
+  "requires actual learner outcomes and a concrete PRD source; gaps, readiness and backlog approval are not fabricated"
+
 copilot_prompt l2-dt-summary "Level 2" "Map exploration to the shared delivery contract" dt-summary 900 "--continue --agent hve-core:dt-coach"
 note "curated example replay, not authentic learner research, peer feedback, or full method completion; report missing evidence honestly"
 log_has 'playlist' && check "summary mentions the playlist capability" true || check "summary mentions the playlist capability" false
@@ -190,8 +193,11 @@ step l2-git-status "Level 2" "Sandbox translation: commit checkpoint inspection"
 tree_clean_check
 finish_step
 
-skip_step l2-pm-track "Level 2" "Extended track: Product Manager (BRD, PRD, Functional Planner, Backlog Manager)" \
-  "BRD draft example replayed separately; PRD and backlog execution wait for human BRD sign-off; Meeting Analyst needs Microsoft 365 and WorkIQ"
+skip_step l2-pm-track "Level 2" "Optional extended track: BRD and PRD authoring" \
+  "BRD draft reference replayed separately; optional PRD work waits for actual BRD sign-off; standalone DT backlog has separate source/review gates"
+
+skip_step l2-dt-backlog-execute "Level 2" "Standalone slug-led work-item creation" \
+  "requires the actual DT-derived or signed-off PRD source, reviewed handoff and target authorization; no issue creation or approval is fabricated"
 
 # ---------------------------------------------------------------- Level 3
 copilot_prompt l3-research "Level 3" "RPI research command and task" rpi-research 1800 "--agent hve-core:rpi-agent"

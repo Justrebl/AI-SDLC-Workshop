@@ -38,9 +38,19 @@ The published **Toggle solution / Toggle example** blocks are the tester's curat
 
 The examples supply a learner's facts and choices, not a document outline or substitute for HVE's native procedures. After the DT recap and note checks, the tester switches to Documentation to save the delivery brief before starting BRD Builder. It does not ask DT Coach to publish its private working artifacts or resume the BRD conversation to manufacture a DT record.
 
+The standalone DT/PRD-to-Functional-Planner request is extracted as
+`dt-functional-plan.txt` and skipped: actual learner outcomes, the concrete PRD
+source, gap decisions and approval cannot be invented. The separate work-item
+creation request is extracted as `dt-backlog-execute.txt` and skipped until its
+actual reviewed handoff and repository authorization are available. The project
+slug identifies context, not a guessed requirements file or handoff path.
+Participants may skip the default-closed formal BRD/PRD track entirely.
+The tester's existing BRD example replay remains separate reference coverage, not a prerequisite for that direct
+intake or evidence of human sign-off.
+
 The Level 2 later-slice choice and its curated `dt-later-slice.md` record are extracted but skipped by the replay: they require a real learner decision. The sandbox retains the documented Remove a track fallback rather than claiming that fixture came from authentic DT coaching. Interactive learners commit their reviewed later-slice decision and use it for Level 5 issue creation and delegation without BRD/PRD Builder.
 
-This is **example replay**, not authentic user research or proof of method completion. The tester checks that coaching state and the BRD draft exist, but does not infer evidence quality, human review, or sign-off from those files. BRD steps 12–13 remain skipped because they depend on actual human inspection and approval; PRD/backlog execution remains skipped until that gate is satisfied. Missing answers and readiness gaps must be reported, not improvised or waived by the tester.
+This is **example replay**, not authentic user research or proof of method completion. The tester checks that coaching state and the BRD draft exist, but does not infer evidence quality, human review, or sign-off from those files. BRD steps 12–13 remain skipped because they depend on actual human inspection and approval; the optional PRD authoring route waits for that BRD gate. The independent DT/PRD backlog route remains skipped without its own concrete source, reviewed handoff and write authorization. Missing answers and readiness gaps must be reported, not improvised or waived by the tester.
 
 The Level 1 ordinary/HVE comparison is extracted once as `hve-method-contrast.txt`
 and recorded as skipped by headless replay. Actual agent selection and observed
@@ -211,8 +221,9 @@ See the official GitHub billing documentation for current rates; this repository
 - The shared Project configuration and intermediate fields (`l5-project-progress`) are skipped. The repository token does not grant Project access.
 - Because Stage 5b is skipped, Level 6 PR detection (`l6-pr`), review request (`l6-code-review`), workflow approval (`l6-approve-checks`), and acceptance/merge (`l6-accept-and-reconcile`) are recorded as skipped. The replay does not imply a Copilot review or human decision occurred.
 - The recap's facilitator-only push-protection demo is recorded as skipped. It needs GitHub Secret Protection on a licensed proctor repository, plus settings-UI steps (custom pattern and dry run) that the tester does not automate.
+- The standalone Level 2 work-item workflow is skipped without a real source, reviewed handoff and explicit repository/write authorization.
 - The extended tracks are always recorded as skipped:
-  - **Level 2 Product Manager track:** multi-turn agent Q&A, and a human confirms before `/backlog-execute` writes issues.
+  - **Level 2 Product Manager authoring:** optional BRD/PRD Q&A and human sign-off; its BRD draft example is separate reference coverage.
   - **Level 3 Tech Lead extension:** human-gated agents.
   - **Level 5 security delegation:** a second Copilot pull request would collide with the Level 6 PR detection, and the gh-aw variant needs a `GH_AW_AGENT_TOKEN` PAT.
   - Extended-track prompts do not replace the core prompts. The one-line ADR request is extracted for structural coverage only; the human-gated Tech Lead extension is not executed.

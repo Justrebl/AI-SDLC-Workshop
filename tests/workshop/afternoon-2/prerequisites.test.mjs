@@ -17,6 +17,7 @@ const phaseInvocation = (phase) => level3.match(new RegExp(
 const phasePrompt = (phase) => phaseInvocation(phase)?.split('\n').slice(1).join('\n').trim();
 
 test('Level 3 publishes through a reviewed PR and proceeds directly to Level 4', () => {
+  assert.doesNotMatch(level3, /Closes #12|Close implemented work items from a commit/);
   assert.doesNotMatch(workshop, /^# Break$|^  - 'Break'$|Before leaving your machine|data-title="After the break"/m);
   const pages = workshop.replace(/^---\n[\s\S]*?\n---\n/, '').split(/\n\n---\n\n/);
   const level3Index = pages.findIndex((page) => /^# Level 3:/m.test(page));
@@ -273,6 +274,15 @@ test('tester extracts the exploration and implementation handoff separately', ()
     const summary = readFileSync(join(output, 'dt-summary.txt'), 'utf8');
     assert.match(start, /^\/hve-core:dt-start-project\.prompt\n\nProject name:/);
     assert.match(readFileSync(join(output, 'dt-method-next.txt'), 'utf8'), /^\/hve-core:dt-method-next\.prompt\n\nAssess project/);
+    assert.equal(readFileSync(join(output, 'dt-functional-plan.txt'), 'utf8').trim(),
+      'Help me plan the backlog for music-catalog-listening-experience.\nResume the confirmed Design Thinking Coach decisions, or use the matching signed-off PRD if one exists.\nGuide me through potential gaps before preparing the work items.');
+    assert.match(runner, /skip_step l2-dt-functional-plan/);
+    assert.doesNotMatch(runner, /copilot_prompt l2-dt-functional-plan/);
+    const execution = readFileSync(join(output, 'dt-backlog-execute.txt'), 'utf8');
+    assert.match(execution, /^Resume the reviewed backlog handoff for music-catalog-listening-experience at <reviewed-handoff-path>/);
+    assert.match(execution, /approved work items.*<owner>\/<repo>.*authorization/);
+    assert.match(runner, /skip_step l2-dt-backlog-execute/);
+    assert.doesNotMatch(runner, /copilot_prompt l2-dt-backlog-execute/);
     for (const phase of ['research', 'plan', 'implement', 'review']) {
       const prompt = readFileSync(join(output, `rpi-${phase}.txt`), 'utf8').trim();
       assert.equal(prompt, phaseInvocation(`rpi-${phase}`));
@@ -338,6 +348,13 @@ test('developer essentials stay visible while the detailed RPI lecture is collap
   const essentials = developer.slice(0, detailStart);
   assert.ok(detailStart > 0);
   assert.match(essentials, /coordinates four skills: Research, Plan, Implement, and Review/);
+  assert.match(essentials, /keeps task context and phase progress/);
+  assert.match(essentials, /resume from durable artifacts/);
+  assert.match(essentials, /Before starting the steps, switch to RPI Agent/);
+  assert.match(essentials, /\[shared selection procedure\]\(\?step=1#selecting-a-specialist-in-cli-or-vs-code\)/);
+  assert.match(essentials, /```text\n\/agent rpi-agent\n```/);
+  assert.match(essentials, /Confirm that \*\*RPI Agent\*\* is active before sending the Research request/);
+  assert.ok(level3.indexOf('/agent rpi-agent') < level3.indexOf('### Step 1: Ask RPI to research only'));
   assert.match(essentials, /Work through each phase with me/);
   assert.doesNotMatch(essentials, /\| Engineer guide stage|Context engineering:|### One agent runs/);
   assert.match(developer, /<details>\n<summary>How RPI Agent coordinates developer work<\/summary>/);
@@ -361,6 +378,27 @@ test('RPI prompts consume the reviewed requirements and preceding artifacts inst
   assert.match(plan, /options and their trade-offs so I can decide/);
   assert.match(implement, /^Implement the approved plan at <plan-path>\./);
   assert.match(implement, /Do not commit application changes/);
+  const implementation = level3.slice(level3.indexOf('### Step 1: Ask RPI to implement'),
+    level3.indexOf('### Step 2: Run the app'));
+  assert.match(implementation, /!\[RPI Implement result[^\]]+\]\(assets\/l3-rpi-implement-result\.png\)/);
+  assert.match(implementation, /not a required output to reproduce/);
+  assert.match(implementation, /Automated checks do not complete the missing keyboard\/focus browser check/);
+  assert.match(implementation, /capture labels Review optional.*\*\*Review before committing\*\*/);
+  const resultImage = readFileSync(new URL('../../../docs/afternoon-2/assets/l3-rpi-implement-result.png', import.meta.url));
+  assert.deepEqual([...resultImage.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+  const inventory = readFileSync(new URL('../../../docs/afternoon-2/assets/README.md', import.meta.url), 'utf8');
+  assert.match(inventory, /`l3-rpi-implement-result\.png`.*missing manual keyboard\/focus check/);
+  const reviewResult = level3.slice(level3.indexOf('### Step 1: Ask RPI to review'),
+    level3.indexOf('### Step 2: Debrief the decision'));
+  assert.match(reviewResult, /!\[RPI Review result[^\]]+\]\(assets\/l3-rpi-review-result\.png\)/);
+  assert.match(reviewResult, /execution is \*\*Complete\*\*.*\*\*Residual work\*\*, not blanket acceptance/);
+  assert.match(reviewResult, /reported from the changes record, not re-run/);
+  assert.match(reviewResult, /manual keyboard\/focus check remains pending/);
+  assert.match(reviewResult, /Resolve required remaining work before acceptance/);
+  assert.match(reviewResult, /captured run, not the current repository state/);
+  const reviewImage = readFileSync(new URL('../../../docs/afternoon-2/assets/l3-rpi-review-result.png', import.meta.url));
+  assert.deepEqual([...reviewImage.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+  assert.match(inventory, /`l3-rpi-review-result\.png`.*Complete execution from Residual work/);
   assert.match(review, /<plan-path>.*<changes-path>/);
   assert.doesNotMatch(review, /make fixes|deferred finding|dotnet test|npm test/);
   assert.match(level3, /small, well-understood change may need only a direct coding request/i);
@@ -594,9 +632,17 @@ test('BRD prompts frame product value and stakeholder decisions without lab-cent
   assert.match(brd, /Verify the file exists/);
   assert.match(brd, /A waiver is not a clean pass/);
   assert.match(brd, /only after inspecting the document/);
+  assert.match(brd, /!\[BRD Builder tracking open[^\]]+\]\(assets\/l2-brd-open-questions\.png\)/);
+  assert.match(brd, /\*\*Example guided BRD process:\*\*.*partially answered/);
+  assert.match(brd, /leaves an ambiguous \*\*yes\*\* unconfirmed, and flags self-review/);
+  assert.match(brd, /not prescribed answers or validated outcomes/);
+  assert.match(brd, /duplicate-feedback choice still needs confirmation at the RPI plan gate/);
+  assert.match(brd, /not completed quality review or sign-off/);
+  const guidedProcess = readFileSync(new URL('../../../docs/afternoon-2/assets/l2-brd-open-questions.png', import.meta.url));
+  assert.deepEqual([...guidedProcess.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
   assert.doesNotMatch(brd, /I am acting as the product owner|We have not validated business outcome metrics/);
   const prd = workshop.slice(workshop.indexOf('### Step 4: Turn the BRD into a PRD'),
-    workshop.indexOf('### Step 5: Plan the GitHub issue hierarchy'));
+    workshop.indexOf('## Plan and create the work items'));
   assert.match(prd, /explicitly switch to PRD Builder/);
   assert.match(prd, /\/agent hve-core:prd-builder/);
   assert.match(prd, /command as a separate message/);
@@ -611,11 +657,21 @@ test('BRD prompts frame product value and stakeholder decisions without lab-cent
   assert.match(starter, /save the PRD at docs\/project-planning\/music-catalog-playlist-slice\.md/);
   assert.doesNotMatch(starter, /Product requirements:|Non-functional requirements:|POST \/api|Write each requirement/);
   assert.match(prd, /native handoff path BRD Builder returned/);
+  assert.match(prd, /!\[PRD Builder concluding its draft summary[^\]]+\]\(assets\/l2-prd-conclusion\.png\)/);
+  assert.match(prd, /\*\*Example PRD conclusion:\*\*.*draft at \*\*0\.1\.0\*\*/);
+  assert.match(prd, /quality review and markdownlint still pending/);
+  assert.match(prd, /not evidence that validation passed or final sign-off was recorded/);
+  assert.match(prd, /not a set of answers to reproduce/);
+  const conclusion = readFileSync(new URL('../../../docs/afternoon-2/assets/l2-prd-conclusion.png', import.meta.url));
+  assert.deepEqual([...conclusion.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+  const assets = readFileSync(new URL('../../../docs/afternoon-2/assets/README.md', import.meta.url), 'utf8');
+  assert.match(assets, /`l2-prd-conclusion\.png`.*pending quality review\/markdownlint/);
+  assert.match(assets, /`l2-brd-open-questions\.png`.*ambiguous answer left unconfirmed/);
 });
 
 test('draft BRD and PRD sign-off recovery investigates evidence rather than forcing metadata', () => {
   const prd = workshop.slice(workshop.indexOf('### Step 4: Turn the BRD into a PRD'),
-    workshop.indexOf('### Step 5: Plan the GitHub issue hierarchy'));
+    workshop.indexOf('## Plan and create the work items'));
   const help = prd.match(/<details>\n<summary>🪛 setup\/troubleshoot: BRD and PRD remain draft before sign-off<\/summary>([\s\S]*?)<\/details>/);
   assert.ok(help);
   const visible = prd.replace(/<details>[\s\S]*?<\/details>/g, '');
@@ -632,16 +688,19 @@ test('draft BRD and PRD sign-off recovery investigates evidence rather than forc
   assert.match(prompt, /ask for my explicit approval before recording sign-off/);
 });
 
-test('PM backlog checks use the reviewed plan rather than a prescribed reference hierarchy', () => {
-  const backlog = workshop.slice(workshop.indexOf('### Step 5: Plan the GitHub issue hierarchy'),
-    workshop.indexOf('### Step 8: Get a sprint order'));
+test('standalone slug-led backlog checks use the actual reviewed handoff, not a guessed PRD hierarchy', () => {
+  const backlog = workshop.slice(workshop.indexOf('## Plan and create the work items'),
+    workshop.indexOf('### Step 4: Get a sprint order'));
   assert.match(backlog, /There is no prescribed issue count or reference hierarchy/);
+  assert.match(backlog, /do not plan labels, milestones, or assignees/);
   assert.match(backlog, /requirement coverage, acceptance criteria, dependencies/);
   assert.match(backlog, /explicitly switch to Backlog Manager/);
   const checklist = backlog.indexOf('Review the handoff and tick only the Human Review box');
-  const execute = backlog.indexOf('Execute the plan in the reviewed PRD handoff');
+  const execute = backlog.indexOf('Resume the reviewed backlog handoff for music-catalog-listening-experience');
   assert.ok(checklist >= 0 && execute > checklist);
-  assert.ok(backlog.includes('.copilot-tracking/github-issues/prds/music-catalog-playlist-slice/handoff.md'));
+  assert.match(backlog, /actual handoff path Functional Planner reported/);
+  assert.match(backlog, /do not derive it from the slug or reuse another slice's handoff/);
+  assert.doesNotMatch(backlog, /github-issues\/prds\/music-catalog-playlist-slice\/handoff\.md/);
   assert.ok(backlog.includes('change only the bottom **Reviewed and validated by a qualified human reviewer** checkbox from `[ ]` to `[x]`'));
   assert.ok(backlog.includes('Leave all other checkboxes unticked (`[ ]`) before execution'));
   assert.match(backlog, /leave the Human Review box unchecked and resolve the blockers before authorizing execution/);
@@ -652,28 +711,49 @@ test('PM backlog checks use the reviewed plan rather than a prescribed reference
   assert.match(backlog, /resolve such findings before authorizing your own execution/);
   assert.match(backlog, /Executor dispatch is not proof that issues were successfully created/);
   assert.match(backlog, /\/agent hve-core:backlog-manager/);
-  assert.match(backlog, /Execute the plan in the reviewed PRD handoff at <reviewed-handoff-path> and create the corresponding issues in GitHub repository <owner>\/<repo>\./);
+  assert.match(backlog, /Resume the reviewed backlog handoff for music-catalog-listening-experience at <reviewed-handoff-path>/);
+  assert.match(backlog, /only its approved work items in GitHub repository <owner>\/<repo> after confirming the target and my authorization/);
   assert.doesNotMatch(backlog, /List the operations first|Follow the reviewed plan's operation order/);
   assert.match(backlog, /reports their URLs/);
   assert.match(backlog, /exit the current Copilot CLI session/);
   assert.match(backlog, /start a \*\*fresh session\*\*/);
   assert.match(backlog, /copilot --enable-all-github-mcp-tools/);
   assert.match(backlog, /use the default agent rather than switching back/);
-  assert.match(backlog, /```text\n\/hve-core:backlog-execute\n\nRun the reviewed plan/);
+  assert.match(backlog, /```text\n\/hve-core:backlog-execute\n\nRun the reviewed backlog plan for music-catalog-listening-experience/);
   assert.match(backlog, /press \*\*Tab\*\*/);
   assert.doesNotMatch(backlog, /gh issue create/);
   assert.doesNotMatch(backlog, /four sub-issues|five issues|Five open issues|hand-written sample/);
 });
 
 test('sprint planning combines the Tab-selected command and read-only task', () => {
-  const sprint = workshop.slice(workshop.indexOf('### Step 8: Get a sprint order'),
-    workshop.indexOf('### Step 9: Hand off to curation'));
+  const sprint = workshop.slice(workshop.indexOf('### Step 4: Get a sprint order'),
+    workshop.indexOf('### Step 5: Hand off to curation'));
   assert.match(sprint, /```text\n\/hve-core:backlog-plan\n\nUse sprint mode/);
   assert.match(sprint, /press \*\*Tab\*\*/);
   assert.match(sprint, /hve-core:backlog-plan/);
   assert.match(sprint, /Use sprint mode to plan the next iteration/);
   assert.match(sprint, /changing the prompt does not grant tool access/);
   assert.doesNotMatch(sprint, /\/backlog-plan sprint/);
+});
+
+test('Level 2 tutor fallback stages only planning documents without inheriting archive approval', () => {
+  const solutions = readFileSync(new URL('../../../solutions/afternoon-2/docs/README.md', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
+  const tutor = readFileSync(new URL('../../../docs/tutor.md', import.meta.url), 'utf8');
+  assert.match(solutions, /^## Level 2: Tutor-directed fallback$/m);
+  const commands = solutions.match(/```bash\n([\s\S]*?)\n```/)?.[1];
+  assert.ok(commands);
+  assert.match(commands, /^fallback_dir="\$\(mktemp -d\)" &&/);
+  assert.match(commands, /curl -fSL https:\/\/raw\.githubusercontent\.com\/Justrebl\/AI-SDLC-Workshop\/refs\/heads\/main\/solutions\/afternoon-2\/level2\.zip -o "\$fallback_dir\/level2\.zip" &&/);
+  assert.match(commands, /unzip -n "\$fallback_dir\/level2\.zip" 'docs\/project-planning\/\*' -d "\$fallback_dir"$/);
+  assert.doesNotMatch(commands, /unzip -o|cp |git |AI-SDLC-WKSday/);
+  assert.match(solutions, /filter excludes the bundled `\.github\/copilot-instructions\.md` and preselected Level 3 ADR/);
+  assert.match(solutions, /Do not inherit those approvals or claim validated listener outcomes/);
+  assert.match(solutions, /tutor-supplied fallback, not an authentic DT outcome/);
+  assert.match(solutions, /bundle contains no Functional Planner handoff or live issues/);
+  assert.match(solutions, /separately authorizing GitHub writes/);
+  assert.doesNotMatch(solutions, /one parent issue, four sub-issues/);
+  assert.match(tutor, /solutions\/afternoon-2\/docs\/README\.md#level-2-tutor-directed-fallback/);
+  assert.match(tutor, /solutions\/afternoon-2\/docs\/README\.md#other-role-track-reference-outputs/);
 });
 
 test('dev container provisions remote GitHub MCP while the lab retains authorization steps', () => {

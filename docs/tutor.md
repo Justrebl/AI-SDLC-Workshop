@@ -77,6 +77,10 @@ Level 3 and the break together form a 75-minute block. Stop the room at the plan
 
 ### Level 4 proctor flow
 
+The Step 3 Visual Studio Code catalog setup is optional and default-collapsed.
+Keep the CLI registration/install and subsequent versioning/APM work as the core
+path; do not block CLI-ready participants on the separate VS Code setup.
+
 Use the question **"What must travel with the repository before a teammate or cloud agent can use this method?"** Keep the hands-on work in the existing Music Catalog repository.
 
 | Minutes | Activity |
@@ -164,13 +168,19 @@ For Level 2, allocate 10–15 minutes to the learner-led nine-method sampler and
 
 Use the existing 10-minute curation allocation to save the shared brief with Documentation before the optional PM track, then review and commit the planning files afterwards. Do not add a second writing exercise. In the PM track, retain the supplied business facts and three-question limits, but let the builders choose their questions, templates, traceability, and quality checks. Point out a useful question, an evidence gap, and a native quality-review or handoff decision; these show more HVE value than matching a reference document.
 
+If Level 2 overruns, offer the [tutor-directed ZIP fallback](../solutions/afternoon-2/docs/README.md#level-2-tutor-directed-fallback). Its curl/unzip instructions stage only planning documents outside the repository. Preserve student work and review the supplied scope before rejoining; the archive does not establish completed DT methods or transfer its original approvals.
+
 ### Extended tracks (outside the 255-minute core agenda)
+
+The formal Level 2 Product Manager track is an opt-in, closed disclosure covering document authoring only. Its former Steps 5-9 live in the separate **Plan and create the work items** section. After DT Coach's nine-method recap, learners may jump there using `music-catalog-listening-experience`; a matching signed-off PRD is preferred when available, otherwise resume the confirmed DT decisions and guide their gaps. The planner still needs a concrete PRD source before decomposition; if the DT artifacts are not requirements-ready, help curate a short reviewed PRD or return to coaching rather than inventing evidence. Keep actual handoff/issue paths, never derive them from the slug. Learners who jump early return to DT Coach for the common recap and keep the Level 3 playlist contract unchanged.
 
 The core agenda above does not include the role-based extended tracks. Choose how to use them before the day:
 
+The Level 3 Tech Lead extension follows the same optional, default-closed pattern as Level 2: ADR authoring, multi-perspective Code Review, and the extension's reviewed commit are opt-in. The separate **Publish the reviewed pull request** section is required for everyone; do not skip human review, merge or default-branch synchronization before Level 4.
+
 | Track | Where | Extra minutes | HVE-Core role guide | Best use |
 | --- | --- | --- | --- | --- |
-| Product Manager: DT Coach → (Meeting Analyst) → BRD Builder → PRD Builder → Functional Planner → Backlog Manager → GitHub issues | End of Level 2 | about 40 | TPM, Business Program Manager (beta) | Hands-on for a PM-heavy room, otherwise a facilitator demo |
+| Product Manager (optional authoring): (Meeting Analyst) → BRD Builder → PRD Builder; then the separate work-item workflow | End of Level 2 | about 40 for the full PM route, including work items | TPM, Business Program Manager (beta) | Hands-on for a PM-heavy room, otherwise a facilitator demo |
 | Tech Lead: ADR Creator, Code Review agent, `/git-commit` | End of Level 3 | 10 to 15 | Tech Lead, Engineer | Early finishers |
 | Security Architect: report-only security review delegated to Copilot cloud agent | End of Level 5 | about 20, plus agent run time | Security Architect | Facilitator demo, or hands-on for a security-focused room |
 
@@ -192,7 +202,7 @@ Rules for the tracks:
 - Only `/backlog-execute` writes to GitHub. Make attendees read the Functional Planner handoff before they confirm.
 - Present the HVE-Core security agents as assistive only. They never replace SAST, DAST, SCA, or qualified human review.
 - The gh-aw label-gated delegation (`security-review-delegation.md`) needs a fine-grained PAT stored as `GH_AW_AGENT_TOKEN`. Use your own sandbox and delete the PAT afterwards. Do not ask attendees to create one.
-- Hand-written reference outputs for all three tracks (BRD, PRD, backlog handoff, ADR, security report) are in [solutions/afternoon-2/docs](../solutions/afternoon-2/docs/README.md). Use them as labelled facilitator fallbacks, not output shapes or exact wording attendees must reproduce.
+- The Level 2 ZIP fallback is linked above. Hand-written references for the Tech Lead and Security Architect extensions, plus the supplied Level 5 follow-up, are in [solutions/afternoon-2/docs](../solutions/afternoon-2/docs/README.md#other-role-track-reference-outputs). Use them as labelled facilitator fallbacks, not output shapes or exact wording attendees must reproduce.
 
 ## Pre-flight (day before)
 

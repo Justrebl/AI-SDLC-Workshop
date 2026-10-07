@@ -403,7 +403,7 @@ HVE-Core is an opinionated agentic SDLC framework. Its published principle is: *
 <details>
 <summary>Which HVE agents the workshop uses</summary>
 
-The core exercises use DT Coach, RPI Agent, Backlog Manager, Accessibility Reviewer, and Accessibility Planner. The extended tracks also use BRD Builder, PRD Builder, Functional Planner, Code Review, ADR Creator, and Security Reviewer.
+The core exercises use DT Coach, Functional Planner, RPI Agent, Backlog Manager, Accessibility Reviewer, and Accessibility Planner. The optional extended tracks also use BRD Builder, PRD Builder, Code Review, ADR Creator, and Security Reviewer.
 
 In GitHub Copilot Zero to Hero, you wrote your own primitives. Here you install reusable agents, instructions, prompts, and skills for your own environment first; later levels address repository-owned context and team governance.
 
@@ -571,7 +571,7 @@ src/
 
 DT Coach supports nine methods: Methods 1–3 explore the problem, 4–6 explore possible solutions, and 7–9 consider implementation, testing, and iteration. You will plan or simulate the activities that need more time, real users, or working prototypes. These shortcuts do not satisfy the full methods' evidence gates.
 
-An extended Product Manager track then turns these decisions into a BRD, a PRD, and GitHub issues with the HVE-Core planning agents.
+An optional Product Manager track authors a BRD and PRD. The separate work-item workflow can resume the actual DT decisions or a matching signed-off PRD without requiring that full authoring chain.
 
 ### Let HVE carry the procedure
 
@@ -586,7 +586,7 @@ Give each specialist the goal, known facts, constraints, and relevant artifact. 
 
 The copyable examples below are optional responses to actual questions, not a checklist of answers to force into the conversation. A missing-evidence warning or blocked handoff also demonstrates the framework's value; do not bypass it to match an example.
 
-The [extended Product Manager track](#extended-track-product-manager-with-hve-core) demonstrates this handoff with BRD Builder, PRD Builder, Functional Planner, and Backlog Manager. It is optional: the core workshop proceeds with a reviewed implementation handoff after the open exploration.
+The [extended Product Manager track](#extended-track-product-manager-with-hve-core) offers optional BRD/PRD authoring. The separate [work-item workflow](?step=2#plan-and-create-the-work-items) uses Functional Planner and Backlog Manager from actual DT decisions or a matching signed-off PRD; the full document-building chain is not required.
 
 </details>
 
@@ -761,6 +761,12 @@ The example is a discovery direction, not a request to implement filtering, voic
 
 </details>
 
+### After DT Coach: Continue to backlog planning
+
+Once DT Coach has recapped your work across the nine methods, you can go straight to [Plan and create the work items](?step=2#plan-and-create-the-work-items). That section is separate from the optional formal Product Manager track and resumes the `music-catalog-listening-experience` project from its actual decisions or a matching signed-off PRD.
+
+Keep the DT context or exact saved artifact paths; do not infer completion from a sampler or preview. If you take this route before the common handoff below, return to DT Coach for that handoff before leaving Level 2. You can also continue with the common recap first and plan the backlog afterwards.
+
 ## Debrief and hand off to the shared implementation slice
 
 Keep the ideas you explored with DT Coach. For Level 3, however, everyone builds the same small playlist feature so the coding exercise stays focused and comparable across the room.
@@ -891,6 +897,13 @@ Review this file against your actual decision and correct it before approving it
 
 ## Extended track: Product Manager with HVE-Core
 
+**Optional:** this formal BRD/PRD authoring track is not required for backlog planning. Continue at [Plan and create the work items](?step=2#plan-and-create-the-work-items) if you skip it; expand only when you want the requirements-document route.
+
+**Backlog safety:** planning does not authorize tracker writes. Confirm the target repository and review the handoff before separately authorizing execution. If required GitHub write tools are unavailable, stop before execution; do not bypass permissions. Organization policies still apply. Never paste credentials into chat or repository files.
+
+<details>
+<summary>Optional extended track: BRD and PRD authoring</summary>
+
 <details>
 <summary>How BRD, PRD, and product-management decisions support this optional track</summary>
 
@@ -937,13 +950,13 @@ The PM's role therefore shifts from repeatedly formatting documents and tickets 
 
 </details>
 
-<div class="info" data-title="Optional Tech Lead activities and required PR gate">
+<div class="info" data-title="Optional Product Manager extension">
 
-> Your facilitator tells you whether the room runs this optional track hands-on, watches it as a demo, or skips it. Level 3 works without it: if you skip it, go to [Curate what you commit](?step=2#curate-what-you-commit).
+> Your facilitator tells you whether the room runs this optional track hands-on, watches it as a demo, or skips it. The separate work-item section accepts the actual DT decisions or a matching signed-off PRD; the full document-building chain is not mandatory.
 
 </div>
 
-This track follows the HVE-Core [TPM guide](https://microsoft.github.io/hve-core/docs/hve-guide/roles/tpm) and [Business Program Manager guide](https://microsoft.github.io/hve-core/docs/hve-guide/roles/business-program-manager). You turn the decisions you just locked into requirement documents, then into a tracked backlog of GitHub issues. In Level 3, a developer picks up that backlog.
+This optional authoring route follows the HVE-Core [TPM guide](https://microsoft.github.io/hve-core/docs/hve-guide/roles/tpm) and [Business Program Manager guide](https://microsoft.github.io/hve-core/docs/hve-guide/roles/business-program-manager). Turn the reviewed decisions into requirements documents, then use the separate work-item workflow below. Level 3 consumes only the requirements and issue links that match its fixed playlist slice.
 
 ### The PM agent chain
 
@@ -955,13 +968,10 @@ Use the agents in this order:
 | 2 | Discovery, optional | **Meeting Analyst** | Requirements extracted from Microsoft 365 meeting transcripts | No |
 | 3 | Product definition | **BRD Builder** | A business requirements document (BRD) in `docs/project-planning` | No |
 | 4 | Product definition | **PRD Builder** | A product requirements document (PRD) in `docs/project-planning` | No |
-| 5 | Decomposition | **Functional Planner** | A GitHub issue hierarchy plan and a handoff file you can review | No, read-only |
-| 6 | Execution | **Backlog Manager** or `/hve-core:backlog-execute` | GitHub issues and sub-issues | **Yes**, after you confirm |
-| 7 | Sprint planning | **Backlog Manager** with `/hve-core:backlog-plan` | A recommended order and dependencies | No, read-only |
 
 Why this order:
 
-- **Why before what.** The BRD states the business need and who benefits. The PRD states what the product does and how to test it. The TPM guide recommends writing the BRD before creating any work item.
+- **Why before what.** The BRD states the business need and who benefits. The PRD states what the product does and how to test it. In this optional document-authoring route, review the BRD before deriving the PRD; the separate DT-to-backlog route does not require this full chain.
 - **Planning is separate from writing.** Functional Planner and `/hve-core:backlog-plan` cannot change the tracker. Only `/hve-core:backlog-execute` writes to GitHub, and only after you review the handoff and confirm the repository.
 - **One owner per role.** In the Business Program Manager guide (beta), a BPM stops at the BRD and user stories, then works with a TPM, who manages the issues. In this track, you play both roles.
 
@@ -1037,6 +1047,10 @@ Let BRD Builder guide its own Discover, Define, and Govern process. Answer its a
 ![BRD Builder guided decision frame asking what counts as passing tests, how participant completion is counted, and who records the result; the Define gate remains open after an unvalidated quality review](assets/l2-brd-guided-decisions.png)
 
 This earlier capture uses workshop-completion measurements; your conversation should instead focus on the listener's feature and the peer feedback above. It illustrates the guided question frame and an open Define gate after an unvalidated quality review, not answers to reproduce or evidence of approval.
+
+![BRD Builder tracking open and partially answered questions, flagging self-review, and asking for the metric, question set and baseline after clarifying test ownership](assets/l2-brd-open-questions.png)
+
+**Example guided BRD process:** the builder distinguishes answered, partially answered, and open questions, leaves an ambiguous **yes** unconfirmed, and flags self-review. Clarifying the test owner does not resolve what the **60%** measures, the question set, or the baseline. The captured roles, targets, and UI choice are not prescribed answers or validated outcomes; the duplicate-feedback choice still needs confirmation at the RPI plan gate. This is work in progress, not completed quality review or sign-off.
 
 <details>
 <summary>🪛 setup/troubleshoot: resume a stalled guided BRD process</summary>
@@ -1183,6 +1197,10 @@ Carry forward its constraints and open questions. Ask at most 3 clarifying quest
 
 Let PRD Builder run its own discovery, authoring, traceability, and quality checks; do not paste a ready-made functional-requirement list. **Validate the scope PRD Builder actually presents.** When it shares its draft and asks to proceed, open that file and compare it with the reviewed BRD and delivery brief. Confirm or correct the scope before proceeding to validation and sign-off. Keep deferred DT ideas out of delivery.
 
+![PRD Builder concluding its draft summary, reporting version 0.1.0 and pending quality review, and asking whether to review and finalize the PRD](assets/l2-prd-conclusion.png)
+
+**Example PRD conclusion:** the agent reports a draft at **0.1.0**, with PRD quality review and markdownlint still pending. The displayed **yes** is not evidence that validation passed or final sign-off was recorded. The defaults, role assignments, waiver, and duplicate-message wording belong to that captured conversation, not a set of answers to reproduce; review your own requirements and findings before giving final approval.
+
 Do not select **Yes** merely because the agent says "scope is unchanged." If the draft matches, send:
 
 ```text
@@ -1223,22 +1241,42 @@ Success Criteria:
 
 Read both documents before you continue. Remove any scope creep. The issues you create next link to these documents.
 
-### Step 5: Plan the GitHub issue hierarchy
+</details>
 
-Select **Functional Planner** using the [shared selection procedure](?step=1#selecting-a-specialist-in-cli-or-vs-code); its CLI entry is `/agent functional-planner`. Copy paste the following prompt, replacing `<owner>/<repo>` with your repository and `<your-prd-file>.md` with the reviewed PRD filename confirmed in Step 4:
+## Plan and create the work items
+
+This is the common backlog workflow, independent of the optional BRD/PRD extension. Use `music-catalog-listening-experience` as the project reference to resume actual DT Coach decisions, or use the matching signed-off PRD if it exists. The slug identifies context; it is not a guessed filename, an approved requirements set, or a handoff path.
+
+Keep the actual recap, decisions and saved requirements artifacts in this conversation. If you start a new conversation, share their exact paths. Confirm which slice and repository you are planning before tracker reads. Do not select the newest file or an unrelated playlist PRD merely because it exists; surface conflicting sources, draft status or missing sign-off instead.
+
+**Native readiness gate:** Functional Planner still needs a concrete PRD source before decomposition. If only confirmed DT decisions are available, use them to resolve gaps and curate a short reviewed PRD from those actual decisions; the whole BRD/PRD Builder chain is not required. Keep planning paused until the source is adequate. A sampler or preview is not proof that all nine methods are complete, and file existence is not sign-off.
+
+Keep the shared Level 3 playlist scope unchanged. Exploration-derived work items are proposed follow-ups, not implemented or validated extensions to that contract.
+
+### Step 1: Plan the work items from the project context
+
+Select **Functional Planner** using the [shared selection procedure](?step=1#selecting-a-specialist-in-cli-or-vs-code). In CLI, switch without clearing the DT context:
 
 ```text
-Plan a GitHub issue hierarchy for <owner>/<repo> from the reviewed playlist PRD at docs/project-planning/<your-prd-file>.md.
-Keep this planning-only and prepare the handoff for my review. Do not plan labels, milestones, or assignees.
+/agent functional-planner
+```
+
+Ask for source-aware, gap-led planning rather than prescribing a hierarchy. Keep this workshop plan limited to work items; do not plan labels, milestones, or assignees.
+
+```text
+Help me plan the backlog for music-catalog-listening-experience.
+Resume the confirmed Design Thinking Coach decisions, or use the matching signed-off PRD if one exists.
+Guide me through potential gaps before preparing the work items.
 ```
 
 Success Criteria:
-- Functional Planner confirms the repository, reads the existing issues, and writes a planning log and a `handoff.md`. It tells you where they are.
+- Functional Planner identifies the actual requirements source and unresolved gaps, or reports the missing source and remains paused.
+- Once the inputs and native gates are satisfied, it confirms the repository, reads existing issues and returns a traceable work-item plan, planning log and `handoff.md` with their actual paths.
 - No new issue is created on GitHub during planning; existing issues may be read.
 
-Open the handoff at the path Functional Planner reports. Review the proposed decomposition, requirement coverage, acceptance criteria, dependencies, and any unresolved findings against your saved PRD. Ask the planner to explain or revise anything that does not fit. There is no prescribed issue count or reference hierarchy to reproduce; the reviewed plan determines what the next step creates.
+Open the handoff at the path Functional Planner reports. Review the proposed decomposition, requirement coverage, acceptance criteria, dependencies, and any unresolved findings against the confirmed DT-derived requirements or matching signed-off PRD. Ask the planner to explain or revise anything that does not fit. There is no prescribed issue count or reference hierarchy to reproduce; the reviewed plan determines what the next step creates.
 
-### Step 6: Create the issues
+### Step 2: Create the issues
 
 After reviewing Functional Planner's handoff, **explicitly switch to Backlog Manager**. In Copilot CLI, send this command as a separate message:
 
@@ -1255,17 +1293,18 @@ If your installation uses an unprefixed name, use `/agent backlog-manager` or se
 
 </details>
 
-**Review the handoff and tick only the Human Review box.** Open `.copilot-tracking/github-issues/prds/music-catalog-playlist-slice/handoff.md`, or the actual handoff path Functional Planner reported. Read the proposed issues, scope, acceptance criteria, dependencies, and target repository. After resolving any outstanding review findings and approving the plan yourself, change only the bottom **Reviewed and validated by a qualified human reviewer** checkbox from `[ ]` to `[x]`, then save the file. Leave all other checkboxes unticked (`[ ]`) before execution. If you cannot approve the plan, leave the Human Review box unchecked and resolve the blockers before authorizing execution. This is a local, ignored handoff, not a file to commit.
+**Review the handoff and tick only the Human Review box.** Open the actual handoff path Functional Planner reported for `music-catalog-listening-experience`; do not derive it from the slug or reuse another slice's handoff. Read the proposed issues, scope, acceptance criteria, dependencies, and target repository. After resolving any outstanding review findings and approving the plan yourself, change only the bottom **Reviewed and validated by a qualified human reviewer** checkbox from `[ ]` to `[x]`, then save the file. Leave all other checkboxes unticked (`[ ]`) before execution. If you cannot approve the plan, leave the Human Review box unchecked and resolve the blockers before authorizing execution. This is a local, ignored handoff, not a file to commit.
 
 Then send the following prompt, replacing `<owner>/<repo>` with your workshop repository and `<reviewed-handoff-path>` with the path Functional Planner reported:
 
 ```text
-Execute the plan in the reviewed PRD handoff at <reviewed-handoff-path> and create the corresponding issues in GitHub repository <owner>/<repo>.
+Resume the reviewed backlog handoff for music-catalog-listening-experience at <reviewed-handoff-path>.
+Create only its approved work items in GitHub repository <owner>/<repo> after confirming the target and my authorization.
 ```
 
 ![Copilot CLI showing Functional Planner's handoff guidance, the user switching to Backlog Manager, and dispatch to the GitHub Backlog Executor](assets/l2-backlog-handoff-review.png)
 
-This example shows the transition from planning to Backlog Manager and its executor. It also flags incorrectly ticked operation boxes and differences from the approved PRD: resolve such findings before authorizing your own execution. Use your repository and handoff path, not the pictured values. Executor dispatch is not proof that issues were successfully created.
+This PRD-route example shows the transition from planning to Backlog Manager and its executor. It also flags incorrectly ticked operation boxes and differences from its approved requirements source: resolve such findings before authorizing your own execution. Use your repository and handoff path, not the pictured values. Executor dispatch is not proof that issues were successfully created.
 
 Success Criteria:
 - Backlog Manager confirms GitHub and your repository, then hands the operations to its GitHub Backlog Executor subagent.
@@ -1289,14 +1328,14 @@ In that new session, use the default agent rather than switching back to the rea
 ```text
 /hve-core:backlog-execute
 
-Run the reviewed plan at <reviewed-handoff-path> and create the corresponding issues in GitHub repository <owner>/<repo>.
+Run the reviewed backlog plan for music-catalog-listening-experience at <reviewed-handoff-path> and create only its approved work items in GitHub repository <owner>/<repo>.
 ```
 
 Review the proposed operations before approving writes. If authentication or write tools are still unavailable, stop and ask the facilitator for help.
 
 </details>
 
-### Step 7: Verify the backlog on GitHub
+### Step 3: Verify the backlog on GitHub
 
 List the open issues before inspecting them so you can reconcile their numbers and URLs with the reviewed creation plan:
 
@@ -1310,7 +1349,7 @@ Success Criteria:
 - The created issues match the approved operations in the handoff; reconcile their URLs and count with that plan rather than a fixed number.
 - Any planned parent issue shows the expected sub-issues and their progress.
 
-### Step 8: Get a sprint order (read-only)
+### Step 4: Get a sprint order (read-only)
 
 Ask for dependencies and an implementation order without editing the backlog. Level 5 schedules this triage and adds evidence-based reconciliation.
 
@@ -1319,7 +1358,7 @@ Select **Backlog Manager** using the [shared selection procedure](?step=1#select
 ```text
 /hve-core:backlog-plan
 
-Use sprint mode to plan the next iteration for <owner>/<repo> from the open playlist slice issues.
+Use sprint mode to plan the next iteration for <owner>/<repo> from the work items created for music-catalog-listening-experience.
 Read-only: recommend an implementation order with dependencies and say which issues can be developed in parallel. Do not change any issue.
 ```
 
@@ -1328,7 +1367,7 @@ Stop if the agent reports unavailable GitHub MCP tools; do not treat a failed re
 <details>
 <summary>🪛 setup/troubleshoot: sprint planning cannot access GitHub</summary>
 
-Check the server connection and tool enablement from Step 1; changing the prompt does not grant tool access.
+Provide the actual issue URLs reported in Step 3 if they are not in this conversation. Check the server connection and tool enablement from the lab setup; changing the prompt does not grant tool access or identify work items from the slug alone.
 
 </details>
 
@@ -1340,11 +1379,11 @@ Success Criteria:
 
 Example captured during a workshop run. Your issue numbers and ordering will differ. The dependencies shown here come from issue text; they are not enforced by GitHub's structured dependency feature.
 
-### Step 9: Hand off to curation
+### Step 5: Hand off to curation
 
-Do not commit yet. The BRD and PRD go through the curation checklist in the next section, and you commit them there together with the Design Thinking record.
+If you came here directly after the nine-method conversation, return to **DT Coach** (`/agent dt-coach` in CLI) for the [common implementation handoff](?step=2#debrief-and-hand-off-to-the-shared-implementation-slice), then save its reviewed delivery brief and later-slice decision. Do not leave Level 2 without those shared inputs.
 
-Note the parent issue number. You use it in Level 3.
+Do not commit planning logs or raw coaching notes. Curate the reviewed DT-derived requirements, plus any BRD/PRD actually produced, at [Curate what you commit](?step=2#curate-what-you-commit). Keep the actual issue and handoff links. Give Level 3 issue links only when they match its fixed playlist slice; unrelated DT work remains a separate follow-up.
 
 ## Curate what you commit
 
@@ -1375,7 +1414,7 @@ The rule is simple: never commit the tracking folder. Curate what matters out of
 
 ### Step 1: Review and commit the deliverables
 
-The delivery brief and `docs/project-planning/dt-later-slice.md` were saved before the optional Product Manager track. Review them together with any BRD and PRD now; do not ask an agent to create another copy. Keep the agreed scope, remove personal or raw notes, and do not link to local tracking files. Agent output remains a draft until you approve it.
+Confirm that the common DT handoff has saved the delivery brief and `docs/project-planning/dt-later-slice.md`, including if you returned from the early work-item route. Review them together with any BRD and PRD now; do not ask an agent to create another copy. Keep the agreed scope, remove personal or raw notes, and do not link to local tracking files. Agent output remains a draft until you approve it.
 
 Use HVE's commit capability to select only the reviewed files under
 `docs/project-planning/`, rather than staging the whole repository. Type
@@ -1419,7 +1458,7 @@ RPI means **Research, Plan, Implement, Review**. HVE-Core also documents a follo
 
 ## Topic
 
-Use RPI Agent to implement the playlist slice from the reviewed Level 2 record at `docs/project-planning/playlist-design-decisions.md`. That file carries the shared scope and acceptance criteria; do not redefine them in each phase prompt. If you completed the Product Manager track, also provide the actual reviewed PRD path and parent issue link. Resolve any disagreement between those sources before approving a plan.
+Use RPI Agent to implement the playlist slice from the reviewed Level 2 record at `docs/project-planning/playlist-design-decisions.md`. That file carries the shared scope and acceptance criteria; do not redefine them in each phase prompt. If you planned work items for this same playlist slice, also provide the actual reviewed requirements source and relevant issue links, whether they came from DT decisions or the optional Product Manager track. Resolve any disagreement between those sources before approving a plan.
 
 One decision remains yours: **how the user interface handles a duplicate add**. Ask the planner to explain reasonable approaches and their trade-offs, then choose one. The agreed duplicate rejection and accessible feedback remain requirements.
 
@@ -1429,7 +1468,15 @@ One decision remains yours: **how the user interface handles a duplicate add**. 
 
 ## Work as a developer
 
-**RPI Agent coordinates four skills: Research, Plan, Implement, and Review.** Start from the reviewed Level 2 requirements, work one phase at a time, and read each returned artifact before continuing. Keep its path for the next phase.
+**RPI Agent coordinates four skills: Research, Plan, Implement, and Review.** It keeps task context and phase progress, passing saved evidence between phases so work can resume from durable artifacts. Start from the reviewed Level 2 requirements, work one phase at a time, and read each returned artifact before continuing. Keep its path for the next phase.
+
+**Before starting the steps, switch to RPI Agent** using the [shared selection procedure](?step=1#selecting-a-specialist-in-cli-or-vs-code). In Copilot CLI, send this command as a separate message:
+
+```text
+/agent rpi-agent
+```
+
+Confirm that **RPI Agent** is active before sending the Research request.
 
 If the agent asks how to proceed, choose **Work through each phase with me**. HVE carries the procedure; you own the decisions and approval.
 
@@ -1444,7 +1491,7 @@ This level follows the HVE-Core [Engineer guide](https://microsoft.github.io/hve
 | Plan | `/hve-core:rpi-plan` | Plan phase |
 | Implement | `/hve-core:rpi-implement` | Implement phase |
 | Review | `/hve-core:rpi-review` | Review phase |
-| Commit and pull request | `/hve-core:git-commit.prompt`, `/hve-core:pull-request` | Tech Lead extension |
+| Commit and pull request | `/hve-core:git-commit.prompt`, `/hve-core:pull-request` | Implementation checkpoint, optional extension commit, then required publication |
 
 Apply these practices from the guides:
 
@@ -1490,7 +1537,7 @@ See [Context engineering](https://microsoft.github.io/hve-core/docs/rpi/context-
 
 Research gathers repository evidence and open questions before anyone plans code changes. Keep application files unchanged during this phase:
 
-Select **RPI Agent** using the [shared selection procedure](?step=1#selecting-a-specialist-in-cli-or-vs-code); its CLI entry is `/agent rpi-agent`. Type `/rpi-research`, select the HVE-Core entry, and press **Tab**. Add the research request before sending:
+Type `/rpi-research`, select the HVE-Core entry, and press **Tab**. Add the research request before sending:
 
 ```text
 /hve-core:rpi-research
@@ -1610,7 +1657,9 @@ Success Criteria:
 
 Keep that path for Review. Check the reported runs rather than repeating them manually. A skipped or blocked run is not a pass.
 
-![Playlist feature implemented locally](assets/l3-playlist-implemented.png)
+![RPI Implement result summarizing API and UI changes, reported tests and build, an unperformed keyboard and focus check, a testing deviation, uncommitted changes, and returned plan and changes paths](assets/l3-rpi-implement-result.png)
+
+**Example Implement result:** the summary separates changed behavior, reported validation, missing manual checks, deviations, and returned artifact paths. Test counts and implementation choices belong to this captured run, not a required output to reproduce. Automated checks do not complete the missing keyboard/focus browser check. Although the capture labels Review optional, this workshop continues with **Review before committing**.
 
 ### Step 2: Run the app
 
@@ -1658,6 +1707,10 @@ Success Criteria:
 - The returned review file links the plan, changes record, and validation evidence, and records an acceptance outcome.
 - Each finding identifies its evidence and next action, or the review explicitly records no findings.
 - Application files remain unchanged during Review.
+
+![RPI Review result with Complete execution and Residual work outcome, findings and follow-up decisions, reported rather than rerun validation, a pending manual keyboard check, and returned review, plan and changes paths](assets/l3-rpi-review-result.png)
+
+**Example Review result:** execution is **Complete**, but the outcome is **Residual work**, not blanket acceptance. Validation is reported from the changes record, not re-run; the manual keyboard/focus check remains pending. Resolve required remaining work before acceptance and distinguish it from optional follow-ups. Finding IDs, paths, and archive-publication notes belong to this captured run, not the current repository state; use your own returned review record and evidence.
 
 A clean review is valid. Carry genuine residual work into Level 5 if any remains; do not invent a finding or defer a required fix to populate the backlog. Read the returned review and resolve accepted blockers before treating the slice as complete. Review notes stay in the ignored tracking folder, so a clean review needs no additional commit.
 
@@ -1711,15 +1764,16 @@ Success Criteria:
 - `.copilot-tracking/` is not included in any commit.
 - A real staging or commit error must be resolved before continuing.
 
-## Tech Lead extension and required publication gate
+## Extended track: Tech Lead with HVE-Core
 
-<div class="info" data-title="Extended track">
+**Optional:** expand this track for ADR authoring, multi-perspective Code Review, and committing any reviewed extension changes. If you skip it, continue at [Publish the reviewed pull request](?step=3#publish-the-reviewed-pull-request); publication and human acceptance remain required before Level 4.
 
-> The ADR Creator and Code Review activities are optional extensions. Publishing the Level 3 feature through a reviewed pull request below is required before Level 4.
+**Safety:** optional work does not waive review findings or approval gates. Commit only reviewed changes, keep private tracking artifacts local, and separately confirm publication.
 
-</div>
+<details>
+<summary>Optional extended track: ADR authoring and Code Review</summary>
 
-You may skip the optional ADR and multi-perspective Code Review activities. Do not skip the pull-request preparation and publication gate: Level 4 starts from the reviewed, merged default-branch baseline.
+Use the following activities when you want the Tech Lead perspective on the reviewed playlist implementation. They complement, rather than replace, the core RPI Review.
 
 ### Step 1: Record the in-memory decision as an ADR
 
@@ -1831,13 +1885,13 @@ files. Ask me to select whole paths and confirm their exact staged set before co
 Success Criteria:
 - You select whole paths and confirm the exact staged set; the agent creates the local commit with a Conventional Commit message.
 
-<div class="tip" data-title="Close the PM backlog from a commit">
+</details>
 
-> If you created issues in the Level 2 Product Manager track, add a line such as `Closes #12` to a commit message for each sub-issue this slice implements. GitHub closes those issues when the reviewed pull request is merged into the default branch in this level.
+## Publish the reviewed pull request
 
-</div>
+**Required:** whether or not you took the Tech Lead extension, publish the reviewed Level 3 feature through a pull request. Human approval, merge, and default-branch synchronization below are prerequisites for Level 4.
 
-### Step 4: Publish the pull request with `/hve-core:pull-request`
+### Step 1: Publish the pull request with `/hve-core:pull-request`
 
 Type `/pull-request`, select the HVE-Core entry, and press **Tab**. Ask it to publish the committed feature branch and open the PR. Review the title, description, target and publication action before confirming:
 
@@ -1964,11 +2018,19 @@ entry, or one `hve-core@contoso-plugin-marketplace` entry. Duplicate, direct-sou
 unknown or managed installations need tutor/admin help before continuing.
 
 If the only entry is the Level 1 `hve-core@hve-core` and you agree to replace that
-personal install, exit your current CLI session and remove **only that identity**:
+personal install, keep your CLI session open and use a separate Bash terminal
+to remove **only that identity**:
 
 ```bash
 copilot plugin uninstall hve-core@hve-core
 copilot plugin list --json
+```
+
+Then return to your Copilot CLI session and reload it by sending this interactive
+command, not by running it in Bash:
+
+```text
+/restart
 ```
 
 Verify there are now no HVE rows before installing the curated copy. This removes
@@ -1985,12 +2047,25 @@ copilot plugin install hve-core@contoso-plugin-marketplace
 copilot plugin list --json
 ```
 
+After the inventory check, return to Copilot CLI and reload the session again:
+
+```text
+/restart
+```
+
 **Success Criteria:** exactly one HVE row comes from `contoso-plugin-marketplace`,
-reports `3.2.2`, and is enabled. Start a fresh CLI session and confirm **DT Coach**
+reports `3.2.2`, and is enabled. In the reloaded session, confirm **DT Coach**
 and **RPI Agent** are available. If the install, provenance or agent check fails,
 stop before the APM transition.
 
 ### Step 3: Register the catalog in VS Code
+
+**Optional:** expand this setup if you also use Visual Studio Code. CLI-only
+participants can continue directly to Step 4. Respect policy and trust restrictions;
+do not copy the solution settings file, which would interfere with the later CLI disable.
+
+<details>
+<summary>Optional Visual Studio Code setup</summary>
 
 In VS Code Settings, enable `chat.plugins.enabled`. In your **user** settings JSON,
 add your repository to the existing `chat.plugins.marketplaces` array, preserving
@@ -2017,6 +2092,8 @@ with DT Coach and RPI available. Recommendations in the solution
 file for this exercise, as its enable overlay would interfere with the later CLI
 disable. The GitHub Copilot app registration is a **tutor demo**, not a third
 participant setup.
+
+</details>
 
 ### Step 4: Read construction and versioning
 
@@ -2614,8 +2691,6 @@ gh aw run daily-backlog
 
 Open the run in **Actions** and wait for it to finish. Then open the latest `[Daily backlog]` summary and your opted-in feature issue.
 
-![Daily backlog summary issue](assets/l5-daily-backlog-issue.png)
-
 ### Step 7: Read the summary issue
 
 Compare the summary's **Evidence and progress**, **Recommended implementation order**, and **Needs a human decision** sections with your issue. Its update should link the committed planning and identify remaining criteria. It should **stay open**: no remove feature has been delivered yet.
@@ -2646,8 +2721,6 @@ On GitHub's default branch, verify the RPI Agent in `.github/agents`, supporting
 ### Step 2: Assign the issue
 
 On the feature issue, use **Assignees** or the Copilot task control to choose Copilot and **RPI Agent** where supported. In Level 3 you drove the phases; now you authorize the bounded end-to-end loop. In a local session, `/rpi` is the entry point; in the cloud assignment, the task instructions carry the same intent.
-
-![Assigning an issue to Copilot cloud agent](assets/l5-cloud-agent-assignment.png)
 
 Send these additional instructions with the issue. The default path is your
 reviewed DT decision; **only if you selected the Remove a track fallback**, replace
@@ -2819,7 +2892,7 @@ A sample report with illustrative findings is in `solutions/afternoon-2/docs/sec
 
 Success Criteria:
 - Nothing merges without a human decision.
-- Each finding you accept becomes an issue. You can create these issues with Backlog Manager, as in the Level 2 Product Manager track.
+- Each finding you accept becomes an issue. You can create these issues with Backlog Manager, as in the separate Level 2 [work-item workflow](?step=2#plan-and-create-the-work-items), using their actual reviewed requirements and handoff.
 
 ### Step 5 (facilitator demo): Delegate with a label and gh-aw
 
@@ -2914,8 +2987,6 @@ Copilot does not automatically repeat its review after each new push. Request an
 
 </details>
 
-
-![Copilot cloud agent pull request under review](assets/l6-cloud-agent-pr-review.png)
 
 ## Review the pull request
 
@@ -3130,14 +3201,15 @@ Success Criteria:
 
 **Act 3, close the loop.** You required tests and the APM audit, prepared the cloud environment, and delegated a scoped issue to RPI Agent. You requested Copilot code review on the resulting PR and made a human acceptance decision, then checked issue and shared dashboard progress.
 
-If you ran the extended tracks, you also worked in three roles: as a Product Manager, you went from BRD to PRD to tracked GitHub issues; as a Tech Lead, you added an ADR and a multi-perspective code review; as a Security Architect, you delegated a report-only security review to Copilot cloud agent.
+The standalone Level 2 work-item workflow plans from actual DT-derived requirements or a matching signed-off PRD. If you ran the optional extensions, you also authored formal BRD/PRD documents as a Product Manager, added an ADR and a multi-perspective code review as a Tech Lead, or delegated a report-only review as a Security Architect.
 
 ## Operating model
 
 | Layer | What it did today | Governance point |
 | ----- | ----------------- | ---------------- |
 | DT Coach | Framed the capability and boundaries. | Humans accepted fixed decisions. |
-| PM agents (extended) | BRD Builder, PRD Builder, Functional Planner and Backlog Manager turned decisions into issues. | Planning is read-only; only a confirmed `/hve-core:backlog-execute` writes to GitHub. |
+| Requirements authoring (optional) | BRD Builder and PRD Builder turned reviewed decisions into requirements documents. | A draft or file alone does not establish sign-off. |
+| Work-item planning and creation | Functional Planner and Backlog Manager used the actual DT-derived source or matching signed-off PRD. | Planning is read-only; reviewed execution requires separate target and write authorization. |
 | RPI Agent | Sequenced research, plan, implement, review. | Humans gate each phase; tests and commits verified progress. |
 | APM | Installed HVE-Core into the repo with a SHA pin. | `apm.lock.yaml` and policy audit made it reproducible. |
 | Plugin marketplace | Registered your curated catalog in CLI/VS Code and installed HVE before the APM transition. | Catalog/plugin versions and source SHA differ; discovery is distinct from APM trust. App setup stayed a tutor demo. |

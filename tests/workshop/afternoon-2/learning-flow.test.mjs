@@ -2,6 +2,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { withoutDetails } from './guide-markup.mjs';
 
 const read = (path) => readFileSync(new URL(path, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const guide = read('../../../docs/afternoon-2/workshop.md');
@@ -10,7 +11,7 @@ const workflow = read('../../../solutions/afternoon-2/.github/workflows/daily-ba
 const runner = read('./run-lab.sh');
 const level = (number) => guide.slice(guide.indexOf(`# Level ${number}:`),
   guide.indexOf(number === 6 ? '# Recap:' : `# Level ${number + 1}:`));
-const visible = (text) => text.replace(/<details>[\s\S]*?<\/details>/g, '');
+const visible = withoutDetails;
 const header = workflow.split('\n---\n')[0];
 const output = (name) => header.match(new RegExp(`^  ${name}:\\n((?:    .*\\n)+)`, 'm'))?.[1];
 
