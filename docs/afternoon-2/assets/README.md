@@ -1,4 +1,4 @@
-# The SDLC Workshop assets and screenshot capture guide
+# AI SDLC with Github Copilot and HVE Core assets and screenshot capture guide
 
 This folder contains supplied screenshots and generated diagrams for `docs\afternoon-2\workshop.md`. The four remaining screenshot captures referenced by the guide are documented below; save them with the exact filenames shown.
 

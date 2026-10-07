@@ -1,6 +1,6 @@
-# Workshop tester: AI SDLC with GitHub and GitHub Copilot
+# Workshop tester: AI SDLC with Github Copilot and HVE Core
 
-An agentic workflow that replays the full AI SDLC with GitHub and GitHub Copilot lab ([docs/afternoon-2/workshop.md](../../../docs/afternoon-2/workshop.md)) whenever a change reaches `main`. It runs in a throwaway sandbox repository and Codespace, both deleted at the end of the run. When any step fails or the lab and its results diverge, it files a `[Workshop tester]` issue in this repository.
+An agentic workflow that replays the full AI SDLC with Github Copilot and HVE Core lab ([docs/afternoon-2/workshop.md](../../../docs/afternoon-2/workshop.md)) whenever a change reaches `main`. It runs in a throwaway sandbox repository and Codespace, both deleted at the end of the run. When any step fails or the lab and its results diverge, it files a `[Workshop tester]` issue in this repository.
 
 ## How it works
 
@@ -48,7 +48,7 @@ Level 3 creates `feature/playlist-slice` before implementation, then publishes t
 
 Level 3 captures `HEAD` before implementation and compares the approved source/test paths afterward, including untracked files. Implementation commits count as edits even when the working tree is clean. The checkpoint commits only a nonempty index; staging or commit errors still fail the step. Run the local regression fixtures with `bash tests/workshop/afternoon-2/git-checkpoint.test.sh`.
 
-All SDLC Workshop learner commits use `/hve-core:git-commit.prompt`. The extractor
+All AI SDLC workshop learner commits use `/hve-core:git-commit.prompt`. The extractor
 retains ten scoped commit requests, but the headless runner does not send them
 with fabricated whole-path or staged-set approvals. Native commit gates are
 recorded as skipped; deterministic commits in the disposable sandbox are explicitly

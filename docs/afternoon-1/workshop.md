@@ -29,7 +29,7 @@ sections_title:
 
 *Version 1.2 - September 2026*
 
-Welcome to **GitHub Copilot Zero to Hero**. In this lab you go from your first code suggestion to plugins that bundle a whole team setup. It is the first lab of a two-part series for technical staff in an insurance and reinsurance context. The second lab, **The SDLC Workshop**, builds on everything you practise here.
+Welcome to **GitHub Copilot Zero to Hero**. In this lab you go from your first code suggestion to plugins that bundle a whole team setup. It is the first lab of a two-part series for technical staff in an insurance and reinsurance context. The second lab, **AI SDLC with Github Copilot and HVE Core**, builds on everything you practise here.
 
 Rather than duplicating existing material, this lab runs the official hands-on lab **[GitHub Copilot, your new AI pair programmer](https://moaw.dev/workshop/gh:Philess/GHCopilotHoL/main/docs/)** (GHCopilotHoL) on its companion application [Philess/gh-copilot-demo](https://github.com/Philess/gh-copilot-demo). This guide gives you the timed route through that lab and adds three short levels for primitives the lab does not cover yet: **Agent Skills**, **Copilot CLI**, and **Agent Plugins**.
 
@@ -89,7 +89,7 @@ Principles to keep in mind:
 
 ### What comes next
 
-**The SDLC Workshop** reuses these primitives at team and organization scale: HVE-Core for Design Thinking and the Research, Plan, Implement, Review (RPI) workflow, APM to version and govern agent packages, GitHub agentic workflows for backlog automation, and controlled delegation to Copilot cloud agent.
+**AI SDLC with Github Copilot and HVE Core** reuses these primitives at team and organization scale: HVE-Core for Design Thinking and the Research, Plan, Implement, Review (RPI) workflow, APM to version and govern agent packages, GitHub agentic workflows for backlog automation, and controlled delegation to Copilot cloud agent.
 
 ## How to use this guide
 
@@ -274,9 +274,9 @@ Focus on:
 - Planning before implementing.
 - The Code Review agent.
 
-<div class="info" data-title="Link to The SDLC Workshop">
+<div class="info" data-title="Link to AI SDLC with Github Copilot and HVE Core">
 
-> The plan-then-implement loop you practice here becomes the full **Research, Plan, Implement, Review** (RPI) workflow in **The SDLC Workshop**.
+> The plan-then-implement loop you practice here becomes the full **Research, Plan, Implement, Review** (RPI) workflow in **AI SDLC with Github Copilot and HVE Core**.
 
 </div>
 
@@ -502,7 +502,7 @@ Success Criteria:
 
 <div class="info" data-title="Usage units">
 
-> Copilot usage is measured in units that depend on the experience and on your plan. **The SDLC Workshop** covers how to read them. Do not compare CLI and VS Code usage without checking which unit each one reports.
+> Copilot usage is measured in units that depend on the experience and on your plan. **AI SDLC with Github Copilot and HVE Core** covers how to read them. Do not compare CLI and VS Code usage without checking which unit each one reports.
 
 </div>
 
@@ -531,7 +531,7 @@ Open the model picker to inspect the models allowed by your account and organiza
 Success Criteria:
 - The model picker lists your available model choices.
 
-Keep the default or choose the model your facilitator recommends. Model comparison and Auto selection are covered in **The SDLC Workshop**.
+Keep the default or choose the model your facilitator recommends. Model comparison and Auto selection are covered in **AI SDLC with Github Copilot and HVE Core**.
 
 ## Make a change from the CLI
 
@@ -660,7 +660,7 @@ Then ask for a small change in `album-viewer`, such as a new label text. The `al
 
 <div class="tip" data-title="Context engineering">
 
-> Each layer costs context. Keep repository-wide instructions short and stable, push folder-specific rules into path-specific files, and keep step-by-step procedures in skills that load only when the task matches. **The SDLC Workshop** applies the same idea to the Research, Plan, Implement, Review workflow, where each phase writes a file instead of relying on a long chat history.
+> Each layer costs context. Keep repository-wide instructions short and stable, push folder-specific rules into path-specific files, and keep step-by-step procedures in skills that load only when the task matches. **AI SDLC with Github Copilot and HVE Core** applies the same idea to the Research, Plan, Implement, Review workflow, where each phase writes a file instead of relying on a long chat history.
 
 </div>
 
@@ -727,7 +727,7 @@ Success Criteria:
 
 <div class="warning" data-title="A guardrail, not a security boundary">
 
-> This hook matches text. A command such as `git -C . push` does not match the pattern, and a hook that times out lets the call through. Use hooks to catch mistakes and to log what agents do. Use branch rulesets, token permissions, and the cloud agent firewall for the limits that must hold. **The SDLC Workshop** builds on those controls.
+> This hook matches text. A command such as `git -C . push` does not match the pattern, and a hook that times out lets the call through. Use hooks to catch mistakes and to log what agents do. Use branch rulesets, token permissions, and the cloud agent firewall for the limits that must hold. **AI SDLC with Github Copilot and HVE Core** builds on those controls.
 
 </div>
 
@@ -757,7 +757,7 @@ In VS Code Chat, open **Configure Tools** and turn off the MCP tools that this r
 | MCP registry URL, with an allowlist option | Enterprise or organization owner | Points Copilot to an approved list of servers, and can limit use to that list where your editor supports it |
 | Repository MCP configuration | Repository maintainers | Shares a reviewed set of servers with the team: `.vscode\mcp.json` through pull requests for VS Code, and the repository's Copilot settings for Copilot cloud agent |
 
-See [Configure MCP server access](https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-mcp-usage/configure-mcp-server-access) for the current options. In **The SDLC Workshop**, an APM policy file adds another check: it blocks MCP servers that a package defines on its own.
+See [Configure MCP server access](https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-mcp-usage/configure-mcp-server-access) for the current options. In **AI SDLC with Github Copilot and HVE Core**, an APM policy file adds another check: it blocks MCP servers that a package defines on its own.
 
 ## Commit checkpoint
 
@@ -790,7 +790,7 @@ You created customizations one file at a time today. A plugin **bundles** them s
 - Hooks.
 - MCP server configuration.
 
-A **marketplace** is a GitHub repository that lists plugins. **The SDLC Workshop** uses the HVE-Core marketplace and a repository-owned APM package to share an entire methodology.
+A **marketplace** is a GitHub repository that lists plugins. **AI SDLC with Github Copilot and HVE Core** uses the HVE-Core marketplace and a repository-owned APM package to share an entire methodology.
 
 <div class="warning" data-title="Hooks and MCP can run code">
 
@@ -867,7 +867,7 @@ If the view is unavailable, your build may require `chat.plugins.enabled`, or yo
 
 <div class="tip" data-title="Why uninstall?">
 
-> Uninstalling keeps all participants aligned for **The SDLC Workshop**. In real projects, keep only approved plugins and record why the team uses them. The second lab shows how APM and policies make that decision versioned and auditable.
+> Uninstalling keeps all participants aligned for **AI SDLC with Github Copilot and HVE Core**. In real projects, keep only approved plugins and record why the team uses them. The second lab shows how APM and policies make that decision versioned and auditable.
 
 </div>
 
@@ -924,9 +924,9 @@ Each rung hands Copilot more autonomy, so each rung needs a stronger review step
 
 ## What is next
 
-**The SDLC Workshop** moves from primitives to a governed agentic SDLC on a new application: a **Music Catalog** mono-repo with a React + TypeScript front end in `src/front` and a .NET 10 API in `src/api`. The application changes because the second lab needs a repository that you copy and fully own, with tests and a Copilot cloud agent setup ready for HVE-Core, Design Thinking, RPI, APM policies, agentic workflows, and Copilot cloud agent delegation.
+**AI SDLC with Github Copilot and HVE Core** moves from primitives to a governed agentic SDLC on a new application: a **Music Catalog** mono-repo with a React + TypeScript front end in `src/front` and a .NET 10 API in `src/api`. The application changes because the second lab needs a repository that you copy and fully own, with tests and a Copilot cloud agent setup ready for HVE-Core, Design Thinking, RPI, APM policies, agentic workflows, and Copilot cloud agent delegation.
 
-Continue with [The SDLC Workshop](../afternoon-2/workshop.md).
+Continue with [AI SDLC with Github Copilot and HVE Core](../afternoon-2/workshop.md).
 
 ## Help us improve this Workshop
 
