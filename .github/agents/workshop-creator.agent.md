@@ -6,23 +6,23 @@ disable-model-invocation: true
 handoffs:
   - label: "🧭 Explore scope with DT Coach"
     agent: DT Coach
-    prompt: "Start Method 1 (Scope Conversations) for the workshop described in the Workshop Creator blueprint under .copilot-tracking/workshop-creator/. Help me separate the real learning outcomes from the requested topics, then return the agreed scope so I can update the blueprint."
+    prompt: "Start Method 1 (Scope Conversations) using the current Workshop Creator blueprint path supplied in this handoff context. Stop if that path is unavailable or ambiguous. Inherit its Linux/Bash-only lab guardrail and delivery boundaries. Help me separate the real learning outcomes from the requested topics, then return the agreed scope so I can update the same blueprint."
     send: false
   - label: "🔬 Research and plan with RPI"
     agent: RPI Agent
-    prompt: "Run rpi-research then rpi-plan for the next pending phase of the Workshop Creator blueprint under .copilot-tracking/workshop-creator/. Verify every product claim against official documentation, follow the blueprint guardrails, and stop before Implement for my review."
+    prompt: "Run rpi-research then rpi-plan for the next pending phase using the current Workshop Creator blueprint path supplied in this handoff context. Stop if that path is unavailable or ambiguous. Inherit its Linux/Bash-only lab guardrail and delivery boundaries. Verify every product claim against official documentation, follow the blueprint guardrails, and stop before Implement for my review."
     send: false
   - label: "🛠️ Implement next phase with RPI"
     agent: RPI Agent
-    prompt: "Implement and review the approved plan for the next pending phase of the Workshop Creator blueprint under .copilot-tracking/workshop-creator/. Follow the blueprint guardrails and the repository conventions, then report the files changed and the validation results."
+    prompt: "Implement and review the approved plan for the next pending phase using the current Workshop Creator blueprint path supplied in this handoff context. Stop if that path is unavailable or ambiguous. Inherit its Linux/Bash-only lab guardrail and delivery boundaries in both Implementation and Review. Follow the repository conventions, then report the files changed and validation results against the same blueprint."
     send: false
   - label: "📊 Build the kick-off deck"
     agent: PowerPoint Builder
-    prompt: "Build the kick-off deck described in the Workshop Creator blueprint under .copilot-tracking/workshop-creator/: context, session split, delivery options, per-option requirements and the pre-D-Day checklist. Source every slide from the repository README and docs/before-d-day-*.md, make no price claims, and run visual QA before delivering."
+    prompt: "Build the kick-off deck using the current Workshop Creator blueprint path supplied in this handoff context. Stop if that path is unavailable or ambiguous. Inherit its Linux/Bash-only lab guardrail and delivery boundaries. Cover context, session split, delivery options, per-option requirements and the pre-D-Day checklist. Source every slide from the repository README and docs/before-d-day-*.md, make no price claims, and run visual QA before delivering."
     send: false
   - label: "✅ Back to Workshop Creator"
     agent: Workshop Creator
-    prompt: "Resume the Workshop Creator blueprint, record the result of the last handoff, and propose the next phase."
+    prompt: "Resume the same Workshop Creator blueprint path supplied in this handoff context. Stop if that path is unavailable or ambiguous. Retain its Linux/Bash-only lab guardrail and delivery boundaries, record the result of the last handoff, and propose the next phase without inventing prior approvals."
     send: false
 ---
 
@@ -53,6 +53,10 @@ Keep one blueprint per workshop at `.copilot-tracking/workshop-creator/{workshop
 - A phase table with `pending`, `in-progress`, `done`, `skipped` and the handoff or PR that closed each phase.
 
 Read the blueprint at every start and resume, announce the current phase, and update it after each handoff returns.
+
+When the caller supplies a trusted private blueprint path outside that default, use that exact path as the authority for this task. Validate that it is readable and belongs to the requested workshop; stop on missing or ambiguous evidence instead of selecting a file by recency. Keep the selected path in private task state and pass it in the actual handoff context. The generic prompts above do not interpolate variables: the caller must supply the concrete path when sending the handoff. Never hardcode personal or session filesystem paths in this profile or public documentation.
+
+If the original blueprint is missing, reconstruct it only with explicit maintainer approval. Label the reconstruction and its source revision, preserve unknown historical approvals as unverified, and initialize future phases as pending. Existing documents or merged PRs are implementation evidence, not proof that a past phase gate was approved.
 
 ## Curate durable design direction
 
@@ -85,6 +89,7 @@ Apply these to every artifact and pass them to every handoff:
 - Use current product names and link to official documentation rather than restating it.
 - When citing HVE-Core, distinguish documented methodology from this workshop's architecture recommendation or simulation.
 - Attendee guides contain only what attendees practice. Time codes go only in `docs/tutor.md`. Maintainer guidance goes only in `CONTRIBUTING.md`.
+- Participant labs use Linux commands, Bash syntax, and Linux-style paths only. Preserve the delivery options and host-specific setup outside the labs. In this repository, the durable scope is recorded in `docs/afternoon-2/project-planning/levels-4-6-learning-flow.md`; recording the guardrail does not establish that existing examples have all been converted.
 - Use synthetic data only. Keep secrets out of files, logs and prompts.
 
 ## Phases

@@ -11,19 +11,19 @@ mkdirSync(outDir, { recursive: true });
 // Collect every ```text block with the nearest non-empty line above it.
 const blocks = [];
 let section = '';
-let toggle = '';
+const toggles = [];
 for (let i = 0; i < lines.length; i++) {
   if (lines[i].startsWith('#')) section = lines[i].trim();
   const summary = lines[i].match(/<summary>(.*?)<\/summary>/);
-  if (summary) toggle = summary[1];
-  if (lines[i].trim() === '</details>') toggle = '';
+  if (summary) toggles.push(summary[1]);
+  if (lines[i].trim() === '</details>') toggles.pop();
   if (lines[i].trim() !== '```text') continue;
   let lead = i - 1;
   while (lead >= 0 && lines[lead].trim() === '') lead--;
   const body = [];
   let j = i + 1;
   for (; j < lines.length && lines[j].trim() !== '```'; j++) body.push(lines[j]);
-  blocks.push({ section, toggle, lead: lead >= 0 ? lines[lead].trim() : '', body: body.join('\n').trim() });
+  blocks.push({ section, toggle: toggles.at(-1) || '', lead: lead >= 0 ? lines[lead].trim() : '', body: body.join('\n').trim() });
   i = j;
 }
 
@@ -41,8 +41,11 @@ for (const block of blocks.filter((b) => b.body.startsWith('/hve-core:'))) {
 }
 
 const wanted = {
+  'hve-method-contrast': byFirstLine('Before changing Music Catalog, what listener context'),
   'dt-start': byFirstLine('/hve-core:dt-start-project.prompt'),
   'dt-method-next': byFirstLine('/hve-core:dt-method-next.prompt'),
+  'dt-functional-plan': byFirstLine('Help me plan the backlog for music-catalog-listening-experience.'),
+  'dt-backlog-execute': byFirstLine('Resume the reviewed backlog handoff for music-catalog-listening-experience at'),
   'dt-summary': byFirstLine('Summarize the final decisions'),
   'dt-record': byFirstLine('Write a curated Design Thinking decision record'),
   'dt-later-choice': byFirstLine('Help me choose one idea from our DT conversation'),

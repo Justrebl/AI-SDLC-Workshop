@@ -61,8 +61,8 @@ Attendees build one capability in a small music catalog app (**browse tracks and
 | Level | Topic | You will | What it adds, and why the previous level was not enough |
 | --- | --- | --- | --- |
 | 0 | Setup | Create your repository from the template and verify the environment | |
-| 1 | HVE-Core CLI plugin | Install HVE-Core into Copilot CLI and explore its agents | GitHub Copilot Zero to Hero primitives were your own; HVE-Core brings a shared method |
-| 2 | Design Thinking coach | Turn the playlist request into a scoped problem statement | Agents build exactly what you ask; first decide what is worth asking |
+| 1 | HVE-Core CLI plugin | Install HVE-Core and compare actual read-only responses with an ordinary agent | GitHub Copilot Zero to Hero primitives were your own; HVE-Core brings a shared method |
+| 2 | Design Thinking coach | Explore listener needs, distinguish assumptions, and choose a bounded later slice | Discovery informs a reviewed handoff; it does not validate or redefine the shared playlist coding contract |
 | 3 | RPI loop | Research, plan, implement and review the playlist feature, with context engineering and one real decision at the review gate | A single prompt mixes facts, decisions and edits; RPI separates them into reviewable artifacts |
 | 4 | APM and repository agents | Register your curated marketplace in CLI/VS Code, install HVE, inspect source/version metadata, then install and audit pinned repository agents | Discovery does not enforce trust; personal setup does not travel with the code |
 | 5 | Agentic workflows and delegation | Reconcile opted-in issues with committed plans and delivery evidence, then delegate a scoped RPI task | The backlog should reflect reality; people select work while automation records evidence |
@@ -91,7 +91,7 @@ flowchart LR
   H -. findings feed the backlog .-> F
 ```
 
-Each step reuses the previous output: Design Thinking decisions scope RPI, committed planning and PR evidence keep the backlog current, and a human selects the next cloud-agent task. Level 4 includes participant marketplace practice; GitHub Copilot app setup and browser-supported accessibility review remain tutor demonstrations. Its additional practice extends the estimated AI SDLC workshop delivery to 255 minutes without cutting APM.
+Each step reuses a reviewed handoff: the supplied playlist contract scopes RPI while Design Thinking preserves evidence limits and the learner's chosen later slice. Committed planning and PR evidence keep the backlog current, and a human selects the next cloud-agent task. Level 4 includes participant marketplace practice; GitHub Copilot app setup and browser-supported accessibility review remain tutor demonstrations. Its additional practice extends the estimated AI SDLC workshop delivery to 255 minutes without cutting APM.
 
 ## Delivery options
 

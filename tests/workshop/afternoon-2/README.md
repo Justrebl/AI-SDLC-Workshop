@@ -38,15 +38,55 @@ The published **Toggle solution / Toggle example** blocks are the tester's curat
 
 The examples supply a learner's facts and choices, not a document outline or substitute for HVE's native procedures. After the DT recap and note checks, the tester switches to Documentation to save the delivery brief before starting BRD Builder. It does not ask DT Coach to publish its private working artifacts or resume the BRD conversation to manufacture a DT record.
 
+The standalone DT/PRD-to-Functional-Planner request is extracted as
+`dt-functional-plan.txt` and skipped: actual learner outcomes, the concrete PRD
+source, gap decisions and approval cannot be invented. The separate work-item
+creation request is extracted as `dt-backlog-execute.txt` and skipped until its
+actual reviewed handoff and repository authorization are available. The project
+slug identifies context, not a guessed requirements file or handoff path.
+Participants may skip the default-closed formal BRD/PRD track entirely.
+The tester's existing BRD example replay remains separate reference coverage, not a prerequisite for that direct
+intake or evidence of human sign-off.
+
 The Level 2 later-slice choice and its curated `dt-later-slice.md` record are extracted but skipped by the replay: they require a real learner decision. The sandbox retains the documented Remove a track fallback rather than claiming that fixture came from authentic DT coaching. Interactive learners commit their reviewed later-slice decision and use it for Level 5 issue creation and delegation without BRD/PRD Builder.
 
-This is **example replay**, not authentic user research or proof of method completion. The tester checks that coaching state and the BRD draft exist, but does not infer evidence quality, human review, or sign-off from those files. BRD steps 12–13 remain skipped because they depend on actual human inspection and approval; PRD/backlog execution remains skipped until that gate is satisfied. Missing answers and readiness gaps must be reported, not improvised or waived by the tester.
+This is **example replay**, not authentic user research or proof of method completion. The tester checks that coaching state and the BRD draft exist, but does not infer evidence quality, human review, or sign-off from those files. BRD steps 12–13 remain skipped because they depend on actual human inspection and approval; the optional PRD authoring route waits for that BRD gate. The independent DT/PRD backlog route remains skipped without its own concrete source, reviewed handoff and write authorization. Missing answers and readiness gaps must be reported, not improvised or waived by the tester.
+
+The Level 1 ordinary/HVE comparison is extracted once as `hve-method-contrast.txt`
+and recorded as skipped by headless replay. Actual agent selection and observed
+response differences are human evidence, not a guaranteed property of a model.
+The optional pre-Level-3 starter UI preview is likewise skipped as a browser
+observation; the unchanged starter still reads `/api/hello`.
 
 Interactive learners select the HVE command with Tab and add their task before sending. The headless tester emulates that completed message, not the keyboard/autocomplete interaction. DT startup and each RPI phase replay the combined published block in one invocation; extraction supports a task on the command line or following lines, but command-only HVE blocks fail. The tester resolves returned same-task artifact paths and substitutes the published placeholders. Missing, unreadable, or ambiguous paths stop the sequence; it does not select by recency. Review must leave source files and commits unchanged. The independent API checks use `POST /api/playlist/tracks` with a JSON `trackId` body; they are not extra manual learner steps.
 
 Level 3 creates `feature/playlist-slice` before implementation, then publishes the reviewed change to the disposable sandbox as a pull request after local tests and RPI review. If the sandbox token cannot publish the branch/PR or safely merge without a bypass, the replay stops before Level 4; it never pushes the feature directly to `main` or uses an administrator bypass. The human review/merge gate is recorded as skipped because the unattended tester cannot make that decision. To continue later levels, it may merge the sandbox PR as a **translation** only; that automated merge is not human review, human acceptance, or evidence of live ruleset enforcement.
 
-Level 3 captures `HEAD` before implementation and compares the approved source/test paths afterward, including untracked files. Implementation commits count as edits even when the working tree is clean. The checkpoint commits only a nonempty index; staging or commit errors still fail the step. Run the local regression fixtures with `bash tests/workshop/afternoon-2/git-checkpoint.test.sh`.
+Level 3 captures `HEAD` before implementation and compares the approved source/test paths afterward, including untracked files. The change detector still recognizes already-committed implementation, but the current replay request forbids making those commits before Review.
+
+Level 3 starts Implement without continuation/resume flags after the learner's
+`/clear` and explicit RPI re-selection. The approved same-task plan remains bound
+by its actual returned path. An unexpected implementation commit stops the replay
+without resetting the work.
+
+Read-only Review now precedes the implementation checkpoint. Its before/after
+snapshot compares repository content, untracked public files, symlink targets,
+index entries and `HEAD`, excluding private tracking output; a legitimately dirty
+implementation tree is allowed. A success phrase in a transcript does not authorize
+publication: the canonical Parent Decision Record must have one completed,
+conformant Current Disposition. Missing, pending, ambiguous or nonconformant
+decisions stop the checkpoint and PR steps. Native approvals remain skipped,
+not fabricated.
+
+`RESULTS_DIR` may remain outside the repository (the default) or use a dedicated
+untracked namespace inside the disposable sandbox. The runner validates the
+resolved directory, rejects repository/filesystem roots, Git metadata and tracked
+source namespaces, then adds only that literal private subtree to the sandbox's
+local Git exclusion file. No committed `.gitignore` is changed. Readiness,
+snapshot and checkpoint staging keep runner-owned output private while public
+content and index/HEAD changes remain detectable.
+
+The checkpoint commits only a nonempty index; staging or commit errors still fail the step. Run the local regression fixtures with `bash tests/workshop/afternoon-2/git-checkpoint.test.sh`.
 
 All AI SDLC workshop learner commits use `/hve-core:git-commit.prompt`. The extractor
 retains ten scoped commit requests, but the headless runner does not send them
@@ -181,8 +221,9 @@ See the official GitHub billing documentation for current rates; this repository
 - The shared Project configuration and intermediate fields (`l5-project-progress`) are skipped. The repository token does not grant Project access.
 - Because Stage 5b is skipped, Level 6 PR detection (`l6-pr`), review request (`l6-code-review`), workflow approval (`l6-approve-checks`), and acceptance/merge (`l6-accept-and-reconcile`) are recorded as skipped. The replay does not imply a Copilot review or human decision occurred.
 - The recap's facilitator-only push-protection demo is recorded as skipped. It needs GitHub Secret Protection on a licensed proctor repository, plus settings-UI steps (custom pattern and dry run) that the tester does not automate.
+- The standalone Level 2 work-item workflow is skipped without a real source, reviewed handoff and explicit repository/write authorization.
 - The extended tracks are always recorded as skipped:
-  - **Level 2 Product Manager track:** multi-turn agent Q&A, and a human confirms before `/backlog-execute` writes issues.
+  - **Level 2 Product Manager authoring:** optional BRD/PRD Q&A and human sign-off; its BRD draft example is separate reference coverage.
   - **Level 3 Tech Lead extension:** human-gated agents.
   - **Level 5 security delegation:** a second Copilot pull request would collide with the Level 6 PR detection, and the gh-aw variant needs a `GH_AW_AGENT_TOKEN` PAT.
   - Extended-track prompts do not replace the core prompts. The one-line ADR request is extracted for structural coverage only; the human-gated Tech Lead extension is not executed.

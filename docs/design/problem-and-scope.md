@@ -55,4 +55,4 @@ By the end of the two workshops, attendees can:
 | HVE-Core installed through APM in the repository | D13 |
 | Agentic workflows and Copilot cloud agent delegation | D14 to D17 |
 
-The scripted prompts make Design Thinking a guided demonstration rather than open discovery. The review gates are where attendees use their own judgement.
+The original session used scripted prompts for a guided demonstration. **Current direction (2026-10-07):** preserve learner-led DT exploration, with the scripted conversations as optional examples. Learners contribute observations, distinguish assumptions, and choose a bounded later slice; the common playlist remains a separately supplied coding contract. Its duplicate-feedback UX is still decided at the RPI plan gate. This update records current maintainer direction, not retrospective approval or validation of the original session.

@@ -40,12 +40,32 @@ test('visible Level 4 path keeps source gates, Linux prerequisites and revised t
     'copilot plugin uninstall hve-core@hve-core',
     'Verify there are now no HVE rows',
     'copilot plugin install hve-core@contoso-plugin-marketplace',
-    'chat.plugins.marketplaces', '@agentPlugins', 'source.sha',
+    'source.sha',
     'Install only HVE-Core', 'No Java runtime or Microsoft 365 account is required',
     'copilot plugin disable hve-core@contoso-plugin-marketplace']) {
     assert.ok(l4.includes(text), text);
   }
   assert.doesNotMatch(l4, /```powershell|```cmd|Copy-Item|New-Item|\.\\/);
+  const replacement = l4.slice(l4.indexOf('### Step 2: Switch the personal HVE source explicitly'),
+    l4.indexOf('### Step 3: Register the catalog in VS Code'));
+  assert.match(replacement, /keep your CLI session open and use a separate Bash terminal/);
+  assert.equal([...replacement.matchAll(/```text\n\/restart\n```/g)].length, 2);
+  assert.match(replacement, /uninstall hve-core@hve-core\ncopilot plugin list --json\n```[\s\S]*?```text\n\/restart\n```[\s\S]*?Verify there are now no HVE rows/);
+  assert.match(replacement, /install hve-core@contoso-plugin-marketplace\ncopilot plugin list --json\n```[\s\S]*?```text\n\/restart\n```/);
+  for (const [, commands] of replacement.matchAll(/```bash\n([\s\S]*?)\n```/g)) {
+    assert.doesNotMatch(commands, /^\/restart$/m);
+  }
+  assert.match(replacement, /In the reloaded session, confirm \*\*DT Coach\*\*/);
+  const vscode = guide.slice(guide.indexOf('### Step 3: Register the catalog in VS Code'),
+    guide.indexOf('### Step 4: Read construction and versioning'));
+  assert.match(vscode, /\*\*Optional:\*\*/);
+  assert.match(vscode, /CLI-only[\s\S]*?continue directly to Step 4/);
+  assert.match(vscode, /<details>\n<summary>Optional Visual Studio Code setup<\/summary>/);
+  assert.match(vscode, /chat\.plugins\.marketplaces/);
+  assert.match(vscode, /@agentPlugins/);
+  assert.match(vscode, /Stop on policy restrictions rather than bypassing them/);
+  assert.match(vscode, /Recommendations in the solution/);
+  assert.doesNotMatch(l4, /chat\.plugins\.marketplaces|@agentPlugins/);
   assert.match(guide, /WSL 2[\s\S]*?Install the tools inside/);
   assert.match(guide, /^duration_minutes: 255$/m);
   assert.match(read('../../../docs/tutor.md'), /^\| 4:15 \| End \|/m);
@@ -65,7 +85,7 @@ test('all lab commits use scoped HVE requests while clean-tree and approval chec
     assert.match(body, /tracking/);
   }
   const checkpoint = guide.slice(guide.indexOf('### Step 3: Commit implementation checkpoint'),
-    guide.indexOf('## Review phase'));
+    guide.indexOf('## Extended track: Tech Lead'));
   assert.match(checkpoint, /inventories pending paths before asking you/);
   assert.doesNotMatch(checkpoint, /```text\n(?!\/hve-core:git-commit\.prompt)/);
   assert.match(checkpoint, /already committed[\s\S]*?without creating[\s\S]*?empty commit/);
@@ -139,7 +159,7 @@ test('DT later-slice decision feeds cloud delegation without expanding Level 3 o
 test('scope-drift guidance separates read-only findings from later bounded implementation', () => {
   const guide = read('../../../docs/afternoon-2/workshop.md');
   const tip = guide.slice(guide.indexOf('<div class="tip" data-title="Reference fallback">'),
-    guide.indexOf('## Tech Lead extension'));
+    guide.indexOf('## Extended track: Tech Lead'));
   assert.match(tip, /database persistence[\s\S]*?in-memory storage/);
   assert.match(tip, /Pause acceptance and publication/);
   assert.match(tip, /During \*\*Review\*\*[\s\S]*?without changing application files/);

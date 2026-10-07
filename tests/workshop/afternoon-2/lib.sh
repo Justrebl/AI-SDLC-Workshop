@@ -67,7 +67,7 @@ record() {
 
 # step <id> <level> <title> <mode> <timeout_s> <command>
 # mode: literal    = the lab command as written
-#       translated = PowerShell lab command translated to bash
+#       translated = published intent adapted for the disposable sandbox
 #       emulated   = UI or interactive lab step replayed non-interactively
 # Add check() calls after step, then call finish_step.
 STEP_ID="" STEP_LEVEL="" STEP_TITLE="" STEP_MODE="" STEP_CMD="" STEP_CODE=0 STEP_DUR=0 STEP_FAILED=0
@@ -187,6 +187,128 @@ render_workshop_prompt() {
     text=${text//"$placeholder"/"$path"}
   done
   printf '%s\n' "$text"
+}
+
+validated_results_subtree() {
+  local results=$RESULTS_DIR
+  if command -v cygpath >/dev/null 2>&1; then
+    results=$(cygpath -w -- "$results") || return
+  fi
+  node - "$results" <<'NODE'
+const { spawnSync } = require('node:child_process');
+const { realpathSync, statSync } = require('node:fs');
+const { relative, resolve, sep, isAbsolute, parse } = require('node:path');
+function git(...args) {
+  const result = spawnSync('git', args, { encoding: 'utf8' });
+  if (result.error) throw result.error;
+  if (result.status !== 0) throw new Error(result.stderr || `git ${args.join(' ')} failed`);
+  return result.stdout;
+}
+const root = realpathSync(git('rev-parse', '--show-toplevel').trim());
+const results = realpathSync(process.argv[2]);
+function within(parent, child) {
+  const path = relative(parent, child);
+  return !isAbsolute(path) && path !== '..' && !path.startsWith(`..${sep}`);
+}
+if (!statSync(results).isDirectory() || results === parse(results).root || relative(root, results) === '') {
+  throw new Error('RESULTS_DIR must be a private directory, not a filesystem or repository root.');
+}
+for (const flag of ['--absolute-git-dir', '--git-common-dir']) {
+  const metadata = realpathSync(resolve(root, git('rev-parse', flag).trim()));
+  if (within(metadata, results)) throw new Error('RESULTS_DIR cannot be inside Git metadata.');
+}
+if (!within(root, results)) process.exit(0);
+const subtree = relative(root, results).split(sep).join('/');
+if (/[\r\n]/.test(subtree)) throw new Error('RESULTS_DIR cannot contain line breaks.');
+const fold = value => process.platform === 'win32' ? value.toLowerCase() : value;
+const top = fold(subtree.split('/')[0]);
+const tracked = git('ls-files', '--cached', '-z').split('\0').filter(Boolean).map(fold);
+if (tracked.some(path => path === top || path.startsWith(`${top}/`))) {
+  throw new Error('An internal RESULTS_DIR requires a dedicated untracked namespace, not public source.');
+}
+process.stdout.write(subtree);
+NODE
+}
+
+prepare_results_directory() {
+  local subtree
+  subtree=$(validated_results_subtree) || return
+  [ -n "$subtree" ] || return 0
+  node - "$subtree" <<'NODE'
+const { spawnSync } = require('node:child_process');
+const { existsSync, readFileSync, mkdirSync, writeFileSync } = require('node:fs');
+const { dirname } = require('node:path');
+const result = spawnSync('git', ['rev-parse', '--git-path', 'info/exclude'], { encoding: 'utf8' });
+if (result.error) throw result.error;
+if (result.status !== 0) throw new Error(result.stderr || 'Cannot resolve local Git exclusion file.');
+const path = result.stdout.trim();
+const pattern = '/' + process.argv[2].replace(/[\\*?\[\]]/g, '\\$&') + '/';
+const existing = existsSync(path) ? readFileSync(path, 'utf8') : '';
+if (!existing.split(/\r?\n/).includes(pattern)) {
+  mkdirSync(dirname(path), { recursive: true });
+  writeFileSync(path, existing + (existing && !existing.endsWith('\n') ? '\n' : '') + pattern + '\n');
+}
+NODE
+}
+
+repository_review_snapshot() {
+  local subtree
+  subtree=$(validated_results_subtree) || return
+  node - "$subtree" <<'NODE'
+const { spawnSync } = require('node:child_process');
+const { lstatSync, readFileSync, readlinkSync } = require('node:fs');
+const { createHash } = require('node:crypto');
+function git(...args) {
+  const result = spawnSync('git', args, { encoding: 'utf8' });
+  if (result.error) throw result.error;
+  if (result.status !== 0) throw new Error(result.stderr || `git ${args.join(' ')} failed`);
+  return result.stdout;
+}
+const fold = value => process.platform === 'win32' ? value.toLowerCase() : value;
+const privatePrefix = process.argv[2] ? fold(process.argv[2]) + '/' : '';
+const paths = [...new Set(git('ls-files', '--cached', '--others', '--exclude-standard', '-z')
+  .split('\0').filter(path => path && !path.startsWith('.copilot-tracking/') &&
+    !(privatePrefix && fold(path).startsWith(privatePrefix))))].sort();
+const files = paths.map(path => {
+  const stat = lstatSync(path, { throwIfNoEntry: false });
+  if (!stat) return [path, 'missing'];
+  const content = stat.isSymbolicLink() ? readlinkSync(path) : readFileSync(path);
+  return [path, stat.mode, createHash('sha256').update(content).digest('hex')];
+});
+process.stdout.write(JSON.stringify({
+  head: git('rev-parse', 'HEAD').trim(),
+  index: git('ls-files', '--stage', '-z'),
+  files,
+}));
+NODE
+}
+
+review_acceptance() {
+  node - "$1" <<'NODE'
+const { readFileSync } = require('node:fs');
+const text = readFileSync(process.argv[2], 'utf8').replace(/\r\n/g, '\n').replace(/\*\*/g, '');
+const parents = text.split(/^## Parent Decision Record[ \t]*$/m);
+if (parents.length !== 2) {
+  console.error('Review must contain one canonical Parent Decision Record; publication blocked.');
+  process.exit(1);
+}
+const dispositions = parents[1].split(/^## /m)[0]
+  .split(/^### Current Disposition[ \t]*$/m);
+if (dispositions.length !== 2) {
+  console.error('Review must contain one canonical Current Disposition; publication blocked.');
+  process.exit(1);
+}
+const disposition = dispositions[1].split(/^### /m)[0];
+const executions = [...disposition.matchAll(/^[*-] Review execution: ([^\n]+)$/gm)];
+const outcomes = [...disposition.matchAll(/^[*-] Final outcome: ([^\n]+)$/gm)];
+if (executions.length !== 1 || outcomes.length !== 1 ||
+    !/^Complete(?:[.;]|$)/.test(executions[0][1].trim()) ||
+    !/^Conformant(?: with justified divergence)?(?:[.;]|$)/.test(outcomes[0][1].trim())) {
+  console.error('Review has no unique completed, conformant parent decision; publication blocked.');
+  process.exit(1);
+}
+console.log('Canonical Review execution Complete and outcome Conformant verified.');
+NODE
 }
 
 # copilot_prompt <id> <level> <title> <prompt_name> <timeout_s> [extra copilot args]

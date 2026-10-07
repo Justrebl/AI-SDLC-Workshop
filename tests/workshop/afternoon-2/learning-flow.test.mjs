@@ -2,6 +2,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { withoutDetails } from './guide-markup.mjs';
 
 const read = (path) => readFileSync(new URL(path, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const guide = read('../../../docs/afternoon-2/workshop.md');
@@ -10,13 +11,9 @@ const workflow = read('../../../solutions/afternoon-2/.github/workflows/daily-ba
 const runner = read('./run-lab.sh');
 const level = (number) => guide.slice(guide.indexOf(`# Level ${number}:`),
   guide.indexOf(number === 6 ? '# Recap:' : `# Level ${number + 1}:`));
-const visible = (text) => text.replace(/<details>[\s\S]*?<\/details>/g, '');
+const visible = withoutDetails;
 const header = workflow.split('\n---\n')[0];
 const output = (name) => header.match(new RegExp(`^  ${name}:\\n((?:    .*\\n)+)`, 'm'))?.[1];
-const powerShell = ['pwsh', 'powershell'].find((shell) => (
-  spawnSync(shell, ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command', 'exit 0'],
-    { stdio: 'ignore' }).status === 0
-));
 
 test('SDLC display metadata agrees while the fundamentals lab retains its own identity', () => {
   assert.match(guide, /^title: 'AI SDLC with Github Copilot and HVE Core'$/m);
@@ -73,8 +70,11 @@ test('visible commands have purpose-led introductions across both workshop guide
   }
 });
 
-test('Level 2 persists the CLI default without claiming repository-local scope', () => {
-  const setup = level(2).split('### Step 1: Set Auto')[1].split('### Step 2:')[0];
+test('pre-level setup persists the CLI default once without claiming repository-local scope', () => {
+  const setup = guide.slice(guide.indexOf('### Configure Auto for interactive lab work'),
+    guide.indexOf('## Starter readiness'));
+  assert.ok(guide.indexOf('### Configure Auto') < guide.indexOf('# Level 1:'));
+  assert.equal(guide.split('copilot model --global auto intelligence').length - 1, 1);
   assert.match(setup, /copilot model --global auto intelligence\ncopilot/);
   assert.doesNotMatch(setup, /copilot --model auto --auto-tier intelligence/);
   assert.match(setup, /user-wide CLI default/);
@@ -312,21 +312,102 @@ test('Level 6 binds review evidence to the current PR head and keeps acceptance 
   assert.match(runner, /skip_step l6-pr "Level 6" "Copilot cloud agent opens a PR/);
 });
 
-test('PowerShell passes the documented Copilot reviewer as one literal argument', {
-  skip: powerShell ? false : 'PowerShell runtime unavailable',
-}, () => {
+test('Bash passes the documented Copilot reviewer as one literal argument', () => {
   const command = level(6).match(/^gh pr edit PR-NUMBER --add-reviewer '@copilot'$/m)?.[0];
-  assert.ok(command, 'documented PowerShell reviewer command');
+  assert.ok(command, 'documented Bash reviewer command');
+  const bash = process.platform === 'win32' ? 'C:\\Program Files\\Git\\bin\\bash.exe' : 'bash';
   const script = [
-    'function gh { $script:captured = @($args) }',
+    'gh() { printf "%s\\0" "$@"; }',
     command,
-    'ConvertTo-Json -InputObject $script:captured -Compress',
   ].join('\n');
-  const result = spawnSync(powerShell, ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command', script],
+  const result = spawnSync(bash, ['-c', script],
     { encoding: 'utf8' });
   assert.equal(result.status, 0, result.stderr || result.error?.message);
-  assert.deepEqual(JSON.parse(result.stdout.trim()),
+  assert.deepEqual(result.stdout.split('\0').filter(Boolean),
     ['pr', 'edit', 'PR-NUMBER', '--add-reviewer', '@copilot']);
+});
+
+test('visible primers preserve the two Stage 5 handoffs and introduce the three acts', () => {
+  const introduction = visible(guide.slice(0, guide.indexOf('# Level 1:')));
+  for (const act of ['**Build:**', '**Scale:**', '**Close the loop:**']) assert.ok(introduction.includes(act));
+  for (const number of [1, 2, 3, 4, 6]) {
+    const text = level(number);
+    assert.equal(text.match(/^## (.+)$/m)?.[1], 'Topic');
+    const topic = text.slice(text.indexOf('## Topic') + '## Topic'.length, text.indexOf('**Why this level:**'));
+    assert.ok(topic.trim().split('\n').filter(Boolean).length <= 5, `Level ${number} primer`);
+    assert.doesNotMatch(topic, /```/);
+  }
+  assert.match(level(5), /## Stage 5a: Verification as contract\n\n## Topic/);
+  assert.match(level(5), /## Stage 5b: Backlog and delegation\n\n## Topic/);
+});
+
+test('A2 uses copyable Linux shell blocks and an honest optional starter preview', () => {
+  assert.doesNotMatch(guide, /```(?:powershell|cmd)|Copy-Item|New-Item|(?:src|docs|tests|solutions|skills|\.github)\\/);
+  assert.match(guide, /`skills\/<name>\/SKILL\.md`/);
+  const bash = process.platform === 'win32' ? 'C:\\Program Files\\Git\\bin\\bash.exe' : 'bash';
+  for (const [, script] of guide.matchAll(/```bash\n([\s\S]*?)\n```/g)) {
+    assert.doesNotMatch(script, /> `From Copilot`|^\/(?:login|exit)$/m);
+    const result = spawnSync(bash, ['-n'], { input: script, encoding: 'utf8' });
+    assert.equal(result.status, 0, result.error?.message || result.stderr);
+  }
+  const beforeLevels = guide.slice(0, guide.indexOf('# Level 1:'));
+  assert.match(beforeLevels, /Optional starter preview/);
+  assert.match(beforeLevels, /cd src\/api\ndotnet run/);
+  assert.match(beforeLevels, /cd src\/front\nnpm run dev/);
+  assert.match(beforeLevels, /reads `\/api\/hello`; catalog browsing and the playlist are not implemented/);
+  assert.match(beforeLevels, /Stop both servers with \*\*Ctrl\+C\*\*/);
+});
+
+test('Levels 2-6 retain role reflections and the tutor isolates parallel tracks', () => {
+  assert.doesNotMatch(visible(level(1)), /\*\*At organization scale:\*\*/);
+  for (let number = 2; number <= 6; number++) {
+    assert.equal(visible(level(number)).split('**At organization scale:**').length - 1, 1);
+  }
+  const parallel = tutor.slice(tutor.indexOf('### Parallel PM and developer option'), tutor.indexOf('Rules for the tracks'));
+  for (const phrase of ['separate checkouts', 'never let both groups edit the same workspace',
+    'without waiting on an unapproved optional BRD/PRD', 'Rejoin before Level 4',
+    'not measured evidence', 'time pressure is not authority']) assert.ok(parallel.includes(phrase), phrase);
+});
+
+test('workshop navigation preserves the MOAW route, page and heading under its deployed base URL', () => {
+  const workshopUrl = 'https://moaw.dev/workshop/gh:Justrebl/AI-SDLC-Workshop/main/docs/afternoon-2/';
+  // MOAW deploys <base href="/">; links resolve against it, not the current workshop URL.
+  const documentBase = 'https://moaw.dev/';
+  assert.equal(new URL('?step=1#selecting-a-specialist-in-cli-or-vs-code', documentBase).pathname, '/');
+  const content = guide.replace(/^---\n[\s\S]*?\n---\n/, '');
+  const pages = content.split(/\n---\n/);
+  const targets = new Map([
+    ['selecting-a-specialist-in-cli-or-vs-code', [1, '### Selecting a specialist in CLI or VS Code']],
+    ['plan-and-create-the-work-items', [2, '## Plan and create the work items']],
+    ['curate-what-you-commit', [2, '## Curate what you commit']],
+    ['debrief-and-hand-off-to-the-shared-implementation-slice', [2, '## Debrief and hand off to the shared implementation slice']],
+    ['publish-the-reviewed-pull-request', [3, '## Publish the reviewed pull request']]
+  ]);
+  const counts = new Map();
+  for (const page of pages) {
+    for (const [, destination] of page.matchAll(/\]\(([^)]*\?step=[^)]*)\)/g)) {
+      const url = new URL(destination, documentBase);
+      assert.equal(url.origin + url.pathname, workshopUrl, destination);
+      const anchor = url.hash.slice(1);
+      assert.ok(targets.has(anchor), `Known navigation heading: ${destination}`);
+      const [target, heading] = targets.get(anchor);
+      assert.equal(Number(url.searchParams.get('step')), target, destination);
+      assert.ok(pages[target].split('\n').includes(heading), `Heading exists on step ${target}: ${heading}`);
+      counts.set(anchor, (counts.get(anchor) ?? 0) + 1);
+    }
+  }
+  for (const anchor of targets.keys()) assert.ok(counts.get(anchor) > 0, `${anchor} is referenced`);
+});
+
+test('each solution copy has a decision check in its own step without moving established gates', () => {
+  for (const block of guide.matchAll(/```bash\n([\s\S]*?)\n```/g)) {
+    if (!/^cp solutions\//m.test(block[1])) continue;
+    const end = guide.indexOf('\n### ', block.index + block[0].length);
+    const step = guide.slice(block.index, end < 0 ? guide.length : end);
+    assert.match(step, /\*\*Decision check:\*\*/, block[1]);
+  }
+  assert.ok(level(4).includes('# Level 4: APM-governed repository agents'));
+  assert.ok(guide.slice(guide.indexOf('# Recap:')).includes('### Facilitator demo: Secret scanning'));
 });
 
 test('all task mutations are independently bounded by opt-in filters', () => {

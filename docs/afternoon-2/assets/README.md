@@ -1,6 +1,6 @@
 # AI SDLC with Github Copilot and HVE Core assets and screenshot capture guide
 
-This folder contains supplied screenshots and generated diagrams for `docs\afternoon-2\workshop.md`. The four remaining screenshot captures referenced by the guide are documented below; save them with the exact filenames shown.
+This folder contains supplied screenshots and generated diagrams for `docs\afternoon-2\workshop.md`. The guide embeds only available assets. Optional future captures are documented below.
 
 - `banner.png` — Supplied SDLC stage diagram used as the MOAW workshop banner, showing Setup through Operations and the rework, next-sprint, hotfix, and next-iteration paths.
 - `starter-repository.png` — Supplied VS Code starter-readiness capture showing the repository layout and passing xUnit and Vitest results. This image does not establish a clean working tree.
@@ -9,20 +9,26 @@ This folder contains supplied screenshots and generated diagrams for `docs\after
 - Level 1 Step 4 uses the supplied `docs\assets\vscode-hve-core.png` — VS Code Marketplace page for the `ise-hve-essentials.hve-core` extension alternative; no separate placeholder remains.
 - `l2-dt-decisions.png` — Supplied VS Code capture showing the shared playlist design decisions beside a separate, proposed Level 5 mood-filter slice. The playlist document preserves the open duplicate-feedback UX choice; the later-slice document states that it is not implemented or validated.
 - `l2-brd-guided-decisions.png` — Supplied Copilot CLI capture showing BRD Builder asking for measurement decisions. The Define gate remains open because the quality review report was not validated; this is not approval evidence.
+- `l2-brd-open-questions.png` — Supplied BRD Builder capture showing question statuses, a self-review warning, an ambiguous answer left unconfirmed, and test-owner/metric clarification. Partial answers and captured targets do not establish completed quality review, validated outcomes or sign-off.
+- `l2-prd-conclusion.png` — Supplied PRD Builder conclusion showing recorded choices, draft version 0.1.0, pending quality review/markdownlint, and a request to review and finalize. The displayed affirmative answer is not proof of passed validation or recorded sign-off; defaults, roles and waivers are specific to the captured conversation.
 - `l2-backlog-handoff-review.png` — Supplied Copilot CLI capture showing Functional Planner's handoff guidance, the user switching to Backlog Manager, and dispatch to the GitHub Backlog Executor. The capture flags incorrect operation ticks and PRD scope discrepancies; dispatch alone does not establish successful issue creation.
 - `l2-sprint-planner.png` — Supplied workshop-run screenshot of sprint planning output: text-derived dependencies, implementation order, and parallel work waves. This is a captured example, not a placeholder or a required issue hierarchy.
 - `l3-rpi-agent-walkthrough.png` — Supplied RPI workflow overview showing research readiness and evidence reuse, Plan with critique, Implement with validation, Review, and follow-up routing. This is a process reference, not evidence that a learner completed those phases.
+- `l3-rpi-implement-result.png` — Supplied Implement conclusion showing changed behavior, reported validation, a missing manual keyboard/focus check, a deviation, uncommitted work and returned artifacts. Run-specific counts and choices are not prescribed; its optional Review wording does not waive the workshop Review-before-commit gate.
+- `l3-rpi-review-result.png` — Supplied Review conclusion separating Complete execution from Residual work, with follow-up findings, reported/not-rerun validation and pending manual checks. Capture-specific paths and archive-publication notes do not describe the current repository; required remaining work is not waived.
 - `l3-frontend-ports.png` — Supplied VS Code Ports screenshot showing the private forwarded API and frontend addresses. Open the frontend row's address for the current environment; the pictured URL is only an example.
 - `l4-apm-marketplace.png` — Terminal output for APM install or audit plus repository marketplace files.
+- `l4-apm-policy-audit.png` — Supplied installed-content audit showing consistency, pinning and no drift, alongside unconfigured/skipped checks. Green rows do not establish universal policy enforcement or agent correctness; verify the current policy status and command exit code.
+- `l4-apm-denied-dependency.png` — Supplied audit capture showing `microsoft/hve-core` matching the dependency denylist despite no drift. This is the intentionally blocked state, not evidence that policy restoration passed; verify the actual command exit code and rerun after removing the temporary deny rule.
 - `l4-duplicate-agent-entries.png` — Supplied VS Code Copilot Chat agent-picker screenshot showing duplicate HVE-Core names when both the plugin and repository custom agents are available. This is expected, not an installation failure.
 - `l4-private-marketplace.png` — Supplied private CoffeeSoft catalog README, cropped to omit the contributor sidebar. Optional historical tutor comparison; the required participant exercise uses the template-shipped catalog, not private access.
 - `l4-vscode-agentplugins.png` — VS Code Extensions view filtered with `@agentPlugins @recommended`.
 - `l5-ghaw-compile.png` — Terminal output from `gh aw compile` generating lock files.
 - `l5-playwright-mcp.png` — Supplied repository MCP settings screenshot for cloud agent/code review. Proctor demonstration only; not gh-aw or local client configuration.
 
-## Remaining screenshots: resume checklist
+## Future screenshots: optional capture checklist
 
-**Capture status as of 2026-10-07:** these four image files are still missing. Their references already exist in the workshop; adding each PNG to `docs\afternoon-2\assets\` makes it available at the existing position.
+**Capture status as of 2026-10-07:** these four images have not been supplied, so their embeds are omitted from the workshop. When a real capture is available, add its PNG to `docs\afternoon-2\assets\` and then embed it beside the relevant guided action with descriptive alt text and an evidence-aware caption. Do not publish an image placeholder before its asset exists.
 
 Resume at the earliest capture whose prerequisites are met in your learner repository. Use actual output and the current frontend address or GitHub revision; do not run later steps just to manufacture a screenshot. Keep text readable, redact credentials and sensitive information, and label before/after or multi-panel composites explicitly. Record each supplied capture in this README when it is added.
 
