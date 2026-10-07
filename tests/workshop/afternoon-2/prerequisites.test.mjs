@@ -105,12 +105,29 @@ test('Level 4 demonstrates a temporary deny without widening the original allowl
   assert.match(demonstration, /Run `apm audit --ci --policy apm-policy\.yml` again\.[\s\S]*?Remove only the temporary `deny` entry and rerun the audit/);
   assert.match(demonstration, /Remove only the temporary `deny` entry/);
   assert.match(demonstration, /Restore a passing audit before committing/);
+  assert.match(demonstration, /!\[APM audit showing no drift[^\]]+\]\(assets\/l4-apm-denied-dependency\.png\)/);
+  assert.match(demonstration, /No drift detected\*\* do not override that policy failure/);
+  assert.match(demonstration, /Check your actual command output and exit code/);
+  assert.match(demonstration, /does not show the restored passing audit/);
+  const denyImage = readFileSync(new URL('../../../docs/afternoon-2/assets/l4-apm-denied-dependency.png', import.meta.url));
+  assert.deepEqual([...denyImage.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+  const assets = readFileSync(new URL('../../../docs/afternoon-2/assets/README.md', import.meta.url), 'utf8');
+  assert.match(assets, /`l4-apm-denied-dependency\.png`.*intentionally blocked state/);
   assert.match(runner, /policy-before-deny\.yml/);
   assert.doesNotMatch(runner, /sed -i '.*deny:.*allow:/);
   assert.match(policy, /cp solutions\/afternoon-2\/apm-policy\.yml/);
   assert.match(publication, /mkdir -p \.github\/workflows/);
   assert.match(publication, /cp solutions\/afternoon-2\/\.github\/workflows\/apm-audit\.yml/);
   assert.match(policy, /no `apm experimental enable` command is needed/);
+  const installedAudit = policy.slice(policy.indexOf('### Step 2: Check policy and installed content'),
+    policy.indexOf('### Step 3: Edit a rule'));
+  assert.match(installedAudit, /!\[APM policy audit[^\]]+\]\(assets\/l4-apm-policy-audit\.png\)/);
+  assert.match(installedAudit, /control is \*\*not configured\*\* or its check was \*\*skipped\*\*/);
+  assert.match(installedAudit, /not proof that every policy control is enforced/);
+  assert.match(installedAudit, /Verify your own policy status, audit output, and successful exit code/);
+  const auditImage = readFileSync(new URL('../../../docs/afternoon-2/assets/l4-apm-policy-audit.png', import.meta.url));
+  assert.deepEqual([...auditImage.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+  assert.match(assets, /`l4-apm-policy-audit\.png`.*unconfigured\/skipped checks/);
   assert.doesNotMatch(policy, /validated command used the experimental policy path/);
 });
 

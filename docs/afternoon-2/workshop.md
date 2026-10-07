@@ -2217,6 +2217,10 @@ Success Criteria:
 - Policy status reports `Outcome: found`, `Enforcement: block`, and `Warnings: none`.
 - The audit exits successfully for the pinned HVE-Core dependency and its deployed content.
 
+![APM policy audit showing lockfile and deployed-content consistency, pinned dependency checks and no drift, alongside policy checks that are not configured or skipped](assets/l4-apm-policy-audit.png)
+
+**Captured installed-content audit:** the output reports consistent dependency references, deployed files, pinned constraints, and no drift. Read each message: green rows can also mean a control is **not configured** or its check was **skipped**. This is not proof that every policy control is enforced or that an agent behaves correctly. Verify your own policy status, audit output, and successful exit code.
+
 If either check fails, inspect the named error before continuing; a parsed policy alone is not a passing audit.
 
 <div class="warning" data-title="Audit coverage">
@@ -2259,6 +2263,10 @@ dependencies:
 ```
 
 Run `apm audit --ci --policy apm-policy.yml` again. It should exit with code `1`: the deny rule wins even though the source matches the allowlist. Remove only the temporary `deny` entry and rerun the audit. **Restore a passing audit before committing.**
+
+![APM audit showing no drift but one dependency-denylist match, with microsoft/hve-core denied by the microsoft/hve-core pattern](assets/l4-apm-denied-dependency.png)
+
+**Captured deny-rule evidence:** `dependency-denylist` matches one dependency, and its details identify `microsoft/hve-core` as denied. Passing checks and **No drift detected** do not override that policy failure. Check your actual command output and exit code; this capture does not show the restored passing audit, which is still required before committing.
 
 ## Publish the method and its audit
 
