@@ -71,6 +71,7 @@ These values are matched by scripts or attendee instructions:
 - The `afternoon-1` branch name.
 - The commit message `Baseline Afternoon 2 starter`, which the workshop tester looks for.
 - `.github/workflows/workshop-tester.md`. Any edit requires recompiling `workshop-tester.lock.yml` with `gh aw compile`; commit both files together. Run the compile from a folder outside OneDrive-synced paths if it hangs.
+- `.github/workflows/workshop-pedagogy-review.md` and its imported reviewer. Recompile with `gh aw compile workshop-pedagogy-review --strict --validate --no-check-update` and keep the generated lock file and action pins with the source changes. Run `node --test tests/workshop/pedagogy/review.test.mjs` for the PR/path trigger, reviewer import, and read-only output bounds.
 
 ## Validation
 
