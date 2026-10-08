@@ -182,7 +182,7 @@ test('Level 5a establishes verification before the reviewed 5b delegation handof
 
   const positions = [
     stage5a.indexOf('cp solutions/afternoon-2/.github/workflows/ci.yml'),
-    stage5a.indexOf('**Decision check:** Which events trigger the `test` job'),
+    stage5a.indexOf('Use the HVE commit prompt to select the reviewed workflow only'),
     stage5a.indexOf('Commit the reviewed CI workflow at .github/workflows/ci.yml'),
     stage5a.indexOf('Wait for **CI** on `main` to pass'),
     stage5a.indexOf('main-tests-required.json'),
@@ -204,9 +204,9 @@ test('Level 5a establishes verification before the reviewed 5b delegation handof
   const stage5bPositions = [
     stage5b.indexOf('Create and switch to feature/level-5b-backlog'),
     stage5b.indexOf('cp solutions/afternoon-2/.github/workflows/daily-backlog.md'),
-    stage5b.indexOf('**Decision check:** Which committed planning paths does the job read'),
+    stage5b.indexOf('### Step 2: Inspect the write boundary'),
     stage5b.indexOf('Open your committed `docs/project-planning/dt-later-slice.md`'),
-    stage5b.indexOf('**Decision check:** Does this brief revise the original agreement'),
+    stage5b.indexOf("Keep the original slice's exclusions"),
     stage5b.indexOf('Create a PR titled "Add the Stage 5b backlog setup"'),
     stage5b.indexOf('Wait for both required checks, `test` and `apm-audit`'),
     stage5b.indexOf('A human reviews and merges the PR'),
@@ -399,12 +399,20 @@ test('workshop navigation preserves the MOAW route, page and heading under its d
   for (const anchor of targets.keys()) assert.ok(counts.get(anchor) > 0, `${anchor} is referenced`);
 });
 
-test('each solution copy has a decision check in its own step without moving established gates', () => {
-  for (const block of guide.matchAll(/```bash\n([\s\S]*?)\n```/g)) {
-    if (!/^cp solutions\//m.test(block[1])) continue;
-    const end = guide.indexOf('\n### ', block.index + block[0].length);
-    const step = guide.slice(block.index, end < 0 ? guide.length : end);
-    assert.match(step, /\*\*Decision check:\*\*/, block[1]);
+test('solution copies remain without authoring-style decision checks or displaced gates', () => {
+  assert.doesNotMatch(guide, /\bdecision\s+checks?\b/i);
+  const commands = [...guide.matchAll(/```bash\n([\s\S]*?)\n```/g)]
+    .flatMap((block) => block[1].split('\n'));
+  for (const command of [
+    'cp solutions/afternoon-2/apm.yml ./apm.yml',
+    'cp solutions/afternoon-2/apm-policy.yml ./apm-policy.yml',
+    'cp solutions/afternoon-2/.github/workflows/apm-audit.yml .github/workflows/apm-audit.yml',
+    'cp solutions/afternoon-2/.github/workflows/ci.yml .github/workflows/ci.yml',
+    'cp solutions/afternoon-2/.github/workflows/daily-backlog.md .github/workflows/daily-backlog.md',
+    'cp solutions/afternoon-2/docs/project-planning/remove-playlist-track.md docs/project-planning/remove-playlist-track.md',
+    'cp solutions/afternoon-2/.github/workflows/security-review-delegation.md .github/workflows/security-review-delegation.md',
+  ]) {
+    assert.ok(commands.includes(command), command);
   }
   assert.ok(level(4).includes('# Level 4: APM-governed repository agents'));
   assert.ok(guide.slice(guide.indexOf('# Recap:')).includes('### Facilitator demo: Secret scanning'));
