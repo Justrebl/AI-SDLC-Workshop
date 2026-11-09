@@ -2097,12 +2097,6 @@ Compare the HVE and Java entries in `.github/plugin/marketplace.json`.
 when needed, and `source.sha` pins the fetched revision. HVE uses the full root
 package at the reviewed commit, not the differently shaped old release package.
 
-**Decision check:** Record the catalog's `metadata.version`, HVE's entry `version`,
-and its source SHA. Which value pins files? The catalog version describes your
-catalog; plugin version metadata describes the package; the SHA selects exact
-content. Neither label alone pins downloaded files. APM's separate lockfile does
-not lock your personal plugins.
-
 <details>
 <summary>How a maintainer publishes a reviewed version change</summary>
 
@@ -2128,8 +2122,6 @@ Use the same repository as Levels 1–3. Copy the manifest that tells APM which 
 ```bash
 cp solutions/afternoon-2/apm.yml ./apm.yml
 ```
-
-**Decision check:** Which exact HVE-Core commit SHA and deployment target are selected in `apm.yml`? Record both values before you install.
 
 Open `apm.yml`. Its dependency is `microsoft/hve-core#1dbd6a7ea90b74accaf8c809262e38952bd4c359`: a commit SHA, not “whatever is newest.” The `copilot` target selects the deployment layout for this workshop, not an AI model.
 
@@ -2192,8 +2184,6 @@ Copy the policy with Bash, then open it to inspect those two rule groups:
 ```bash
 cp solutions/afternoon-2/apm-policy.yml ./apm-policy.yml
 ```
-
-**Decision check:** Which dependency source pattern is allowed, and which executable namespace is denied? Point to the two rule groups in `apm-policy.yml`.
 
 Success Criteria:
 - `apm-policy.yml` exists at the repository root with `enforcement: block`.
@@ -2273,8 +2263,6 @@ Copy the workflow with Bash so GitHub checks the committed setup on pushes and p
 mkdir -p .github/workflows
 cp solutions/afternoon-2/.github/workflows/apm-audit.yml .github/workflows/apm-audit.yml
 ```
-
-**Decision check:** Does this workflow reinstall packages or audit the committed context as-is? Verify `setup-only` and the audit command in the copied file.
 
 Open `.github/workflows/apm-audit.yml`. It sets up APM **without reinstalling your packages**, then runs `apm audit --ci --no-cache --policy apm-policy.yml`. Reinstalling first could overwrite the drift you wanted to detect. The workflow pins APM `0.33.0`; use the same release locally when regenerating committed APM outputs.
 
@@ -2358,8 +2346,6 @@ Copy the supplied workflow so pull requests and pushes to `main` run the API and
 mkdir -p .github/workflows
 cp solutions/afternoon-2/.github/workflows/ci.yml .github/workflows/ci.yml
 ```
-
-**Decision check:** Which events trigger the `test` job, and which API and front-end test commands does it run? Find them in `.github/workflows/ci.yml`.
 
 Use the HVE commit prompt to select the reviewed workflow only. Confirm its exact
 staged set; do not stage unrelated files or tracking state:
@@ -2505,8 +2491,6 @@ The solution imports the repository's Backlog Manager profile and declares which
 cp solutions/afternoon-2/.github/workflows/daily-backlog.md .github/workflows/daily-backlog.md
 ```
 
-**Decision check:** Which committed planning paths does the job read, which profile does it import, and which label and caps gate issue writes? Find `Gather revision-bound evidence`, `imports`, and `safe-outputs` in the copied file.
-
 ### Step 2: Inspect the write boundary
 
 Open `.github/workflows/daily-backlog.md`. Locate the schedule, `imports`, and `safe-outputs`.
@@ -2569,8 +2553,6 @@ Open your committed `docs/project-planning/dt-later-slice.md` from Level 2 along
 ```bash
 cp solutions/afternoon-2/docs/project-planning/remove-playlist-track.md docs/project-planning/remove-playlist-track.md
 ```
-
-**Decision check:** Does this brief revise the original agreement or record a follow-up, and which behaviors remain excluded? Find `Status`, `Constraints`, and `Traceability`, then compare them with the committed Level 2 planning brief.
 
 Keep the original slice's exclusions: the selected document records a follow-up, not a rewrite of the earlier agreement. For your DT brief, check its scope, exclusions and rationale rather than requiring the example's headings. If your Level 2 brief is missing, resolve that gap before treating it as planning evidence.
 
@@ -2929,8 +2911,6 @@ gh aw compile
 gh label create security-review --description "Delegate a security review to Copilot cloud agent"
 gh secret set GH_AW_AGENT_TOKEN
 ```
-
-**Decision check:** Which label gates assignment, which custom agent is selected, and which token reference authorizes it? Inspect the copied source; no secret value belongs in your answer.
 
 Use the HVE commit prompt to review and commit the workflow source and compiled
 lock only. Never include the PAT or tracking state in the selected paths:

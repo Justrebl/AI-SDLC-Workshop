@@ -95,10 +95,10 @@ test('Level 4 demonstrates a temporary deny without widening the original allowl
   const publication = level4.slice(level4.indexOf('## Publish the method and its audit'));
   const policy = workshop.slice(workshop.indexOf('## Apply repository policy'),
     workshop.indexOf('## Publish the method and its audit'));
-  assert.match(installation, /cp solutions\/afternoon-2\/apm\.yml \.\/apm\.yml[\s\S]*?\*\*Decision check:\*\* Which exact HVE-Core commit SHA and deployment target are selected in `apm\.yml`\?/);
+  assert.match(installation, /cp solutions\/afternoon-2\/apm\.yml \.\/apm\.yml[\s\S]*?Open `apm\.yml`\.[\s\S]*?a commit SHA[\s\S]*?The `copilot` target selects the deployment layout/);
   assert.match(policy, /```bash\ncp solutions\/afternoon-2\/apm-policy\.yml \.\/apm-policy\.yml\n```/);
-  assert.match(policy, /cp solutions\/afternoon-2\/apm-policy\.yml \.\/apm-policy\.yml[\s\S]*?\*\*Decision check:\*\* Which dependency source pattern is allowed, and which executable namespace is denied\?/);
-  assert.match(publication, /cp solutions\/afternoon-2\/\.github\/workflows\/apm-audit\.yml \.github\/workflows\/apm-audit\.yml[\s\S]*?\*\*Decision check:\*\* Does this workflow reinstall packages or audit the committed context as-is\?/);
+  assert.match(policy, /cp solutions\/afternoon-2\/apm-policy\.yml \.\/apm-policy\.yml[\s\S]*?`dependencies\.allow` contains `microsoft\/\*\*`, and `executables\.deny` contains `untrusted-org\/\*`/);
+  assert.match(publication, /cp solutions\/afternoon-2\/\.github\/workflows\/apm-audit\.yml \.github\/workflows\/apm-audit\.yml[\s\S]*?Open `\.github\/workflows\/apm-audit\.yml`\.[\s\S]*?\*\*without reinstalling your packages\*\*[\s\S]*?apm audit --ci --no-cache --policy apm-policy\.yml/);
   const demonstration = policy.slice(policy.indexOf('### Step 3:'));
   assert.match(demonstration, /\*\*Learner edit:\*\* Keep the allowlist unchanged and add a temporary `dependencies\.deny` entry for `microsoft\/hve-core`/);
   assert.match(demonstration, /allow:\n    - "microsoft\/\*\*"\n  deny:\n    - "microsoft\/hve-core"/);
